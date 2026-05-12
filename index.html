@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Xero风格 · 小破站 | 2B2T·无政府MC & 待开发</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+        }
+
+        :root {
+            --bg-body: #f5f9ff;
+            --surface-white: #ffffff;
+            --border-light: #e2ebf3;
+            --text-primary: #1a2f3f;
+            --text-secondary: #426a87;
+            --accent-blue: #1f6e9c;
+            --accent-soft: #eef3fc;
+            --card-shadow: 0 8px 20px rgba(0, 0, 0, 0.02), 0 2px 8px rgba(0, 0, 0, 0.02);
+            --badge-bg: #ffffffcc;
+            --footer-color: #7d99b0;
+            --mc-accent: #2c6e4f;
+            --pending-bg: #f9fafc;
+            --warning-red: #d9534f;
+            --overlay-bg: rgba(0,0,0,0.5);
+        }
+
+        body.dark-mode {
+            --bg-body: #121826;
+            --surface-white: #1e2538;
+            --border-light: #2a3349;
+            --text-primary: #eef2ff;
+            --text-secondary: #9bb4d0;
+            --accent-blue: #4d9bcb;
+            --accent-soft: #232b3f;
+            --card-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            --badge-bg: #232b3fcc;
+            --footer-color: #6c7f9e;
+            --mc-accent: #5fad84;
+            --pending-bg: #1a1f2c;
+            --warning-red: #c9302c;
+            --overlay-bg: rgba(0,0,0,0.7);
+        }
+
+        body {
+            background-color: var(--bg-body);
+            font-family: 'Inter', sans-serif;
+            color: var(--text-primary);
+            line-height: 1.4;
+            scroll-behavior: smooth;
+        }
+
+        /* CMD 终端样式 (逐行动画 + 协议输入) */
+        .cmd-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.94);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Courier New', 'Fira Code', monospace;
+            backdrop-filter: blur(4px);
+        }
+        .cmd-window {
+            width: 620px;
+            max-width: 90%;
+            background: #0c0c0c;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 0 1px #2e2e2e;
+            overflow: hidden;
+        }
+        .cmd-header {
+            background: #1e1e1e;
+            padding: 12px 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid #333;
+        }
+        .cmd-dot {
+            width: 13px;
+            height: 13px;
+            border-radius: 50%;
+            background: #ff5f56;
+        }
+        .cmd-dot:nth-child(2) { background: #ffbd2e; }
+        .cmd-dot:nth-child(3) { background: #27c93f; margin-right: auto; }
+        .cmd-title {
+            color: #ccc;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+        }
+        .cmd-body {
+            padding: 24px 26px 28px;
+            background: #0b0b0b;
+            color: #0f0;
+            font-size: 0.9rem;
+            line-height: 1.55;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .cmd-line {
+            font-family: monospace;
+            white-space: pre-wrap;
+            word-break: break-word;
+            opacity: 0;
+            transform: translateY(5px);
+            animation: fadeSlideUp 0.2s forwards;
+        }
+        @keyframes fadeSlideUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .cmd-prompt { color: #5bc0ff; font-weight: bold; }
+        .cmd-success { color: #2ecc71; }
+        .cmd-info { color: #f1c40f; }
+        .cmd-cursor {
+            display: inline-block;
+            width: 10px;
+            height: 1.2em;
+            background-color: #0f0;
+            vertical-align: middle;
+            margin-left: 6px;
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+        .cmd-input-line {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+        .cmd-input {
+            background: #1a1a1a;
+            border: 1px solid #3a3a3a;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            padding: 8px 14px;
+            border-radius: 30px;
+            outline: none;
+            width: 130px;
+        }
+        .cmd-input:focus {
+            border-color: #5bc0ff;
+        }
+        .cmd-submit {
+            background: #2c6e4f;
+            border: none;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 32px;
+            font-family: monospace;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .cmd-submit:hover {
+            background: #1f5a42;
+            transform: scale(0.97);
+        }
+        .error-msg {
+            color: #ff6b6b;
+            font-size: 0.8rem;
+            margin-top: 8px;
+        }
+
+        /* 主内容初始隐藏 */
+        .main-content {
+            opacity: 0;
+            transition: opacity 0.6s ease;
+            pointer-events: none;
+        }
+        .main-content.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* 模态框样式 (彩蛋) */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--overlay-bg);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0.2s, opacity 0.2s;
+        }
+        .modal-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+        .modal-card {
+            background: var(--surface-white);
+            border-radius: 32px;
+            max-width: 400px;
+            width: 85%;
+            padding: 2rem 1.8rem;
+            text-align: center;
+            box-shadow: 0 25px 45px rgba(0,0,0,0.2);
+            border: 1px solid var(--border-light);
+            transform: scale(0.95);
+            transition: transform 0.2s;
+        }
+        .modal-overlay.active .modal-card {
+            transform: scale(1);
+        }
+        .modal-icon { font-size: 3rem; margin-bottom: 0.8rem; }
+        .modal-title { font-size: 1.5rem; font-weight: 700; color: var(--accent-blue); margin-bottom: 0.8rem; }
+        .modal-message { font-size: 1rem; color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.5; }
+        .modal-close { background: var(--accent-blue); border: none; padding: 0.5rem 1.5rem; border-radius: 40px; font-weight: 600; color: white; cursor: pointer; }
+
+        /* 以下为原有样式（病毒库已移出） */
+        .container { max-width: 1280px; margin: 0 auto; padding: 2rem 2rem 3rem; }
+        .nav-bar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 2.5rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border-light); }
+        .logo-area { display: flex; align-items: center; gap: 10px; cursor: pointer; background: transparent; border: none; font-family: inherit; padding: 0; border-radius: 16px; transition: transform 0.1s ease; }
+        .logo-area:active { transform: scale(0.97); }
+        .logo-icon { background: var(--accent-blue); width: 38px; height: 38px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.2rem; color: white; }
+        .logo-text { font-weight: 700; font-size: 1.3rem; letter-spacing: -0.3px; background: linear-gradient(130deg, var(--accent-blue), #1a4f72); background-clip: text; -webkit-background-clip: text; color: transparent; }
+        .nav-links { display: flex; gap: 1rem; align-items: center; }
+        .nav-btn { background: transparent; border: 1px solid var(--border-light); padding: 0.45rem 1.2rem; border-radius: 40px; font-weight: 500; font-size: 0.85rem; color: var(--text-secondary); cursor: pointer; font-family: inherit; background-color: var(--surface-white); }
+        .nav-btn:hover { background-color: var(--accent-blue); color: white; border-color: var(--accent-blue); }
+        .hero-section { text-align: center; margin-bottom: 2rem; }
+        .hero-section h1 { font-size: 3rem; font-weight: 700; letter-spacing: -0.02em; background: linear-gradient(125deg, var(--accent-blue), #1a435c); background-clip: text; -webkit-background-clip: text; color: transparent; margin-bottom: 0.5rem; }
+        .hero-desc { font-size: 1rem; color: var(--text-secondary); max-width: 620px; margin: 0 auto; }
+        .badge-group { display: flex; justify-content: center; gap: 0.8rem; margin-top: 1.2rem; flex-wrap: wrap; }
+        .badge { background: var(--badge-bg); backdrop-filter: blur(2px); padding: 0.2rem 1rem; border-radius: 60px; font-size: 0.75rem; font-weight: 500; color: var(--accent-blue); border: 1px solid var(--border-light); }
+        .projects-section { scroll-margin-top: 90px; margin-bottom: 2rem; }
+        .section-title { font-size: 1.6rem; font-weight: 600; margin-bottom: 1.5rem; color: var(--accent-blue); border-left: 5px solid var(--accent-blue); padding-left: 1rem; }
+        .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.5rem; }
+        .project-card { background: var(--surface-white); border-radius: 28px; padding: 1.2rem; box-shadow: var(--card-shadow); border: 1px solid var(--border-light); transition: transform 0.2s, border-color 0.2s; display: flex; flex-direction: column; height: 100%; }
+        .project-card:hover { transform: translateY(-3px); border-color: var(--accent-blue); }
+        .project-icon { font-size: 1.8rem; margin-bottom: 0.3rem; }
+        .project-name { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.3rem; color: var(--text-primary); line-height: 1.3; }
+        .project-desc { color: var(--text-secondary); font-size: 0.8rem; margin-bottom: 0.8rem; line-height: 1.4; }
+        .mc-server-block { flex: 1; display: flex; flex-direction: column; gap: 0.5rem; }
+        .mc-info-line { font-size: 0.8rem; color: var(--text-secondary); display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.3rem; margin: 0; padding: 0; }
+        .mc-info-label { font-weight: 700; color: var(--accent-blue); min-width: 52px; font-size: 0.8rem; }
+        .mc-info-value { word-break: break-word; font-weight: 500; }
+        .mc-tag-group { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.2rem 0 0.2rem 0; }
+        .mc-tag { background: var(--accent-soft); border-radius: 30px; padding: 0.2rem 0.7rem; font-size: 0.7rem; font-weight: 500; color: var(--accent-blue); display: inline-block; }
+        .mc-address-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.5rem; background: var(--accent-soft); padding: 0.5rem 0.8rem; border-radius: 60px; border: 1px solid var(--border-light); margin-top: 0.3rem; }
+        .mc-address { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; font-weight: 600; color: var(--mc-accent); word-break: break-all; flex: 2; }
+        .copy-mc-btn { background: var(--mc-accent); border: none; padding: 0.35rem 1rem; border-radius: 40px; font-weight: 600; font-size: 0.7rem; color: white; cursor: pointer; font-family: inherit; }
+        .copy-mc-btn:hover { filter: brightness(1.08); }
+        .feedback-mc { font-size: 0.65rem; color: #2c9b6e; }
+        .project-meta { margin-top: 0.8rem; padding-top: 0.6rem; border-top: 1px solid var(--border-light); font-size: 0.65rem; color: var(--text-secondary); display: flex; gap: 0.8rem; flex-wrap: wrap; }
+        .pending-card { background: var(--surface-white); }
+        .pending-desc { background: var(--pending-bg); padding: 0.6rem 1rem; border-radius: 24px; text-align: center; font-size: 0.9rem; margin-top: 0.5rem; color: var(--text-secondary); font-style: italic; }
+        
+        /* 自我介绍区域 - 段落间距分开 */
+        .about-section { scroll-margin-top: 90px; margin: 2rem 0 2rem; }
+        .about-card { background: var(--surface-white); border-radius: 28px; padding: 1.5rem; border: 1px solid var(--border-light); box-shadow: var(--card-shadow); }
+        .about-title { font-size: 1.4rem; font-weight: 700; color: var(--accent-blue); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+        .about-content p {
+            margin-bottom: 1rem;  /* 段落之间增加间距，让自我介绍栏目展开 */
+        }
+        .about-content p:last-of-type {
+            margin-bottom: 0;
+        }
+        .placeholder-mark { background: rgba(217, 83, 79, 0.1); color: var(--warning-red); font-weight: 500; padding: 0.1rem 0.3rem; border-radius: 8px; display: inline-block; }
+        
+        .developers-section { scroll-margin-top: 90px; margin-bottom: 1.5rem; }
+        .dev-grid { display: flex; flex-wrap: wrap; gap: 1.5rem; }
+        .dev-card { background: var(--surface-white); border-radius: 24px; padding: 1.2rem; flex: 1; min-width: 240px; border: 1px solid var(--border-light); transition: transform 0.2s; display: flex; flex-direction: column; }
+        .dev-card:hover { transform: translateY(-3px); }
+        .dev-name { font-size: 1.25rem; font-weight: 700; color: var(--accent-blue); margin-bottom: 0.25rem; }
+        .dev-role { font-size: 0.7rem; font-weight: 500; color: var(--text-secondary); margin-bottom: 0.7rem; letter-spacing: 0.3px; }
+        .dev-bio { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.4; margin-bottom: 0.8rem; flex: 1; }
+        .dev-btn { background: var(--accent-blue); border: none; padding: 0.4rem 0.8rem; border-radius: 30px; font-weight: 500; font-size: 0.7rem; color: white; cursor: pointer; font-family: inherit; text-align: center; width: fit-content; }
+        .dev-btn:hover { filter: brightness(1.1); transform: scale(0.97); }
+        .team-statement { margin-top: 1.2rem; font-size: 0.8rem; color: var(--text-secondary); }
+        footer { text-align: center; margin-top: 2rem; font-size: 0.7rem; color: var(--footer-color); border-top: 1px solid var(--border-light); padding-top: 1.5rem; }
+        @media (max-width: 720px) { .container { padding: 1rem; } .projects-grid { grid-template-columns: 1fr; } .mc-info-line { font-size: 0.75rem; } .mc-info-label { min-width: 48px; } }
+    </style>
+</head>
+<body>
+    <!-- 逐行CMD终端 + 用户协议输入 -->
+    <div id="cmdOverlay" class="cmd-overlay">
+        <div class="cmd-window">
+            <div class="cmd-header">
+                <span class="cmd-dot"></span><span class="cmd-dot"></span><span class="cmd-dot"></span>
+                <span class="cmd-title">XERO_USER_AGREEMENT // 启动终端</span>
+            </div>
+            <div class="cmd-body" id="cmdBody"></div>
+        </div>
+    </div>
+
+    <div class="main-content" id="mainContent">
+        <div class="container">
+            <div class="nav-bar">
+                <button class="logo-area" id="secretClickBtn" style="background: none; border: none; cursor: pointer;"><div class="logo-icon">✕</div><div class="logo-text">Xero / 小破站</div></button>
+                <div class="nav-links">
+                    <button class="nav-btn" id="btnProjects">📁 项目介绍</button>
+                    <button class="nav-btn" id="btnAbout">👤 自我介绍</button>
+                    <button class="nav-btn" id="btnDevelopers">👨‍💻 开发人员</button>
+                    <button class="nav-btn" id="darkModeToggle">🌙 深色模式</button>
+                </div>
+            </div>
+            <div class="hero-section"><h1>一个小破站 · 游戏与分析</h1><div class="hero-desc">2B2T风格MC服务器 | 待开发项目敬请期待</div><div class="badge-group"><span class="badge">🔥 2B2T·无政府</span><span class="badge">🛠️ 项目筹备中</span><span class="badge">⚡ 基岩互通</span></div></div>
+            <div id="projectsSection" class="projects-section"><div class="section-title">📌 项目介绍</div><div class="projects-grid"><div class="project-card"><div class="project-icon">⛏️</div><div class="project-name">🔥 2B2T风格 · 无政府生存服</div><div class="project-desc">无规则·无政府·自由生存|纯原版混沌</div><div class="mc-server-block"><div class="mc-info-line"><span class="mc-info-label">🎮 版本</span><span class="mc-info-value"><strong>Java 1.21.11</strong> + 基岩互通</span></div><div class="mc-info-line"><span class="mc-info-label">⚙️ 支持</span><span class="mc-info-value">简幻欢·离线可进·无正版验证</span></div><div class="mc-info-line"><span class="mc-info-label">🌐 类型</span><span class="mc-info-value">2B2T·无政府·无管理干预</span></div><div class="mc-tag-group"><span class="mc-tag">🏴‍☠️ 无政府</span><span class="mc-tag">🔓 离线模式</span><span class="mc-tag">📱 基岩互通</span><span class="mc-tag">💣 无规则</span><span class="mc-tag">🧨 自由生存</span></div><div class="mc-address-row"><span class="mc-address" id="mcServerAddrDisplay">play.simpfun.cn：27513</span><button class="copy-mc-btn" id="copyMcServerBtn">📋 复制地址</button><span id="mcCopyFeedback" class="feedback-mc"></span></div></div><div class="project-meta"><span>🕒 有时并不开服哦</span><span>🌍 基岩/Java同服</span><span>⚡ 无管理・无日志</span></div></div><div class="project-card pending-card"><div class="project-icon">🛠️</div><div class="project-name">新项目·筹备中</div><div class="pending-desc">✨ 敬请期待<br>更多精彩内容即将到来</div><div class="project-meta"><span>🚧 开发中</span><span>⏳ 即将揭晓</span></div></div><div class="project-card pending-card"><div class="project-icon">🌿</div><div class="project-name">全栈知识库</div><div class="pending-desc">✨ 敬请期待<br>沉淀技术，静心打磨</div><div class="project-meta"><span>📖 筹备中</span><span>⭐ 即将上线</span></div></div></div></div>
+            
+            <!-- 自我介绍区域 - 段落间距已通过CSS分开 -->
+            <div id="aboutSection" class="about-section"><div class="section-title">👋 关于我</div><div class="about-card"><div class="about-title">✨ 自我介绍</div><div class="about-content">
+                <p>📍 <strong>称呼/ID：</strong> <span class="placeholder-mark">xero</span></p>
+                <p>🎯 <strong>当前角色/身份：</strong> <span class="placeholder-mark">初中生一枚，网站开发者，MC服务器搭建者</span></p>
+                <p>💻 <strong>技术栈/擅长领域：</strong> <span class="placeholder-mark">恶意软件分析能力40%   java模组能力10%   网页前端能力79%   Python能力10%</span></p>
+                <p>🔥 <strong>关于小破站：</strong> <span class="placeholder-mark">致力于MC爱好者社区，后续会有更多有趣的项目</span></p>
+                <p>📢 <strong>想说的话：</strong> <span class="placeholder-mark">想加入小破站的开发就加我QQ：2964205460</span></p>
+                           </div></div></div>
+            
+            <div id="developersSection" class="developers-section"><div class="section-title">👥 开发人员</div><div class="dev-grid"><div class="dev-card"><div class="dev-name">DeepSeek R1</div><div class="dev-role">AI技术顾问</div><div class="dev-bio">为技术盲点提供底层支持，解答疑难杂症。</div><button class="dev-btn" id="deepseekBtn">🚀 直达DeepSeek官网</button></div><div class="dev-card"><div class="dev-name">Xero（站长）</div><div class="dev-role">全栈开发·服务器主理</div><div class="dev-bio">网页设计、MC服务器搭建，2B2T生态建设者。</div></div><div class="dev-card"><div class="dev-name">健胃消食片</div><div class="dev-role">服务器运维·安全顾问</div><div class="dev-bio">负责服务器日常维护、网站漏洞发掘与安全加固。</div></div><div class="dev-card"><div class="dev-name">虚位以待</div><div class="dev-role">开放席位·期待你的加入</div><div class="dev-bio">欢迎联系站长，一同建设小破站。</div></div><div class="dev-card"><div class="dev-name">虚位以待</div><div class="dev-role">后端/安全方向</div><div class="dev-bio">贡献代码或运维经验，虚位以待。</div></div><div class="dev-card"><div class="dev-name">虚位以待</div><div class="dev-role">创意策划/内容运营</div><div class="dev-bio">打造有趣的开源项目生态。</div></div></div><div class="team-statement">📢 个人致力于纯粹的技术与游戏社区，无政府服务器无管理干预。</div></div>
+            <footer>✕ 小破站 · 2B2T无政府MC | 基岩互通·离线可进 | 新项目筹备中，敬请期待</footer>
+        </div>
+    </div>
+
+    <!-- 彩蛋弹窗 -->
+    <div id="easterEggModal" class="modal-overlay"><div class="modal-card"><div class="modal-icon">🎉</div><div class="modal-title">✨ 隐藏彩蛋 ✨</div><div class="modal-message">🕵️‍♂️ 你找到了真正的开发者！<br><strong>开发者（true）：国找</strong><br>感谢你的探索精神，恭喜🔍发现小破站的后台彩蛋</div><button class="modal-close" id="closeModalBtn">确定</button></div></div>
+
+    <script>
+        (function() {
+            // 逐行显示 + 最后弹出协议输入 (Y/N)
+            const overlay = document.getElementById('cmdOverlay');
+            const mainWrap = document.getElementById('mainContent');
+            const cmdContainer = document.getElementById('cmdBody');
+            
+            const bootLines = [
+                "> 初始化 Xero 安全核心 v3.2 ...",
+                "> 加载加密模块 [TLS 1.3] ✅",
+                "> 验证数字指纹 ................ <span class='cmd-success'>通过</span>",
+                "> 🛡️ 边缘防火墙策略加载完毕",
+                "> 🔒 建立安全信道 | 激活隐私保护",
+                "> 证书链校验 ................ <span class='cmd-success'>合法</span>",
+                "> 边缘节点检查 ............ <span class='cmd-success'>认证通过</span>",
+                "> 📜 实时日志聚合 · 审计轨迹 <span class='cmd-success'>日志已加载</span> ✨",
+                "> 启动门户界面 · 正在准备用户协议 ..."
+            ];
+
+            let lineIndex = 0;
+            function addLineWithDelay() {
+                if (lineIndex < bootLines.length) {
+                    const lineDiv = document.createElement('div');
+                    lineDiv.className = 'cmd-line';
+                    lineDiv.innerHTML = bootLines[lineIndex];
+                    cmdContainer.appendChild(lineDiv);
+                    cmdContainer.scrollTop = cmdContainer.scrollHeight;
+                    lineIndex++;
+                    setTimeout(addLineWithDelay, 380);
+                } else {
+                    // 输入用户协议界面
+                    const agreementHtml = `
+                        <div class="cmd-line" style="margin-top: 10px;"><span class="cmd-prompt">📜 用户协议</span></div>
+                        <div class="cmd-line">- 本站为个人技术社区，内容仅用于学习和交流。</div>
+                        <div class="cmd-line">- 禁止利用本站任何资源进行非法行为或恶意破坏。</div>
+                        <div class="cmd-line">- 使用即视为同意上述条款。</div>
+                        <div class="cmd-line"><span class="cmd-prompt">?</span> 是否同意并继续？(Y/N)</div>
+                        <div class="cmd-input-line">
+                            <input type="text" id="agreementInput" class="cmd-input" placeholder="输入 Y 或 N" autocomplete="off">
+                            <button id="submitAgreement" class="cmd-submit">确认</button>
+                        </div>
+                        <div id="errorMsg" class="error-msg"></div>
+                    `;
+                    cmdContainer.insertAdjacentHTML('beforeend', agreementHtml);
+                    const inputEl = document.getElementById('agreementInput');
+                    const submitBtn = document.getElementById('submitAgreement');
+                    const errorSpan = document.getElementById('errorMsg');
+
+                    function handleAgreement() {
+                        let val = inputEl.value.trim();
+                        if (val === 'Y' || val === 'y') {
+                            overlay.style.opacity = '0';
+                            setTimeout(() => {
+                                overlay.style.display = 'none';
+                                mainWrap.classList.add('visible');
+                            }, 400);
+                        } else {
+                            errorSpan.innerText = '❌ 未同意用户协议，页面即将关闭...';
+                            setTimeout(() => {
+                                document.body.innerHTML = '<div style="text-align:center;margin-top:20vh;font-family:monospace;"><h2>协议拒绝，访问终止。</h2><p>请刷新页面并输入 Y 以继续。</p></div>';
+                            }, 800);
+                        }
+                    }
+                    submitBtn.addEventListener('click', handleAgreement);
+                    inputEl.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleAgreement(); });
+                }
+            }
+            addLineWithDelay();
+
+            // 平滑滚动 / 深色模式 / 复制MC地址 / 彩蛋连续点击
+            const projectsBtn = document.getElementById('btnProjects');
+            const aboutBtn = document.getElementById('btnAbout');
+            const developersBtn = document.getElementById('btnDevelopers');
+            const projectsSection = document.getElementById('projectsSection');
+            const aboutSection = document.getElementById('aboutSection');
+            const developersSection = document.getElementById('developersSection');
+            if (projectsBtn && projectsSection) projectsBtn.onclick = () => projectsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            if (aboutBtn && aboutSection) aboutBtn.onclick = () => aboutSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            if (developersBtn && developersSection) developersBtn.onclick = () => developersSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            const darkToggle = document.getElementById('darkModeToggle');
+            if (localStorage.getItem('xeroDarkMode') === 'enabled') { document.body.classList.add('dark-mode'); darkToggle.innerHTML = '☀️ 浅色模式'; } 
+            else { darkToggle.innerHTML = '🌙 深色模式'; }
+            darkToggle.onclick = () => { const isDark = document.body.classList.toggle('dark-mode'); darkToggle.innerHTML = isDark ? '☀️ 浅色模式' : '🌙 深色模式'; localStorage.setItem('xeroDarkMode', isDark ? 'enabled' : 'disabled'); };
+
+            const copyBtn = document.getElementById('copyMcServerBtn');
+            const serverSpan = document.getElementById('mcServerAddrDisplay');
+            const feedbackSpan = document.getElementById('mcCopyFeedback');
+            if (copyBtn) copyBtn.onclick = async () => { const addr = serverSpan.innerText.trim(); if (!addr) return; try { await navigator.clipboard.writeText(addr); feedbackSpan.innerText = '✅ 已复制'; setTimeout(() => feedbackSpan.innerText = '', 1500); } catch { const ta = document.createElement('textarea'); ta.value = addr; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); feedbackSpan.innerText = '📋 已复制'; setTimeout(() => feedbackSpan.innerText = '', 1500); } };
+
+            const deepseekBtn = document.getElementById('deepseekBtn');
+            if (deepseekBtn) deepseekBtn.onclick = () => window.open('https://www.deepseek.com/', '_blank');
+
+            // 彩蛋：连续点击左上角5次
+            const secretBtn = document.getElementById('secretClickBtn');
+            const modal = document.getElementById('easterEggModal');
+            const closeModal = document.getElementById('closeModalBtn');
+            let clickCount = 0, clickTimer = null;
+            if (secretBtn) secretBtn.addEventListener('click', () => { clickCount++; if (clickTimer) clearTimeout(clickTimer); clickTimer = setTimeout(() => { clickCount = 0; }, 1200); if (clickCount === 5) { modal.classList.add('active'); clickCount = 0; if (clickTimer) clearTimeout(clickTimer); } });
+            if (closeModal) closeModal.onclick = () => modal.classList.remove('active');
+            if (modal) modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('active'); });
+        })();
+    </script>
+</body>
+</html>
