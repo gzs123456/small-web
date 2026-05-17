@@ -6,463 +6,86 @@
     <title>Xero风格 · 小破站 | 2B2T·无政府MC & 待开发</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease; }
         :root {
-            --bg-body: #f5f9ff;
-            --surface-white: #ffffff;
-            --border-light: #e2ebf3;
-            --text-primary: #1a2f3f;
-            --text-secondary: #426a87;
-            --accent-blue: #1f6e9c;
-            --accent-soft: #eef3fc;
-            --card-shadow: 0 8px 20px rgba(0, 0, 0, 0.02), 0 2px 8px rgba(0, 0, 0, 0.02);
-            --badge-bg: #ffffffcc;
-            --footer-color: #7d99b0;
-            --mc-accent: #2c6e4f;
-            --pending-bg: #f9fafc;
-            --warning-red: #d9534f;
-            --overlay-bg: rgba(0,0,0,0.5);
+            --bg-body: #f5f9ff; --surface-white: #ffffff; --border-light: #e2ebf3;
+            --text-primary: #1a2f3f; --text-secondary: #426a87; --accent-blue: #1f6e9c;
+            --accent-soft: #eef3fc; --card-shadow: 0 8px 20px rgba(0, 0, 0, 0.02), 0 2px 8px rgba(0, 0, 0, 0.02);
+            --badge-bg: #ffffffcc; --footer-color: #7d99b0; --mc-accent: #2c6e4f;
+            --pending-bg: #f9fafc; --warning-red: #d9534f; --overlay-bg: rgba(0,0,0,0.5);
         }
-
         body.dark-mode {
-            --bg-body: #121826;
-            --surface-white: #1e2538;
-            --border-light: #2a3349;
-            --text-primary: #eef2ff;
-            --text-secondary: #9bb4d0;
-            --accent-blue: #4d9bcb;
-            --accent-soft: #232b3f;
-            --card-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-            --badge-bg: #232b3fcc;
-            --footer-color: #6c7f9e;
-            --mc-accent: #5fad84;
-            --pending-bg: #1a1f2c;
-            --warning-red: #c9302c;
-            --overlay-bg: rgba(0,0,0,0.7);
+            --bg-body: #121826; --surface-white: #1e2538; --border-light: #2a3349;
+            --text-primary: #eef2ff; --text-secondary: #9bb4d0; --accent-blue: #4d9bcb;
+            --accent-soft: #232b3f; --card-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            --badge-bg: #232b3fcc; --footer-color: #6c7f9e; --mc-accent: #5fad84;
+            --pending-bg: #1a1f2c; --warning-red: #c9302c; --overlay-bg: rgba(0,0,0,0.7);
         }
-
-        body {
-            background-color: var(--bg-body);
-            font-family: 'Inter', sans-serif;
-            color: var(--text-primary);
-            line-height: 1.4;
-            scroll-behavior: smooth;
-        }
+        body { background-color: var(--bg-body); font-family: 'Inter', sans-serif; color: var(--text-primary); line-height: 1.4; scroll-behavior: smooth; }
 
         /* CMD 终端样式 */
-        .cmd-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.94);
-            z-index: 10000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Courier New', 'Fira Code', monospace;
-            backdrop-filter: blur(4px);
-        }
-        .cmd-window {
-            width: 620px;
-            max-width: 90%;
-            background: #0c0c0c;
-            border-radius: 24px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 0 1px #2e2e2e;
-            overflow: hidden;
-        }
-        .cmd-header {
-            background: #1e1e1e;
-            padding: 12px 18px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border-bottom: 1px solid #333;
-        }
-        .cmd-dot {
-            width: 13px;
-            height: 13px;
-            border-radius: 50%;
-            background: #ff5f56;
-        }
+        .cmd-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.94); z-index: 10000; display: flex; align-items: center; justify-content: center; font-family: 'Courier New', 'Fira Code', monospace; backdrop-filter: blur(4px); }
+        .cmd-window { width: 620px; max-width: 90%; background: #0c0c0c; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 0 1px #2e2e2e; overflow: hidden; }
+        .cmd-header { background: #1e1e1e; padding: 12px 18px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #333; }
+        .cmd-dot { width: 13px; height: 13px; border-radius: 50%; background: #ff5f56; }
         .cmd-dot:nth-child(2) { background: #ffbd2e; }
         .cmd-dot:nth-child(3) { background: #27c93f; margin-right: auto; }
-        .cmd-title {
-            color: #ccc;
-            font-size: 0.75rem;
-            letter-spacing: 0.5px;
-            font-weight: 500;
-        }
-        .cmd-body {
-            padding: 24px 26px 28px;
-            background: #0b0b0b;
-            color: #0f0;
-            font-size: 0.9rem;
-            line-height: 1.55;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .cmd-line {
-            font-family: monospace;
-            white-space: pre-wrap;
-            word-break: break-word;
-            opacity: 0;
-            transform: translateY(5px);
-            animation: fadeSlideUp 0.2s forwards;
-        }
-        @keyframes fadeSlideUp {
-            to { opacity: 1; transform: translateY(0); }
-        }
+        .cmd-title { color: #ccc; font-size: 0.75rem; letter-spacing: 0.5px; font-weight: 500; }
+        .cmd-body { padding: 24px 26px 28px; background: #0b0b0b; color: #0f0; font-size: 0.9rem; line-height: 1.55; display: flex; flex-direction: column; gap: 8px; }
+        .cmd-line { font-family: monospace; white-space: pre-wrap; word-break: break-word; opacity: 0; transform: translateY(5px); animation: fadeSlideUp 0.2s forwards; }
+        @keyframes fadeSlideUp { to { opacity: 1; transform: translateY(0); } }
         .cmd-prompt { color: #5bc0ff; font-weight: bold; }
         .cmd-success { color: #2ecc71; }
-        .cmd-cursor {
-            display: inline-block;
-            width: 10px;
-            height: 1.2em;
-            background-color: #0f0;
-            vertical-align: middle;
-            margin-left: 6px;
-            animation: blink 1s step-end infinite;
-        }
+        .cmd-cursor { display: inline-block; width: 10px; height: 1.2em; background-color: #0f0; vertical-align: middle; margin-left: 6px; animation: blink 1s step-end infinite; }
         @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+        .cmd-input-line { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 12px; }
+        .cmd-input { background: #1a1a1a; border: 1px solid #3a3a3a; color: #0f0; font-family: 'Courier New', monospace; font-size: 0.9rem; padding: 8px 14px; border-radius: 30px; outline: none; width: 130px; }
+        .cmd-submit { background: #2c6e4f; border: none; color: white; padding: 8px 20px; border-radius: 32px; font-family: monospace; font-weight: bold; cursor: pointer; }
+        .error-msg { color: #ff6b6b; font-size: 0.8rem; margin-top: 8px; }
 
-        .cmd-input-line {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-top: 12px;
-        }
-        .cmd-input {
-            background: #1a1a1a;
-            border: 1px solid #3a3a3a;
-            color: #0f0;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-            padding: 8px 14px;
-            border-radius: 30px;
-            outline: none;
-            width: 130px;
-        }
-        .cmd-input:focus {
-            border-color: #5bc0ff;
-        }
-        .cmd-submit {
-            background: #2c6e4f;
-            border: none;
-            color: white;
-            padding: 8px 20px;
-            border-radius: 32px;
-            font-family: monospace;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .cmd-submit:hover {
-            background: #1f5a42;
-            transform: scale(0.97);
-        }
-        .error-msg {
-            color: #ff6b6b;
-            font-size: 0.8rem;
-            margin-top: 8px;
-        }
+        .main-content { opacity: 0; transition: opacity 0.6s ease; pointer-events: none; }
+        .main-content.visible { opacity: 1; pointer-events: auto; }
 
-        .main-content {
-            opacity: 0;
-            transition: opacity 0.6s ease;
-            pointer-events: none;
-        }
-        .main-content.visible {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        /* 音乐播放器组件 */
-        .music-player {
-            position: fixed;
-            left: 0;
-            bottom: 20px;
-            transform: translateX(0);
-            background: var(--surface-white);
-            backdrop-filter: blur(12px);
-            border-radius: 0 20px 20px 0;
-            border: 1px solid var(--border-light);
-            border-left: none;
-            box-shadow: var(--card-shadow);
-            z-index: 999;
-            transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-            max-width: 300px;
-            width: auto;
-        }
-        .music-player.hidden {
-            transform: translateX(-92%);
-        }
-        .player-toggle {
-            position: absolute;
-            right: -28px;
-            bottom: 12px;
-            width: 28px;
-            height: 40px;
-            background: var(--accent-blue);
-            border-radius: 0 12px 12px 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            color: white;
-            font-size: 1rem;
-            border: none;
-            box-shadow: 1px 0 4px rgba(0,0,0,0.1);
-            transition: 0.2s;
-        }
-        .player-toggle:hover {
-            background: var(--mc-accent);
-            width: 32px;
-        }
-        .player-inner {
-            padding: 14px 16px;
-            min-width: 240px;
-        }
-        .player-title {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--accent-blue);
-            margin-bottom: 8px;
-            letter-spacing: 0.5px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .player-select {
-            width: 100%;
-            padding: 6px 10px;
-            background: var(--bg-body);
-            border: 1px solid var(--border-light);
-            border-radius: 40px;
-            font-size: 0.75rem;
-            color: var(--text-primary);
-            font-family: inherit;
-            margin-bottom: 12px;
-            cursor: pointer;
-            outline: none;
-        }
-        .player-controls {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 8px;
-            margin: 8px 0;
-        }
-        .ctrl-btn {
-            background: var(--accent-soft);
-            border: none;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 0.8rem;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--accent-blue);
-            transition: 0.2s;
-        }
-        .ctrl-btn:hover {
-            background: var(--accent-blue);
-            color: white;
-            transform: scale(1.02);
-        }
-        .progress-area {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.6rem;
-            color: var(--text-secondary);
-            margin: 6px 0;
-        }
-        .progress-bar {
-            flex: 1;
-            height: 3px;
-            background: var(--border-light);
-            border-radius: 3px;
-            overflow: hidden;
-            cursor: pointer;
-        }
-        .progress-filled {
-            width: 0%;
-            height: 100%;
-            background: var(--accent-blue);
-            border-radius: 3px;
-        }
-        .volume-area {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            margin-top: 8px;
-        }
-        .volume-slider {
-            flex: 1;
-            height: 3px;
-            -webkit-appearance: none;
-            background: var(--border-light);
-            border-radius: 3px;
-            outline: none;
-        }
-        .volume-slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--accent-blue);
-            cursor: pointer;
-        }
+        /* 音乐播放器 */
+        .music-player { position: fixed; left: 0; bottom: 20px; transform: translateX(0); background: var(--surface-white); backdrop-filter: blur(12px); border-radius: 0 20px 20px 0; border: 1px solid var(--border-light); border-left: none; box-shadow: var(--card-shadow); z-index: 999; transition: transform 0.3s; max-width: 300px; }
+        .music-player.hidden { transform: translateX(-92%); }
+        .player-toggle { position: absolute; right: -28px; bottom: 12px; width: 28px; height: 40px; background: var(--accent-blue); border-radius: 0 12px 12px 0; display: flex; align-items: center; justify-content: center; cursor: pointer; color: white; font-size: 1rem; border: none; }
+        .player-inner { padding: 14px 16px; min-width: 240px; }
+        .player-title { font-size: 0.75rem; font-weight: 600; color: var(--accent-blue); margin-bottom: 8px; }
+        .player-select { width: 100%; padding: 6px 10px; background: var(--bg-body); border: 1px solid var(--border-light); border-radius: 40px; font-size: 0.75rem; margin-bottom: 12px; cursor: pointer; }
+        .player-controls { display: flex; justify-content: space-between; gap: 8px; margin: 8px 0; }
+        .ctrl-btn { background: var(--accent-soft); border: none; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 0.8rem; color: var(--accent-blue); }
+        .progress-area { display: flex; align-items: center; gap: 6px; font-size: 0.6rem; margin: 6px 0; }
+        .progress-bar { flex: 1; height: 3px; background: var(--border-light); border-radius: 3px; overflow: hidden; cursor: pointer; }
+        .progress-filled { width: 0%; height: 100%; background: var(--accent-blue); }
+        .volume-area { display: flex; align-items: center; gap: 6px; margin-top: 8px; }
+        .volume-slider { flex: 1; height: 3px; -webkit-appearance: none; background: var(--border-light); }
 
         /* 彩蛋弹窗 */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--overlay-bg);
-            backdrop-filter: blur(4px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            visibility: hidden;
-            opacity: 0;
-            transition: visibility 0.2s, opacity 0.2s;
-        }
-        .modal-overlay.active {
-            visibility: visible;
-            opacity: 1;
-        }
-        .modal-card {
-            background: var(--surface-white);
-            border-radius: 32px;
-            max-width: 400px;
-            width: 85%;
-            padding: 2rem 1.8rem;
-            text-align: center;
-            box-shadow: 0 25px 45px rgba(0,0,0,0.2);
-            border: 1px solid var(--border-light);
-            transform: scale(0.95);
-            transition: transform 0.2s;
-        }
-        .modal-overlay.active .modal-card {
-            transform: scale(1);
-        }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--overlay-bg); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 2000; visibility: hidden; opacity: 0; transition: 0.2s; }
+        .modal-overlay.active { visibility: visible; opacity: 1; }
+        .modal-card { background: var(--surface-white); border-radius: 32px; max-width: 400px; width: 85%; padding: 2rem; text-align: center; box-shadow: 0 25px 45px rgba(0,0,0,0.2); border: 1px solid var(--border-light); }
         .modal-icon { font-size: 3rem; margin-bottom: 0.8rem; }
         .modal-title { font-size: 1.5rem; font-weight: 700; color: var(--accent-blue); margin-bottom: 0.8rem; }
         .modal-message { font-size: 1rem; color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.5; }
-        .modal-close {
-            background: var(--accent-blue);
-            border: none;
-            padding: 0.5rem 1.5rem;
-            border-radius: 40px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            color: white;
-            cursor: pointer;
-        }
+        .modal-close { background: var(--accent-blue); border: none; padding: 0.5rem 1.5rem; border-radius: 40px; font-weight: 600; color: white; cursor: pointer; }
 
-        /* 作者状态栏目 - 优化图标与布局 */
-        .author-status-section {
-            margin: 2rem 0;
-            scroll-margin-top: 90px;
-        }
-        .status-card {
-            background: var(--surface-white);
-            border-radius: 28px;
-            padding: 1.4rem 1.6rem;
-            border: 1px solid var(--border-light);
-            box-shadow: var(--card-shadow);
-        }
-        .status-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 0.8rem;
-            margin-bottom: 1.2rem;
-        }
-        .status-title {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: var(--accent-blue);
-        }
-        .current-time {
-            font-family: monospace;
-            font-size: 0.9rem;
-            background: var(--accent-soft);
-            padding: 0.2rem 0.8rem;
-            border-radius: 40px;
-        }
-        .status-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.2rem;
-            margin-top: 0.5rem;
-        }
-        .status-item {
-            flex: 1;
-            min-width: 140px;
-            background: var(--bg-body);
-            border-radius: 20px;
-            padding: 0.8rem 1rem;
-        }
-        .status-label {
-            font-size: 0.7rem;
-            color: var(--text-secondary);
-            margin-bottom: 0.4rem;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .status-value {
-            font-size: 1rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-        .hunger-icons {
-            font-size: 1.1rem;
-            letter-spacing: 2px;
-        }
-        .fatigue-bar-container {
-            flex: 1;
-            height: 6px;
-            background: var(--border-light);
-            border-radius: 6px;
-            overflow: hidden;
-            max-width: 120px;
-        }
-        .fatigue-fill {
-            height: 100%;
-            width: 0%;
-            background: #f1c40f;
-            border-radius: 6px;
-        }
-        @media (max-width: 640px) {
-            .status-grid { flex-direction: column; gap: 0.8rem; }
-        }
+        /* 作者状态栏目 */
+        .author-status-section { margin: 2rem 0; scroll-margin-top: 90px; }
+        .status-card { background: var(--surface-white); border-radius: 28px; padding: 1.4rem 1.6rem; border: 1px solid var(--border-light); box-shadow: var(--card-shadow); }
+        .status-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.8rem; margin-bottom: 1.2rem; }
+        .status-title { display: flex; align-items: center; gap: 0.5rem; font-size: 1.3rem; font-weight: 600; color: var(--accent-blue); }
+        .current-time { font-family: monospace; font-size: 0.9rem; background: var(--accent-soft); padding: 0.2rem 0.8rem; border-radius: 40px; }
+        .status-grid { display: flex; flex-wrap: wrap; gap: 1.2rem; margin-top: 0.5rem; }
+        .status-item { flex: 1; min-width: 140px; background: var(--bg-body); border-radius: 20px; padding: 0.8rem 1rem; }
+        .status-label { font-size: 0.7rem; color: var(--text-secondary); margin-bottom: 0.4rem; display: flex; align-items: center; gap: 5px; }
+        .status-value { font-size: 1rem; font-weight: 600; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .hunger-icons { font-size: 1.1rem; letter-spacing: 2px; }
+        .fatigue-bar-container { flex: 1; height: 6px; background: var(--border-light); border-radius: 6px; overflow: hidden; max-width: 120px; }
+        .fatigue-fill { height: 100%; width: 0%; background: #f1c40f; border-radius: 6px; }
+        @media (max-width: 640px) { .status-grid { flex-direction: column; gap: 0.8rem; } }
 
-        /* 原有样式 */
+        /* 原有样式精简 */
         .container { max-width: 1280px; margin: 0 auto; padding: 2rem 2rem 3rem; }
         .nav-bar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 2.5rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border-light); }
         .logo-area { display: flex; align-items: center; gap: 10px; cursor: pointer; background: transparent; border: none; }
@@ -478,10 +101,6 @@
         .section-title { font-size: 1.6rem; font-weight: 600; margin-bottom: 1.5rem; color: var(--accent-blue); border-left: 5px solid var(--accent-blue); padding-left: 1rem; }
         .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.5rem; }
         .project-card { background: var(--surface-white); border-radius: 28px; padding: 1.2rem; box-shadow: var(--card-shadow); border: 1px solid var(--border-light); transition: transform 0.2s; display: flex; flex-direction: column; height: 100%; }
-        .project-card:hover { transform: translateY(-3px); border-color: var(--accent-blue); }
-        .project-icon { font-size: 1.8rem; margin-bottom: 0.3rem; }
-        .project-name { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.3rem; }
-        .project-desc { color: var(--text-secondary); font-size: 0.8rem; margin-bottom: 0.8rem; }
         .mc-server-block { flex: 1; display: flex; flex-direction: column; gap: 0.5rem; }
         .mc-info-line { font-size: 0.8rem; color: var(--text-secondary); display: flex; flex-wrap: wrap; gap: 0.3rem; }
         .mc-info-label { font-weight: 700; color: var(--accent-blue); min-width: 52px; }
@@ -495,7 +114,7 @@
         .pending-desc { background: var(--pending-bg); padding: 0.6rem 1rem; border-radius: 24px; text-align: center; font-size: 0.9rem; margin-top: 0.5rem; color: var(--text-secondary); font-style: italic; }
         .about-section { margin: 2rem 0; }
         .about-card { background: var(--surface-white); border-radius: 28px; padding: 1.5rem; border: 1px solid var(--border-light); }
-        .about-title { font-size: 1.4rem; font-weight: 700; color: var(--accent-blue); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+        .about-title { font-size: 1.4rem; font-weight: 700; color: var(--accent-blue); margin-bottom: 1rem; }
         .about-content p { margin-bottom: 1rem; }
         .placeholder-mark { background: rgba(217, 83, 79, 0.1); color: var(--warning-red); padding: 0.1rem 0.3rem; border-radius: 8px; display: inline-block; }
         .developers-section { margin-bottom: 1.5rem; }
@@ -508,7 +127,6 @@
         .team-statement { margin-top: 1.2rem; font-size: 0.8rem; color: var(--text-secondary); }
         footer { text-align: center; margin-top: 2rem; font-size: 0.7rem; color: var(--footer-color); border-top: 1px solid var(--border-light); padding-top: 1.5rem; }
         .join-link { display: inline-block; margin-top: 6px; font-size: 0.7rem; color: var(--text-secondary); text-decoration: underline; cursor: pointer; background: transparent; border: none; opacity: 0.7; }
-        .join-link:hover { opacity: 1; color: var(--accent-blue); }
         @media (max-width: 720px) { .container { padding: 1rem; } .projects-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
@@ -519,12 +137,11 @@
             <div class="nav-bar"><button class="logo-area" id="secretClickBtn"><div class="logo-icon">✕</div><div class="logo-text">Xero / 小破站</div></button><div class="nav-links"><button class="nav-btn" id="btnProjects">📁 项目介绍</button><button class="nav-btn" id="btnAbout">👤 自我介绍</button><button class="nav-btn" id="btnDevelopers">👨‍💻 开发人员</button><button class="nav-btn" id="darkModeToggle">🌙 深色模式</button></div></div>
             <div class="hero-section"><h1>一个小破站 · 游戏与分析</h1><div class="hero-desc">2B2T风格MC服务器 | 待开发项目敬请期待</div><div class="badge-group"><span class="badge">🔥 2B2T·无政府</span><span class="badge">🛠️ 项目筹备中</span><span class="badge">⚡ 基岩互通</span></div></div>
             
-            <!-- 作者状态栏目 -->
             <div id="authorStatusSection" class="author-status-section">
                 <div class="section-title">📊 作者状态</div>
-                <div class="status-card" id="statusCard">
+                <div class="status-card">
                     <div class="status-header">
-                        <div class="status-title"><span>✨</span> 实时动态</div>
+                        <div class="status-title"><span id="statusEmoji">✨</span> <span id="statusText">实时动态</span></div>
                         <div class="current-time" id="currentTimeDisplay">--:--:--</div>
                     </div>
                     <div class="status-grid">
@@ -545,7 +162,7 @@
 
     <script>
         (function() {
-            // CMD逐行动画 + 协议
+            // CMD逐行动画 + 用户协议 (原逻辑保留)
             const overlay = document.getElementById('cmdOverlay');
             const mainWrap = document.getElementById('mainContent');
             const cmdContainer = document.getElementById('cmdBody');
@@ -588,41 +205,63 @@
             volumeSlider.oninput = () => audio.volume = volumeSlider.value;
             setInterval(()=>{ if(currentPlaylist.length===0) currentPlaylist = buildPlaylist(); },500);
             document.getElementById('playerToggle').addEventListener('click', () => { const p = document.getElementById('musicPlayer'); p.classList.toggle('hidden'); document.getElementById('playerToggle').innerHTML = p.classList.contains('hidden') ? '→' : '←'; });
-            document.getElementById('joinButton').addEventListener('click', () => { window.open('join.html', '_blank'); }); // 指向同目录下的join.html
+            document.getElementById('joinButton').addEventListener('click', () => { window.open('join.html', '_blank'); });
             
-            // 作者状态实时更新（优化图标显示）
+            // 作者状态更新：包含状态文字+表情符号+饥饿值+疲劳值
             function updateAuthorStatus() {
                 const now = new Date();
                 const hours = now.getHours();
                 const minutes = now.getMinutes();
-                const t = hours + minutes/60;
+                let t = hours + minutes / 60;
                 document.getElementById("currentTimeDisplay").innerText = now.toLocaleTimeString('zh-CN');
-                let hunger = 30;
-                if (t >= 9 && t < 12) hunger = Math.floor(30 + (t-9)*(70/3));
-                else if (t >= 12 && t < 13) hunger = 30 + (1 - (t-12)) * 70;
-                else if (t >= 13 && t < 18) hunger = 30 + ((t-13)/5)*70;
-                else if (t >= 18 && t < 18.5) hunger = 100 - (t-18)*140;
-                else if (t >= 18.5 && t < 23) hunger = 30 + (1 - (t-18.5)/4.5)*70;
-                else if (t >= 23 || t < 9) hunger = 30 + (1 - ((t>=23?t-23:t+24-23))/10)*70;
-                hunger = Math.min(100, Math.max(30, Math.floor(hunger)));
-                let hungerIconsHtml = "";
-                let fullCount = Math.floor(hunger/10);
-                for(let i=0;i<10;i++) hungerIconsHtml += i < fullCount ? "🍖" : "🫙";
-                document.getElementById("hungerIcons").innerHTML = hungerIconsHtml;
-                document.getElementById("hungerPercent").innerText = hunger + "%";
                 
-                let fatigue = 100;
-                if (t >= 9 && t < 11) fatigue = 100 - Math.floor((t-9)/2 * 80);
-                else if (t >= 11 && t < 23) fatigue = 20 + Math.floor((t-11)/12 * 60);
-                else { let nightT = t>=23 ? t-23 : t+24-23; fatigue = 80 - Math.floor((nightT)/10 * 40); }
-                fatigue = Math.min(100, Math.max(20, Math.floor(fatigue)));
+                // 1. 状态文字 + 表情 (睡觉/精力满满/摸鱼)
+                let statusEmoji = "", statusText = "";
+                if ((hours >= 23) || (hours < 9)) {
+                    statusEmoji = "😴💤";
+                    statusText = "睡觉中 Zzz";
+                } else if ((hours >= 9 && hours < 12) || (hours >= 12 && hours < 18) || (hours >= 19 && hours < 23)) {
+                    statusEmoji = "⚡✨";
+                    statusText = "精神满满";
+                } else {
+                    statusEmoji = "🎣💤";
+                    statusText = "摸鱼中 🐟";
+                }
+                document.getElementById("statusEmoji").innerHTML = statusEmoji;
+                document.getElementById("statusText").innerHTML = statusText;
+                
+                // 2. 饥饿值 (吃饭上升，消化下降)
+                let hunger = 30;
+                if (t >= 9 && t <= 9.6667) hunger = 30 + (t - 9) / 0.6667 * 70;
+                else if (t > 9.6667 && t <= 12) hunger = 100 - (t - 9.6667) / 2.3333 * 70;
+                else if (t > 12 && t <= 12.6667) hunger = 30 + (t - 12) / 0.6667 * 70;
+                else if (t > 12.6667 && t <= 19) hunger = 100 - (t - 12.6667) / 6.3333 * 70;
+                else if (t > 19 && t <= 19.6667) hunger = 30 + (t - 19) / 0.6667 * 70;
+                else if (t > 19.6667 || t <= 9) {
+                    let nightT = t > 19.6667 ? t - 19.6667 : t + 24 - 19.6667;
+                    hunger = 100 - nightT / 13.3333 * 70;
+                }
+                hunger = Math.min(100, Math.max(30, Math.floor(hunger)));
+                let fullCount = Math.floor(hunger / 10);
+                let icons = "";
+                for(let i=0;i<10;i++) icons += i < fullCount ? "🍖" : "🫙";
+                document.getElementById("hungerIcons").innerHTML = icons;
+                document.getElementById("hungerPercent").innerHTML = hunger + "%";
+                
+                // 3. 疲劳值 (跟随时间变化)
+                let fatigue = 80;
+                if (t >= 9 && t < 12) fatigue = 90 - (t-9)*6;
+                else if (t >=12 && t<18) fatigue = 60 - (t-12)*4;
+                else if (t>=18 && t<23) fatigue = 30 + (t-18)*8;
+                else fatigue = 70 - ((t>=23?t-23:t+24-23))*5;
+                fatigue = Math.min(95, Math.max(25, Math.floor(fatigue)));
                 document.getElementById("fatigueFill").style.width = fatigue + "%";
                 document.getElementById("fatiguePercent").innerText = fatigue + "%";
             }
             updateAuthorStatus();
             setInterval(updateAuthorStatus, 1000);
             
-            // 其余交互
+            // 交互功能
             document.getElementById('btnProjects')?.addEventListener('click', () => document.getElementById('projectsSection')?.scrollIntoView({ behavior: 'smooth' }));
             document.getElementById('btnAbout')?.addEventListener('click', () => document.getElementById('aboutSection')?.scrollIntoView({ behavior: 'smooth' }));
             document.getElementById('btnDevelopers')?.addEventListener('click', () => document.getElementById('developersSection')?.scrollIntoView({ behavior: 'smooth' }));
