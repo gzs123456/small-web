@@ -6,14 +6,13 @@
     <title>加入我们 - 小破站</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <style>
+        /* 样式保持不变，省略重复... 和之前一样 */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
         }
-
-        /* 完全继承主站风格变量 */
         :root {
             --bg-body: #f5f9ff;
             --surface-white: #ffffff;
@@ -25,7 +24,6 @@
             --card-shadow: 0 8px 20px rgba(0, 0, 0, 0.02), 0 2px 8px rgba(0, 0, 0, 0.02);
             --footer-color: #7d99b0;
         }
-
         body.dark-mode {
             --bg-body: #121826;
             --surface-white: #1e2538;
@@ -37,7 +35,6 @@
             --card-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
             --footer-color: #6c7f9e;
         }
-
         body {
             background-color: var(--bg-body);
             font-family: 'Inter', sans-serif;
@@ -47,8 +44,6 @@
             display: flex;
             flex-direction: column;
         }
-
-        /* 导航栏 - 与主站一致，标志不可点击 */
         .nav-bar {
             display: flex;
             justify-content: space-between;
@@ -59,20 +54,15 @@
             padding-bottom: 0.75rem;
             border-bottom: 1px solid var(--border-light);
         }
-
         .logo-area {
             display: flex;
             align-items: center;
             gap: 10px;
-            /* 移除点击事件和光标效果，变成不可点击 */
             cursor: default;
             background: transparent;
             border: none;
-            font-family: inherit;
             padding: 0;
-            border-radius: 16px;
         }
-
         .logo-icon {
             background: var(--accent-blue);
             width: 38px;
@@ -85,7 +75,6 @@
             font-size: 1.2rem;
             color: white;
         }
-
         .logo-text {
             font-weight: 700;
             font-size: 1.3rem;
@@ -95,25 +84,6 @@
             -webkit-background-clip: text;
             color: transparent;
         }
-
-        .nav-btn {
-            background: transparent;
-            border: 1px solid var(--border-light);
-            padding: 0.45rem 1.2rem;
-            border-radius: 40px;
-            font-weight: 500;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            cursor: pointer;
-            font-family: inherit;
-            background-color: var(--surface-white);
-        }
-        .nav-btn:hover {
-            background-color: var(--accent-blue);
-            color: white;
-            border-color: var(--accent-blue);
-        }
-
         .dark-toggle {
             background: transparent;
             border: 1px solid var(--border-light);
@@ -125,16 +95,12 @@
             cursor: pointer;
             background-color: var(--surface-white);
         }
-
-        /* 主容器 */
         .container {
             max-width: 1280px;
             margin: 0 auto;
             padding: 2rem 2rem 2rem;
             flex: 1;
         }
-
-        /* 加入卡片 */
         .join-card {
             background: var(--surface-white);
             border-radius: 28px;
@@ -145,26 +111,9 @@
             max-width: 700px;
             margin: 1rem auto;
         }
-
-        .join-icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-        }
-
-        .join-title {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--accent-blue);
-            margin-bottom: 1rem;
-        }
-
-        .join-desc {
-            color: var(--text-secondary);
-            font-size: 1rem;
-            margin-bottom: 2rem;
-            line-height: 1.6;
-        }
-
+        .join-icon { font-size: 4rem; margin-bottom: 1rem; }
+        .join-title { font-size: 2rem; font-weight: 700; color: var(--accent-blue); margin-bottom: 1rem; }
+        .join-desc { color: var(--text-secondary); font-size: 1rem; margin-bottom: 2rem; line-height: 1.6; }
         .info-list {
             text-align: left;
             background: var(--bg-body);
@@ -172,7 +121,6 @@
             padding: 1.5rem;
             margin: 1.5rem 0;
         }
-
         .info-item {
             display: flex;
             align-items: center;
@@ -182,32 +130,11 @@
             font-size: 1rem;
             flex-wrap: wrap;
         }
-        .info-item:last-child {
-            border-bottom: none;
-        }
-        .info-icon {
-            font-size: 1.3rem;
-            min-width: 40px;
-        }
-        .info-label {
-            font-weight: 600;
-            color: var(--accent-blue);
-            min-width: 70px;
-        }
-        .info-value {
-            color: var(--text-primary);
-            word-break: break-all;
-            flex: 1;
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 1.5rem;
-        }
-
+        .info-item:last-child { border-bottom: none; }
+        .info-icon { font-size: 1.3rem; min-width: 40px; }
+        .info-label { font-weight: 600; color: var(--accent-blue); min-width: 70px; }
+        .info-value { color: var(--text-primary); word-break: break-all; flex: 1; }
+        .btn-group { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem; }
         .btn-home {
             background: var(--accent-blue);
             border: none;
@@ -217,14 +144,9 @@
             font-size: 0.9rem;
             color: white;
             cursor: pointer;
-            font-family: inherit;
             transition: 0.2s;
         }
-        .btn-home:hover {
-            filter: brightness(1.08);
-            transform: scale(0.98);
-        }
-
+        .btn-home:hover { filter: brightness(1.08); transform: scale(0.98); }
         .btn-copy, .btn-github {
             background: transparent;
             border: 1px solid var(--border-light);
@@ -234,22 +156,10 @@
             font-size: 0.9rem;
             color: var(--text-secondary);
             cursor: pointer;
-            font-family: inherit;
-            transition: 0.2s;
             background-color: var(--surface-white);
         }
-        .btn-copy:hover, .btn-github:hover {
-            background-color: var(--accent-soft);
-            border-color: var(--accent-blue);
-        }
-
-        .footer-note {
-            margin-top: 2rem;
-            font-size: 0.7rem;
-            color: var(--footer-color);
-            text-align: center;
-        }
-
+        .btn-copy:hover, .btn-github:hover { background-color: var(--accent-soft); border-color: var(--accent-blue); }
+        .footer-note { margin-top: 2rem; font-size: 0.7rem; color: var(--footer-color); text-align: center; }
         @media (max-width: 640px) {
             .container { padding: 1rem; }
             .join-card { padding: 1.5rem; }
@@ -261,7 +171,6 @@
 </head>
 <body>
     <div class="container">
-        <!-- 导航栏 - 标志不可点击，保留深色模式按钮 -->
         <div class="nav-bar">
             <div class="logo-area">
                 <div class="logo-icon">✕</div>
@@ -271,16 +180,13 @@
                 <button class="dark-toggle" id="darkModeToggle">🌙 深色模式</button>
             </div>
         </div>
-
-        <!-- 加入我们主要内容 -->
         <div class="join-card">
             <div class="join-icon">🤝✨</div>
             <div class="join-title">加入我们</div>
             <div class="join-desc">
-                如果你热爱JavaScript、前端开发、网络安全，<br>
+                如果你热爱 MC 技术、前端开发、网络安全，<br>
                 欢迎联系站长，一同建设小破站！
             </div>
-
             <div class="info-list">
                 <div class="info-item">
                     <span class="info-icon">👨‍💻</span>
@@ -306,7 +212,6 @@
                     <button class="btn-github" id="githubBtn" style="padding: 0.3rem 1rem; font-size: 0.75rem;">🚀 访问仓库</button>
                 </div>
             </div>
-
             <div class="btn-group">
                 <button class="btn-home" id="backHomeBtn">🏠 返回主页</button>
             </div>
@@ -315,10 +220,8 @@
             </div>
         </div>
     </div>
-
     <script>
         (function() {
-            // 深色模式逻辑（完全与主站一致）
             const darkToggle = document.getElementById('darkModeToggle');
             if (localStorage.getItem('xeroDarkMode') === 'enabled') {
                 document.body.classList.add('dark-mode');
@@ -332,14 +235,14 @@
                 localStorage.setItem('xeroDarkMode', isDark ? 'enabled' : 'disabled');
             };
 
-            // 返回主页 (不新建标签页，直接在当前页面跳转)
+            // 返回主页 - 普通跳转，不重新触发协议
             const backHomeBtn = document.getElementById('backHomeBtn');
             function goHome() {
                 window.location.href = 'index.html';
             }
             if (backHomeBtn) backHomeBtn.addEventListener('click', goHome);
 
-            // 复制功能（QQ / 邮箱）
+            // 复制功能
             const qqValue = document.getElementById('qqValue')?.innerText;
             const copyQQ = document.getElementById('copyQQBtn');
             const emailValue = document.getElementById('emailValue')?.innerText;
@@ -351,9 +254,7 @@
                     await navigator.clipboard.writeText(text);
                     const originalText = btnElement.innerText;
                     btnElement.innerText = successMsg;
-                    setTimeout(() => {
-                        btnElement.innerText = originalText;
-                    }, 1500);
+                    setTimeout(() => { btnElement.innerText = originalText; }, 1500);
                 } catch (err) {
                     const textarea = document.createElement('textarea');
                     textarea.value = text;
@@ -363,28 +264,19 @@
                     document.body.removeChild(textarea);
                     const originalText = btnElement.innerText;
                     btnElement.innerText = '📋 已复制';
-                    setTimeout(() => {
-                        btnElement.innerText = originalText;
-                    }, 1500);
+                    setTimeout(() => { btnElement.innerText = originalText; }, 1500);
                 }
             }
 
-            if (copyQQ && qqValue) {
-                copyQQ.addEventListener('click', () => copyTextToClipboard(qqValue, copyQQ, '✅ 复制'));
-            }
-            if (copyEmail && emailValue) {
-                copyEmail.addEventListener('click', () => copyTextToClipboard(emailValue, copyEmail, '✅ 复制'));
-            }
+            if (copyQQ && qqValue) copyQQ.addEventListener('click', () => copyTextToClipboard(qqValue, copyQQ, '✅ 复制'));
+            if (copyEmail && emailValue) copyEmail.addEventListener('click', () => copyTextToClipboard(emailValue, copyEmail, '✅ 复制'));
 
-            // GitHub 按钮直接跳转，不显示网址
             const githubBtn = document.getElementById('githubBtn');
             if (githubBtn) {
                 githubBtn.addEventListener('click', () => {
                     window.open('https://github.com/gzs123456/small-web', '_blank');
                 });
             }
-
-            console.log('✅ 加入我们页面已加载 | 深色模式 | 返回主页 | 复制功能 | GitHub项目跳转');
         })();
     </script>
 </body>
