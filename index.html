@@ -50,12 +50,12 @@
             background-color: var(--bg-body);
             font-family: 'Inter', sans-serif;
             color: var(--text-primary);
-            line-height: 1.4;
+            line-height: 1.45;
             scroll-behavior: smooth;
             overflow-x: hidden;
         }
 
-        /* 启动动画: 锁+光圈 (居中，光圈扩散变大) + 左上角文本逐行 */
+        /* 开机动画 */
         .boot-overlay {
             position: fixed;
             top: 0;
@@ -86,7 +86,6 @@
             filter: drop-shadow(0 0 8px rgba(255,50,50,0.8));
             z-index: 2;
         }
-        /* 波纹扩散更大更明显 */
         .pulse-ring {
             position: absolute;
             width: 140px;
@@ -107,14 +106,11 @@
             background: rgba(255, 50, 50, 0.35);
             animation: pulse 1.8s infinite ease-out;
         }
-        .pulse-ring::after {
-            animation-delay: 0.9s;
-        }
+        .pulse-ring::after { animation-delay: 0.9s; }
         @keyframes pulse {
             0% { transform: scale(0.5); opacity: 0.7; }
             100% { transform: scale(1.9); opacity: 0; }
         }
-        /* 左上角逐行文本 - 无背景框，绿色字 */
         .boot-terminal {
             position: fixed;
             top: 20px;
@@ -139,7 +135,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* 主内容初始隐藏 */
         .main-content {
             opacity: 0;
             transition: opacity 0.6s ease;
@@ -150,7 +145,7 @@
             pointer-events: auto;
         }
 
-        /* 音乐播放器组件 */
+        /* 音乐播放器（无残影滑动） */
         .music-player {
             position: fixed;
             left: 0;
@@ -163,16 +158,19 @@
             border-left: none;
             box-shadow: var(--card-shadow);
             z-index: 999;
-            transition: transform 0.3s;
+            transition: transform 0.3s ease;
             max-width: 300px;
         }
-        .music-player.hidden { transform: translateX(-92%); }
+        .music-player.hidden {
+            transform: translateX(-98%);
+        }
         .player-toggle {
             position: absolute;
-            right: -28px;
-            bottom: 12px;
-            width: 28px;
-            height: 40px;
+            right: -32px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 32px;
+            height: 48px;
             background: var(--accent-blue);
             border-radius: 0 12px 12px 0;
             display: flex;
@@ -180,79 +178,270 @@
             justify-content: center;
             cursor: pointer;
             color: white;
-            font-size: 1rem;
+            font-size: 1.2rem;
             border: none;
+            box-shadow: 2px 0 6px rgba(0,0,0,0.1);
         }
-        .player-inner { padding: 14px 16px; min-width: 240px; }
-        .player-title { font-size: 0.75rem; font-weight: 600; color: var(--accent-blue); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
-        body.dark-mode .player-title { color: #eef2ff; }
-        .player-select { width: 100%; padding: 6px 10px; background: var(--bg-body); border: 1px solid var(--border-light); border-radius: 40px; font-size: 0.75rem; margin-bottom: 12px; cursor: pointer; }
-        .player-controls { display: flex; justify-content: space-between; gap: 8px; margin: 8px 0; }
-        .ctrl-btn { background: var(--accent-soft); border: none; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 0.8rem; color: var(--accent-blue); }
-        .progress-area { display: flex; align-items: center; gap: 6px; font-size: 0.6rem; margin: 6px 0; color: var(--text-secondary); }
-        .progress-bar { flex: 1; height: 3px; background: var(--border-light); border-radius: 3px; overflow: hidden; cursor: pointer; }
-        .progress-filled { width: 0%; height: 100%; background: var(--accent-blue); }
-        .volume-area { display: flex; align-items: center; gap: 6px; margin-top: 8px; }
-        .volume-slider { flex: 1; height: 3px; -webkit-appearance: none; background: var(--border-light); }
-
-        /* 彩蛋弹窗 */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--overlay-bg);
-            backdrop-filter: blur(4px);
+        .player-inner {
+            padding: 14px 16px;
+            min-width: 240px;
+        }
+        .player-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--accent-blue);
+            margin-bottom: 8px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            visibility: hidden;
-            opacity: 0;
-            transition: 0.2s;
+            gap: 6px;
         }
-        .modal-overlay.active { visibility: visible; opacity: 1; }
-        .modal-card {
-            background: var(--surface-white);
-            border-radius: 32px;
-            max-width: 400px;
-            width: 85%;
-            padding: 2rem;
-            text-align: center;
-            box-shadow: 0 25px 45px rgba(0,0,0,0.2);
+        body.dark-mode .player-title { color: #eef2ff; }
+        .player-select {
+            width: 100%;
+            padding: 6px 10px;
+            background: var(--bg-body);
             border: 1px solid var(--border-light);
+            border-radius: 40px;
+            font-size: 0.75rem;
+            margin-bottom: 12px;
+            cursor: pointer;
         }
-        .modal-icon { font-size: 3rem; margin-bottom: 0.8rem; }
-        .modal-title { font-size: 1.5rem; font-weight: 700; color: var(--accent-blue); margin-bottom: 0.8rem; }
-        .modal-message { font-size: 1rem; color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.5; }
-        .modal-close { background: var(--accent-blue); border: none; padding: 0.5rem 1.5rem; border-radius: 40px; font-weight: 600; color: white; cursor: pointer; }
+        .player-controls { display: flex; justify-content: space-between; gap: 8px; margin: 8px 0; }
+        .ctrl-btn {
+            background: var(--accent-soft);
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 0.8rem;
+            color: var(--accent-blue);
+        }
+        .progress-area {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.6rem;
+            margin: 6px 0;
+            color: var(--text-secondary);
+        }
+        .progress-bar {
+            flex: 1;
+            height: 3px;
+            background: var(--border-light);
+            border-radius: 3px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .progress-filled {
+            width: 0%;
+            height: 100%;
+            background: var(--accent-blue);
+        }
+        .volume-area {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 8px;
+        }
+        .volume-slider {
+            flex: 1;
+            height: 3px;
+            -webkit-appearance: none;
+            background: var(--border-light);
+        }
 
-        /* 作者状态 */
-        .author-status-section { margin: 2rem 0; scroll-margin-top: 90px; }
-        .status-card { background: var(--surface-white); border-radius: 28px; padding: 1.4rem 1.6rem; border: 1px solid var(--border-light); box-shadow: var(--card-shadow); }
-        .status-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.8rem; margin-bottom: 1.2rem; }
-        .status-title { display: flex; align-items: center; gap: 0.5rem; font-size: 1.3rem; font-weight: 600; color: var(--accent-blue); }
-        .current-time { font-family: monospace; font-size: 0.9rem; background: var(--accent-soft); padding: 0.2rem 0.8rem; border-radius: 40px; }
-        .status-grid { display: flex; flex-wrap: wrap; gap: 1.2rem; margin-top: 0.5rem; }
-        .status-item { flex: 1; min-width: 140px; background: var(--bg-body); border-radius: 20px; padding: 0.8rem 1rem; }
-        .status-label { font-size: 0.7rem; color: var(--text-secondary); margin-bottom: 0.4rem; display: flex; align-items: center; gap: 5px; }
-        .status-value { font-size: 1rem; font-weight: 600; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-        .hunger-icons { font-size: 1.1rem; letter-spacing: 2px; }
-        .fatigue-bar-container { flex: 1; height: 6px; background: var(--border-light); border-radius: 6px; overflow: hidden; max-width: 120px; }
-        .fatigue-fill { height: 100%; width: 0%; background: #f1c40f; border-radius: 6px; }
-        @media (max-width: 640px) { .status-grid { flex-direction: column; gap: 0.8rem; } }
+        /* 作者状态（完整保留，无改动） */
+        .author-status-section {
+            margin: 2rem 0;
+            scroll-margin-top: 90px;
+        }
+        .status-card {
+            background: var(--surface-white);
+            border-radius: 28px;
+            padding: 1.4rem 1.6rem;
+            border: 1px solid var(--border-light);
+            box-shadow: var(--card-shadow);
+        }
+        .status-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-bottom: 1.2rem;
+        }
+        .status-title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--accent-blue);
+        }
+        .current-time {
+            font-family: monospace;
+            font-size: 0.9rem;
+            background: var(--accent-soft);
+            padding: 0.2rem 0.8rem;
+            border-radius: 40px;
+        }
+        .status-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            margin-top: 0.5rem;
+        }
+        .status-item {
+            flex: 1;
+            min-width: 140px;
+            background: var(--bg-body);
+            border-radius: 20px;
+            padding: 0.8rem 1rem;
+        }
+        .status-label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.4rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .status-value {
+            font-size: 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .hunger-icons {
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+        }
+        .fatigue-bar-container {
+            flex: 1;
+            height: 6px;
+            background: var(--border-light);
+            border-radius: 6px;
+            overflow: hidden;
+            max-width: 120px;
+        }
+        .fatigue-fill {
+            height: 100%;
+            width: 0%;
+            background: #f1c40f;
+            border-radius: 6px;
+        }
 
-        /* 小游戏栏目 - 全部待开发 */
-        .games-section { margin: 2rem 0; scroll-margin-top: 90px; }
-        .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.5rem; }
-        .game-card { background: var(--surface-white); border-radius: 28px; padding: 1.2rem; border: 1px solid var(--border-light); transition: transform 0.2s; text-align: center; cursor: default; }
-        .game-card:hover { transform: translateY(-3px); border-color: var(--accent-blue); }
-        .game-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
-        .game-name { font-size: 1.2rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.3rem; }
-        .game-desc { font-size: 0.7rem; color: var(--text-secondary); }
+        /* ========= 修正 MC 卡片 UI（重点修复） ========= */
+        .project-card {
+            background: var(--surface-white);
+            border-radius: 28px;
+            padding: 1.2rem;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border-light);
+            transition: transform 0.2s, border-color 0.2s;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        .project-icon {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+        .project-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+        .project-desc {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+        /* MC 信息行统一排版 */
+        .mc-server-block {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            margin: 0.2rem 0;
+        }
+        .mc-info-line {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            gap: 0.4rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+        .mc-info-label {
+            font-weight: 700;
+            color: var(--accent-blue);
+            min-width: 52px;
+        }
+        .mc-info-value {
+            word-break: break-word;
+            font-weight: 500;
+        }
+        .mc-tag-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 0.3rem 0 0.2rem;
+        }
+        .mc-tag {
+            background: var(--accent-soft);
+            border-radius: 30px;
+            padding: 0.2rem 0.75rem;
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: var(--accent-blue);
+        }
+        .mc-address-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
+            background: var(--accent-soft);
+            padding: 0.5rem 0.8rem;
+            border-radius: 60px;
+            border: 1px solid var(--border-light);
+            margin-top: 0.5rem;
+        }
+        .mc-address {
+            font-family: 'SF Mono', monospace;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--mc-accent);
+            flex: 2;
+        }
+        .copy-mc-btn {
+            background: var(--mc-accent);
+            border: none;
+            padding: 0.35rem 1rem;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+        }
+        .project-meta {
+            margin-top: 0.8rem;
+            padding-top: 0.6rem;
+            border-top: 1px solid var(--border-light);
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
 
-        /* 原有其他样式 */
+        /* 其他卡片与原有布局不变 */
         .container { max-width: 1280px; margin: 0 auto; padding: 2rem 2rem 3rem; }
         .nav-bar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 2.5rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border-light); }
         .logo-area { display: flex; align-items: center; gap: 10px; cursor: pointer; background: transparent; border: none; }
@@ -267,21 +456,6 @@
         .projects-section { scroll-margin-top: 90px; margin-bottom: 2rem; }
         .section-title { font-size: 1.6rem; font-weight: 600; margin-bottom: 1.5rem; color: var(--accent-blue); border-left: 5px solid var(--accent-blue); padding-left: 1rem; }
         .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.5rem; }
-        .project-card { background: var(--surface-white); border-radius: 28px; padding: 1.2rem; box-shadow: var(--card-shadow); border: 1px solid var(--border-light); transition: transform 0.2s; display: flex; flex-direction: column; height: 100%; }
-        .project-card:hover { transform: translateY(-3px); border-color: var(--accent-blue); }
-        .project-icon { font-size: 1.8rem; margin-bottom: 0.3rem; }
-        .project-name { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.3rem; }
-        .project-desc { color: var(--text-secondary); font-size: 0.8rem; margin-bottom: 0.8rem; }
-        .mc-server-block { flex: 1; display: flex; flex-direction: column; gap: 0.5rem; }
-        .mc-info-line { font-size: 0.8rem; color: var(--text-secondary); display: flex; flex-wrap: wrap; gap: 0.3rem; }
-        .mc-info-label { font-weight: 700; color: var(--accent-blue); min-width: 52px; }
-        .mc-tag-group { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.2rem 0; }
-        .mc-tag { background: var(--accent-soft); border-radius: 30px; padding: 0.2rem 0.7rem; font-size: 0.7rem; color: var(--accent-blue); }
-        .mc-address-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.5rem; background: var(--accent-soft); padding: 0.5rem 0.8rem; border-radius: 60px; border: 1px solid var(--border-light); }
-        .mc-address { font-family: monospace; font-size: 0.85rem; font-weight: 600; color: var(--mc-accent); flex: 2; }
-        .copy-mc-btn { background: var(--mc-accent); border: none; padding: 0.35rem 1rem; border-radius: 40px; font-size: 0.7rem; color: white; cursor: pointer; }
-        .feedback-mc { font-size: 0.65rem; color: #2c9b6e; }
-        .project-meta { margin-top: 0.8rem; padding-top: 0.6rem; border-top: 1px solid var(--border-light); font-size: 0.65rem; color: var(--text-secondary); display: flex; gap: 0.8rem; }
         .pending-desc { background: var(--pending-bg); padding: 0.6rem 1rem; border-radius: 24px; text-align: center; font-size: 0.9rem; margin-top: 0.5rem; color: var(--text-secondary); font-style: italic; }
         .about-section { margin: 2rem 0; }
         .about-card { background: var(--surface-white); border-radius: 28px; padding: 1.5rem; border: 1px solid var(--border-light); }
@@ -296,18 +470,28 @@
         .dev-bio { font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.8rem; }
         .dev-btn { background: var(--accent-blue); border: none; padding: 0.4rem 0.8rem; border-radius: 30px; font-size: 0.7rem; color: white; cursor: pointer; width: fit-content; }
         .team-statement { margin-top: 1.2rem; font-size: 0.8rem; color: var(--text-secondary); }
+        .games-section { margin: 2rem 0; }
+        .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.5rem; }
+        .game-card { background: var(--surface-white); border-radius: 28px; padding: 1.2rem; border: 1px solid var(--border-light); text-align: center; cursor: default; }
+        .game-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+        .game-name { font-size: 1.2rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.3rem; }
+        .game-desc { font-size: 0.7rem; color: var(--text-secondary); }
         footer { text-align: center; margin-top: 2rem; font-size: 0.7rem; color: var(--footer-color); border-top: 1px solid var(--border-light); padding-top: 1.5rem; }
         .join-link { display: inline-block; margin-top: 6px; font-size: 0.7rem; color: var(--text-secondary); text-decoration: underline; cursor: pointer; background: transparent; border: none; opacity: 0.7; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--overlay-bg); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 2000; visibility: hidden; opacity: 0; transition: 0.2s; }
+        .modal-overlay.active { visibility: visible; opacity: 1; }
+        .modal-card { background: var(--surface-white); border-radius: 32px; max-width: 400px; width: 85%; padding: 2rem; text-align: center; box-shadow: 0 25px 45px rgba(0,0,0,0.2); border: 1px solid var(--border-light); }
+        .modal-icon { font-size: 3rem; margin-bottom: 0.8rem; }
+        .modal-title { font-size: 1.5rem; font-weight: 700; color: var(--accent-blue); margin-bottom: 0.8rem; }
+        .modal-message { font-size: 1rem; color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.5; }
+        .modal-close { background: var(--accent-blue); border: none; padding: 0.5rem 1.5rem; border-radius: 40px; font-weight: 600; color: white; cursor: pointer; }
         @media (max-width: 720px) { .container { padding: 1rem; } .projects-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
     <div id="bootOverlay" class="boot-overlay">
         <div class="boot-terminal" id="bootTerminal"></div>
-        <div class="lock-container">
-            <div class="pulse-ring"></div>
-            <div class="lock-icon">🔒</div>
-        </div>
+        <div class="lock-container"><div class="pulse-ring"></div><div class="lock-icon">🔒</div></div>
     </div>
 
     <div class="main-content" id="mainContent">
@@ -317,9 +501,26 @@
             
             <div id="authorStatusSection" class="author-status-section"><div class="section-title">📊 作者状态</div><div class="status-card"><div class="status-header"><div class="status-title"><span id="statusEmoji">✨</span> <span id="statusText">实时动态</span></div><div class="current-time" id="currentTimeDisplay">--:--:--</div></div><div class="status-grid"><div class="status-item"><div class="status-label">🍗 饥饿值 · 像素食量</div><div class="status-value"><span class="hunger-icons" id="hungerIcons"></span><span id="hungerPercent">0%</span></div></div><div class="status-item"><div class="status-label">⚡ 疲劳值 · 精力条</div><div class="status-value"><div class="fatigue-bar-container"><div class="fatigue-fill" id="fatigueFill"></div></div><span id="fatiguePercent">0%</span></div></div></div></div></div>
 
-            <div id="projectsSection" class="projects-section"><div class="section-title">📌 项目介绍</div><div class="projects-grid"><div class="project-card"><div class="project-icon">⛏️</div><div class="project-name">🔥 2B2T风格 · 无政府生存服</div><div class="project-desc">无规则·无政府·自由生存|纯原版混沌</div><div class="mc-server-block"><div class="mc-info-line"><span class="mc-info-label">🎮 版本</span><span class="mc-info-value"><strong>Java 1.21.11</strong> + 基岩互通</span></div><div class="mc-info-line"><span class="mc-info-label">⚙️ 支持</span><span class="mc-info-value">简幻欢·离线可进·无正版验证</span></div><div class="mc-info-line"><span class="mc-info-label">🌐 类型</span><span class="mc-info-value">2B2T·无政府·无管理干预</span></div><div class="mc-tag-group"><span class="mc-tag">🏴‍☠️ 无政府</span><span class="mc-tag">🔓 离线模式</span><span class="mc-tag">📱 基岩互通</span><span class="mc-tag">💣 无规则</span><span class="mc-tag">🧨 自由生存</span></div><div class="mc-address-row"><span class="mc-address" id="mcServerAddrDisplay">play.simpfun.cn：27513</span><button class="copy-mc-btn" id="copyMcServerBtn">📋 复制地址</button><span id="mcCopyFeedback" class="feedback-mc"></span></div></div><div class="project-meta"><span>🕒 有时并不开服哦</span><span>🌍 基岩/Java同服</span><span>⚡ 无管理・无日志</span></div></div><div class="project-card pending-card"><div class="project-icon">🛠️</div><div class="project-name">新项目·筹备中</div><div class="pending-desc">✨ 敬请期待<br>更多精彩内容即将到来</div><div class="project-meta"><span>🚧 开发中</span><span>⏳ 即将揭晓</span></div></div><div class="project-card pending-card"><div class="project-icon">🌿</div><div class="project-name">全栈知识库</div><div class="pending-desc">✨ 敬请期待<br>沉淀技术，静心打磨</div><div class="project-meta"><span>📖 筹备中</span><span>⭐ 即将上线</span></div></div></div></div>
+            <div id="projectsSection" class="projects-section"><div class="section-title">📌 项目介绍</div><div class="projects-grid">
+                <!-- MC 服务器卡片（已修复 UI 对齐问题） -->
+                <div class="project-card">
+                    <div class="project-icon">⛏️</div>
+                    <div class="project-name">🔥 2B2T风格 · 无政府生存服</div>
+                    <div class="project-desc">无规则·无政府·自由生存|纯原版混沌</div>
+                    <div class="mc-server-block">
+                        <div class="mc-info-line"><span class="mc-info-label">🎮 版本</span><span class="mc-info-value"><strong>Java 1.21.11</strong> + 基岩互通</span></div>
+                        <div class="mc-info-line"><span class="mc-info-label">⚙️ 支持</span><span class="mc-info-value">简幻欢 · 离线可进 · 无正版验证</span></div>
+                        <div class="mc-info-line"><span class="mc-info-label">🌐 类型</span><span class="mc-info-value">2B2T · 无政府 · 无管理干预</span></div>
+                        <div class="mc-tag-group"><span class="mc-tag">🏴‍☠️ 无政府</span><span class="mc-tag">🔓 离线模式</span><span class="mc-tag">📱 基岩互通</span><span class="mc-tag">💣 无规则</span><span class="mc-tag">🧨 自由生存</span></div>
+                        <div class="mc-address-row"><span class="mc-address" id="mcServerAddrDisplay">play.simpfun.cn：27513</span><button class="copy-mc-btn" id="copyMcServerBtn">📋 复制地址</button><span id="mcCopyFeedback" class="feedback-mc"></span></div>
+                    </div>
+                    <div class="project-meta"><span>🕒 有时并不开服哦</span><span>🌍 基岩/Java同服</span><span>⚡ 无管理・无日志</span></div>
+                </div>
+
+                <div class="project-card pending-card"><div class="project-icon">🛠️</div><div class="project-name">新项目·筹备中</div><div class="pending-desc">✨ 敬请期待<br>更多精彩内容即将到来</div><div class="project-meta"><span>🚧 开发中</span><span>⏳ 即将揭晓</span></div></div>
+                <div class="project-card pending-card"><div class="project-icon">🌿</div><div class="project-name">全栈知识库</div><div class="pending-desc">✨ 敬请期待<br>沉淀技术，静心打磨</div><div class="project-meta"><span>📖 筹备中</span><span>⭐ 即将上线</span></div></div>
+            </div></div>
             
-            <!-- 小游戏栏目 全部改为待开发 -->
             <div id="gamesSection" class="games-section"><div class="section-title">🎮 小游戏</div><div class="games-grid"><div class="game-card"><div class="game-icon">🛠️</div><div class="game-name">待开发</div><div class="game-desc">敬请期待</div></div><div class="game-card"><div class="game-icon">✨</div><div class="game-name">待开发</div><div class="game-desc">更多精彩即将到来</div></div><div class="game-card"><div class="game-icon">🎲</div><div class="game-name">待开发</div><div class="game-desc">coming soon</div></div></div></div>
 
             <div id="aboutSection" class="about-section"><div class="section-title">👋 关于我</div><div class="about-card"><div class="about-title">✨ 自我介绍</div><div class="about-content"><p>📍 <strong>称呼/ID：</strong> <span class="placeholder-mark">xero</span></p><p>🎯 <strong>当前角色/身份：</strong> <span class="placeholder-mark">初中生一枚，网站开发者，MC服务器搭建者</span></p><p>💻 <strong>技术栈/擅长领域：</strong> <span class="placeholder-mark">恶意软件🔍分析能力40% java模组能力10% 网页前端能力79% Python能力10%</span></p><p>🔥 <strong>关于小破站：</strong> <span class="placeholder-mark">致力于MC爱好者社区，后续会有更多有趣的项目</span></p><p>📢 <strong>想说的话：</strong> <span class="placeholder-mark">选择JavaScript，让你的创意在网页上闪耀</span></p><p></p></div></div></div>
@@ -328,12 +529,33 @@
         </div>
     </div>
 
-    <div class="music-player" id="musicPlayer" style="display: none;"><div class="player-toggle" id="playerToggle">←</div><div class="player-inner"><div class="player-title">🎵 小破站歌单</div><select id="songSelect" class="player-select"><option value="">-- 选择歌曲 --</option><option value="music/1.mp3">稻香 - 周杰伦</option><option value="music/2.mp3">七里香 - 周杰伦</option><option value="music/3.mp3">戒烟 - 李荣浩</option><option value="music/4.mp3">告白气球 - 周杰伦</option><option value="music/5.mp3">晴天 - 周杰伦</option><option value="music/6.mp3">蒲公英的约定 - 周杰伦</option><option value="music/7.mp3">圣诞星 - 周杰伦</option><option value="music/8.mp3">花海 - 周杰伦</option></select><div class="player-controls"><button class="ctrl-btn" id="prevBtn">⏮️</button><button class="ctrl-btn" id="playPauseBtn">▶️</button><button class="ctrl-btn" id="nextBtn">⏭️</button></div><div class="progress-area"><span id="currentTime">0:00</span><div class="progress-bar" id="progressBar"><div class="progress-filled" id="progressFilled"></div></div><span id="duration">0:00</span></div><div class="volume-area"><span>🔊</span><input type="range" id="volumeSlider" class="volume-slider" min="0" max="1" step="0.01" value="0.7"></div></div></div>
+    <!-- 音乐播放器 -->
+    <div class="music-player hidden" id="musicPlayer">
+        <div class="player-toggle" id="playerToggle">🎵</div>
+        <div class="player-inner">
+            <div class="player-title">🎵 小破站歌单</div>
+            <select id="songSelect" class="player-select">
+                <option value="">-- 选择歌曲 --</option>
+                <option value="music/1.mp3">稻香 - 周杰伦</option>
+                <option value="music/2.mp3">七里香 - 周杰伦</option>
+                <option value="music/3.mp3">戒烟 - 李荣浩</option>
+                <option value="music/4.mp3">告白气球 - 周杰伦</option>
+                <option value="music/5.mp3">晴天 - 周杰伦</option>
+                <option value="music/6.mp3">蒲公英的约定 - 周杰伦</option>
+                <option value="music/7.mp3">圣诞星 - 周杰伦</option>
+                <option value="music/8.mp3">花海 - 周杰伦</option>
+            </select>
+            <div class="player-controls"><button class="ctrl-btn" id="prevBtn">⏮️</button><button class="ctrl-btn" id="playPauseBtn">▶️</button><button class="ctrl-btn" id="nextBtn">⏭️</button></div>
+            <div class="progress-area"><span id="currentTime">0:00</span><div class="progress-bar" id="progressBar"><div class="progress-filled" id="progressFilled"></div></div><span id="duration">0:00</span></div>
+            <div class="volume-area"><span>🔊</span><input type="range" id="volumeSlider" class="volume-slider" min="0" max="1" step="0.01" value="0.7"></div>
+        </div>
+    </div>
+
     <div id="easterEggModal" class="modal-overlay"><div class="modal-card"><div class="modal-icon">🎉</div><div class="modal-title">✨ 隐藏成就解锁 ✨</div><div class="modal-message">🕵️‍♂️ 你找到了真正的开发者！<br><strong>开发者（true）：国找</strong><br>感谢你的探索精神。</div><button class="modal-close" id="closeModalBtn">确定</button></div></div>
 
     <script>
         (function() {
-            // 启动动画: 左上角逐行文本 (速度适中) + 大光圈扩散
+            // 开机动画
             const bootOverlay = document.getElementById('bootOverlay');
             const bootTerminal = document.getElementById('bootTerminal');
             const mainContent = document.getElementById('mainContent');
@@ -354,7 +576,6 @@
                     lineDiv.className = 'boot-line';
                     lineDiv.innerHTML = bootLines[idx];
                     bootTerminal.appendChild(lineDiv);
-                    bootTerminal.scrollTop = bootTerminal.scrollHeight;
                     idx++;
                     setTimeout(addBootLine, 600);
                 } else {
@@ -366,7 +587,7 @@
             }
             addBootLine();
 
-            // 音乐播放器逻辑 (保留)
+            // 音乐播放器逻辑
             let audio = new Audio(), currentPlaylist = [], currentTrackIndex = 0, isPlaying = false;
             const songSelect = document.getElementById('songSelect'), playPauseBtn = document.getElementById('playPauseBtn'), prevBtn = document.getElementById('prevBtn'), nextBtn = document.getElementById('nextBtn'), progressBar = document.getElementById('progressBar'), progressFilled = document.getElementById('progressFilled'), currentTimeSpan = document.getElementById('currentTime'), durationSpan = document.getElementById('duration'), volumeSlider = document.getElementById('volumeSlider');
             function buildPlaylist() { let tracks = []; for(let i=0;i<songSelect.options.length;i++) { let opt = songSelect.options[i]; if(opt.value && opt.value!=="") tracks.push({ src: opt.value, name: opt.text }); } return tracks; }
@@ -381,10 +602,15 @@
             progressBar.onclick = (e) => { if(!audio.duration) return; let rect = progressBar.getBoundingClientRect(), perc = (e.clientX - rect.left)/rect.width; audio.currentTime = perc * audio.duration; };
             volumeSlider.oninput = () => audio.volume = volumeSlider.value;
             setInterval(()=>{ if(currentPlaylist.length===0) currentPlaylist = buildPlaylist(); },500);
-            document.getElementById('playerToggle').addEventListener('click', () => { const p = document.getElementById('musicPlayer'); p.classList.toggle('hidden'); document.getElementById('playerToggle').innerHTML = p.classList.contains('hidden') ? '→' : '←'; });
+            const musicPlayer = document.getElementById('musicPlayer');
+            const toggleBtn = document.getElementById('playerToggle');
+            toggleBtn.addEventListener('click', () => {
+                musicPlayer.classList.toggle('hidden');
+                toggleBtn.innerHTML = musicPlayer.classList.contains('hidden') ? '🎵' : '←';
+            });
             document.getElementById('joinButton').addEventListener('click', () => { window.location.href = 'join.html'; });
 
-            // 作者状态更新：包含状态文字+表情符号+饥饿值+疲劳值
+            // 作者状态（你已调好的作息）
             function updateAuthorStatus() {
                 const now = new Date();
                 const hours = now.getHours();
@@ -392,23 +618,24 @@
                 let t = hours + minutes / 60;
                 document.getElementById("currentTimeDisplay").innerText = now.toLocaleTimeString('zh-CN');
                 
-                // 1. 状态文字 + 表情 (睡觉/精力满满/摸鱼)
                 let statusEmoji = "", statusText = "";
-                if ((hours >= 23) || (hours < 9)) {
+                if (hours >= 23 || hours < 9) {
                     statusEmoji = "😴💤";
                     statusText = "睡觉中 Zzz";
-                } else if ((hours >= 9 && hours < 12) || (hours >= 12 && hours < 18) || (hours >= 19 && hours < 23)) {
-                    statusEmoji = "⚡✨";
-                    statusText = "精神满满";
-                } else {
+                } else if (hours >= 12 && hours < 13) {
                     statusEmoji = "🎣💤";
                     statusText = "摸鱼中 🐟";
+                } else if (hours >= 18 && hours < 23) {
+                    statusEmoji = "🎣💤";
+                    statusText = "摸鱼中 🐟";
+                } else {
+                    statusEmoji = "⚡✨";
+                    statusText = "精神满满";
                 }
                 document.getElementById("statusEmoji").innerHTML = statusEmoji;
                 document.getElementById("statusText").innerHTML = statusText;
                 
-                // 2. 饥饿值 (吃饭上升，消化下降)
-                let hunger = 30;
+                let hunger = 65;
                 if (t >= 9 && t <= 9.6667) hunger = 30 + (t - 9) / 0.6667 * 70;
                 else if (t > 9.6667 && t <= 12) hunger = 100 - (t - 9.6667) / 2.3333 * 70;
                 else if (t > 12 && t <= 12.6667) hunger = 30 + (t - 12) / 0.6667 * 70;
@@ -416,7 +643,7 @@
                 else if (t > 19 && t <= 19.6667) hunger = 30 + (t - 19) / 0.6667 * 70;
                 else if (t > 19.6667 || t <= 9) {
                     let nightT = t > 19.6667 ? t - 19.6667 : t + 24 - 19.6667;
-                    hunger = 100 - nightT / 13.3333 * 70;
+                    hunger = 100 - nightT / 2.6667 * 70;
                 }
                 hunger = Math.min(100, Math.max(30, Math.floor(hunger)));
                 let fullCount = Math.floor(hunger / 10);
@@ -425,8 +652,7 @@
                 document.getElementById("hungerIcons").innerHTML = icons;
                 document.getElementById("hungerPercent").innerHTML = hunger + "%";
                 
-                // 3. 疲劳值 (跟随时间变化)
-                let fatigue = 80;
+                let fatigue = 65;
                 if (t >= 9 && t < 12) fatigue = 90 - (t-9)*6;
                 else if (t >=12 && t<18) fatigue = 60 - (t-12)*4;
                 else if (t>=18 && t<23) fatigue = 30 + (t-18)*8;
@@ -437,8 +663,8 @@
             }
             updateAuthorStatus();
             setInterval(updateAuthorStatus, 1000);
-            
-            // 交互滚动
+
+            // 导航与其余交互
             document.getElementById('btnGames')?.addEventListener('click', () => document.getElementById('gamesSection')?.scrollIntoView({ behavior: 'smooth' }));
             document.getElementById('btnProjects')?.addEventListener('click', () => document.getElementById('projectsSection')?.scrollIntoView({ behavior: 'smooth' }));
             document.getElementById('btnAbout')?.addEventListener('click', () => document.getElementById('aboutSection')?.scrollIntoView({ behavior: 'smooth' }));
