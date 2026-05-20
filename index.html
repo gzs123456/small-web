@@ -53,9 +53,10 @@
             line-height: 1.45;
             scroll-behavior: smooth;
             overflow-x: hidden;
+            transition: background-color 0.25s ease, color 0.2s ease;
         }
 
-        /* 开机动画 */
+        /* 开机动画（完好保留） */
         .boot-overlay {
             position: fixed;
             top: 0;
@@ -181,274 +182,94 @@
             font-size: 1.2rem;
             border: none;
             box-shadow: 2px 0 6px rgba(0,0,0,0.1);
+            transition: 0.1s transform;
         }
-        .player-inner {
-            padding: 14px 16px;
-            min-width: 240px;
-        }
-        .player-title {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--accent-blue);
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
+        .player-toggle:active { transform: translateY(-50%) scale(0.94); }
+        .player-inner { padding: 14px 16px; min-width: 240px; }
+        .player-title { font-size: 0.75rem; font-weight: 600; color: var(--accent-blue); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
         body.dark-mode .player-title { color: #eef2ff; }
-        .player-select {
-            width: 100%;
-            padding: 6px 10px;
-            background: var(--bg-body);
-            border: 1px solid var(--border-light);
-            border-radius: 40px;
-            font-size: 0.75rem;
-            margin-bottom: 12px;
-            cursor: pointer;
-        }
+        body.dark-mode .player-select,
+        body.dark-mode .ctrl-btn,
+        body.dark-mode .progress-area,
+        body.dark-mode .volume-area { color: #eef2ff; }
+        body.dark-mode .player-select option { background: #1e2538; color: #eef2ff; }
+        .player-select { width: 100%; padding: 6px 10px; background: var(--bg-body); border: 1px solid var(--border-light); border-radius: 40px; font-size: 0.75rem; margin-bottom: 12px; cursor: pointer; color: var(--text-primary); }
         .player-controls { display: flex; justify-content: space-between; gap: 8px; margin: 8px 0; }
-        .ctrl-btn {
-            background: var(--accent-soft);
-            border: none;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 0.8rem;
-            color: var(--accent-blue);
-        }
-        .progress-area {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.6rem;
-            margin: 6px 0;
-            color: var(--text-secondary);
-        }
-        .progress-bar {
-            flex: 1;
-            height: 3px;
-            background: var(--border-light);
-            border-radius: 3px;
-            overflow: hidden;
-            cursor: pointer;
-        }
-        .progress-filled {
-            width: 0%;
-            height: 100%;
-            background: var(--accent-blue);
-        }
-        .volume-area {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            margin-top: 8px;
-        }
-        .volume-slider {
-            flex: 1;
-            height: 3px;
-            -webkit-appearance: none;
-            background: var(--border-light);
-        }
+        .ctrl-btn { background: var(--accent-soft); border: none; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 0.8rem; color: var(--accent-blue); transition: 0.1s transform; }
+        .ctrl-btn:active { transform: scale(0.92); }
+        .progress-area { display: flex; align-items: center; gap: 6px; font-size: 0.6rem; margin: 6px 0; color: var(--text-secondary); }
+        .progress-bar { flex: 1; height: 3px; background: var(--border-light); border-radius: 3px; overflow: hidden; cursor: pointer; }
+        .progress-filled { width: 0%; height: 100%; background: var(--accent-blue); }
+        .volume-area { display: flex; align-items: center; gap: 6px; margin-top: 8px; }
+        .volume-slider { flex: 1; height: 3px; -webkit-appearance: none; background: var(--border-light); }
 
-        /* 作者状态（完整保留，无改动） */
-        .author-status-section {
-            margin: 2rem 0;
-            scroll-margin-top: 90px;
-        }
-        .status-card {
-            background: var(--surface-white);
-            border-radius: 28px;
-            padding: 1.4rem 1.6rem;
-            border: 1px solid var(--border-light);
-            box-shadow: var(--card-shadow);
-        }
-        .status-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 0.8rem;
-            margin-bottom: 1.2rem;
-        }
-        .status-title {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: var(--accent-blue);
-        }
-        .current-time {
-            font-family: monospace;
-            font-size: 0.9rem;
-            background: var(--accent-soft);
-            padding: 0.2rem 0.8rem;
-            border-radius: 40px;
-        }
-        .status-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.2rem;
-            margin-top: 0.5rem;
-        }
-        .status-item {
-            flex: 1;
-            min-width: 140px;
-            background: var(--bg-body);
-            border-radius: 20px;
-            padding: 0.8rem 1rem;
-        }
-        .status-label {
-            font-size: 0.7rem;
-            color: var(--text-secondary);
-            margin-bottom: 0.4rem;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .status-value {
-            font-size: 1rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-        .hunger-icons {
-            font-size: 1.1rem;
-            letter-spacing: 2px;
-        }
-        .fatigue-bar-container {
-            flex: 1;
-            height: 6px;
-            background: var(--border-light);
-            border-radius: 6px;
-            overflow: hidden;
-            max-width: 120px;
-        }
-        .fatigue-fill {
-            height: 100%;
-            width: 0%;
-            background: #f1c40f;
-            border-radius: 6px;
-        }
+        /* 作者状态 */
+        .author-status-section { margin: 2rem 0; scroll-margin-top: 90px; }
+        .status-card { background: var(--surface-white); border-radius: 28px; padding: 1.4rem 1.6rem; border: 1px solid var(--border-light); box-shadow: var(--card-shadow); }
+        .status-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.8rem; margin-bottom: 1.2rem; }
+        .status-title { display: flex; align-items: center; gap: 0.5rem; font-size: 1.3rem; font-weight: 600; color: var(--accent-blue); }
+        .current-time { font-family: monospace; font-size: 0.9rem; background: var(--accent-soft); padding: 0.2rem 0.8rem; border-radius: 40px; }
+        .status-grid { display: flex; flex-wrap: wrap; gap: 1.2rem; margin-top: 0.5rem; }
+        .status-item { flex: 1; min-width: 140px; background: var(--bg-body); border-radius: 20px; padding: 0.8rem 1rem; }
+        .status-label { font-size: 0.7rem; color: var(--text-secondary); margin-bottom: 0.4rem; display: flex; align-items: center; gap: 5px; }
+        .status-value { font-size: 1rem; font-weight: 600; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .hunger-icons { font-size: 1.1rem; letter-spacing: 2px; }
+        .fatigue-bar-container { flex: 1; height: 6px; background: var(--border-light); border-radius: 6px; overflow: hidden; max-width: 120px; }
+        .fatigue-fill { height: 100%; width: 0%; background: #f1c40f; border-radius: 6px; }
 
-        /* ========= 修正 MC 卡片 UI（重点修复） ========= */
-        .project-card {
-            background: var(--surface-white);
-            border-radius: 28px;
-            padding: 1.2rem;
-            box-shadow: var(--card-shadow);
-            border: 1px solid var(--border-light);
-            transition: transform 0.2s, border-color 0.2s;
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-        .project-icon {
-            font-size: 1.8rem;
-            margin-bottom: 0.5rem;
-        }
-        .project-name {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: var(--text-primary);
-        }
-        .project-desc {
-            color: var(--text-secondary);
-            font-size: 0.8rem;
-            margin-bottom: 1rem;
-            line-height: 1.4;
-        }
-        /* MC 信息行统一排版 */
-        .mc-server-block {
-            display: flex;
-            flex-direction: column;
-            gap: 0.6rem;
-            margin: 0.2rem 0;
-        }
-        .mc-info-line {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: baseline;
-            gap: 0.4rem;
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            line-height: 1.4;
-        }
-        .mc-info-label {
-            font-weight: 700;
-            color: var(--accent-blue);
-            min-width: 52px;
-        }
-        .mc-info-value {
-            word-break: break-word;
-            font-weight: 500;
-        }
-        .mc-tag-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin: 0.3rem 0 0.2rem;
-        }
-        .mc-tag {
-            background: var(--accent-soft);
-            border-radius: 30px;
-            padding: 0.2rem 0.75rem;
-            font-size: 0.7rem;
-            font-weight: 500;
-            color: var(--accent-blue);
-        }
-        .mc-address-row {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: space-between;
-            gap: 0.5rem;
-            background: var(--accent-soft);
-            padding: 0.5rem 0.8rem;
-            border-radius: 60px;
-            border: 1px solid var(--border-light);
-            margin-top: 0.5rem;
-        }
-        .mc-address {
-            font-family: 'SF Mono', monospace;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--mc-accent);
-            flex: 2;
-        }
-        .copy-mc-btn {
-            background: var(--mc-accent);
-            border: none;
-            padding: 0.35rem 1rem;
-            border-radius: 40px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            color: white;
-            cursor: pointer;
-        }
-        .project-meta {
-            margin-top: 0.8rem;
-            padding-top: 0.6rem;
-            border-top: 1px solid var(--border-light);
-            font-size: 0.65rem;
-            color: var(--text-secondary);
-            display: flex;
-            gap: 0.8rem;
-            flex-wrap: wrap;
-        }
+        /* 项目卡片 */
+        .project-card { background: var(--surface-white); border-radius: 28px; padding: 1.2rem; box-shadow: var(--card-shadow); border: 1px solid var(--border-light); transition: transform 0.2s, border-color 0.2s; display: flex; flex-direction: column; height: 100%; }
+        .project-icon { font-size: 1.8rem; margin-bottom: 0.5rem; }
+        .project-name { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-primary); }
+        .project-desc { color: var(--text-secondary); font-size: 0.8rem; margin-bottom: 1rem; line-height: 1.4; }
+        .mc-server-block { display: flex; flex-direction: column; gap: 0.6rem; margin: 0.2rem 0; }
+        .mc-info-line { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.4rem; font-size: 0.8rem; color: var(--text-secondary); line-height: 1.4; }
+        .mc-info-label { font-weight: 700; color: var(--accent-blue); min-width: 52px; }
+        .mc-info-value { word-break: break-word; font-weight: 500; }
+        .mc-tag-group { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.3rem 0 0.2rem; }
+        .mc-tag { background: var(--accent-soft); border-radius: 30px; padding: 0.2rem 0.75rem; font-size: 0.7rem; font-weight: 500; color: var(--accent-blue); }
+        .mc-address-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.5rem; background: var(--accent-soft); padding: 0.5rem 0.8rem; border-radius: 60px; border: 1px solid var(--border-light); margin-top: 0.5rem; }
+        .mc-address { font-family: 'SF Mono', monospace; font-size: 0.85rem; font-weight: 600; color: var(--mc-accent); flex: 2; }
+        .copy-mc-btn { background: var(--mc-accent); border: none; padding: 0.35rem 1rem; border-radius: 40px; font-size: 0.7rem; font-weight: 600; color: white; cursor: pointer; transition: 0.08s linear; }
+        .copy-mc-btn:active { transform: scale(0.96); }
+        .project-meta { margin-top: 0.8rem; padding-top: 0.6rem; border-top: 1px solid var(--border-light); font-size: 0.65rem; color: var(--text-secondary); display: flex; gap: 0.8rem; flex-wrap: wrap; }
+        .pending-desc { background: var(--pending-bg); padding: 0.6rem 1rem; border-radius: 24px; text-align: center; font-size: 0.9rem; margin-top: 0.5rem; color: var(--text-secondary); font-style: italic; }
 
-        /* 其他卡片与原有布局不变 */
+        /* 更新日志卡片 */
+        .changelog-section { margin: 2.5rem 0; scroll-margin-top: 90px; }
+        .changelog-card { background: var(--surface-white); border-radius: 28px; padding: 1.4rem 1.6rem; border: 1px solid var(--border-light); box-shadow: var(--card-shadow); }
+        .changelog-list { margin-top: 0.8rem; padding-left: 1.2rem; display: flex; flex-direction: column; gap: 0.75rem; }
+        .changelog-list li { color: var(--text-secondary); font-size: 0.85rem; line-height: 1.5; }
+
+        /* 自我介绍（完整 UI） */
+        .about-section { margin: 2rem 0; scroll-margin-top: 90px; }
+        .about-card { background: var(--surface-white); border-radius: 28px; padding: 1.5rem; border: 1px solid var(--border-light); box-shadow: var(--card-shadow); }
+        .about-title { font-size: 1.4rem; font-weight: 700; color: var(--accent-blue); margin-bottom: 1rem; }
+        .about-content p { margin-bottom: 0.9rem; color: var(--text-secondary); line-height: 1.5; }
+        .about-content p:last-child { margin-bottom: 0; }
+        .placeholder-mark { background: rgba(217, 83, 79, 0.1); color: var(--warning-red); padding: 0.1rem 0.3rem; border-radius: 8px; display: inline-block; }
+
+        /* 开发人员 */
+        .developers-section { margin-bottom: 1.5rem; scroll-margin-top: 90px; }
+        .dev-grid { display: flex; flex-wrap: wrap; gap: 1.5rem; }
+        .dev-card { background: var(--surface-white); border-radius: 24px; padding: 1.2rem; flex: 1; min-width: 240px; border: 1px solid var(--border-light); box-shadow: var(--card-shadow); }
+        .dev-name { font-size: 1.25rem; font-weight: 700; color: var(--accent-blue); }
+        .dev-role { font-size: 0.7rem; color: var(--text-secondary); margin-bottom: 0.7rem; }
+        .dev-bio { font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.8rem; line-height: 1.4; }
+        .dev-btn { background: var(--accent-blue); border: none; padding: 0.4rem 0.8rem; border-radius: 30px; font-size: 0.7rem; color: white; cursor: pointer; width: fit-content; transition: 0.08s; }
+        .dev-btn:active { transform: scale(0.96); }
+        .team-statement { margin-top: 1.2rem; font-size: 0.8rem; color: var(--text-secondary); }
+
+        /* 公用组件 */
         .container { max-width: 1280px; margin: 0 auto; padding: 2rem 2rem 3rem; }
         .nav-bar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 2.5rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border-light); }
-        .logo-area { display: flex; align-items: center; gap: 10px; cursor: pointer; background: transparent; border: none; }
+        .logo-area { display: flex; align-items: center; gap: 10px; cursor: pointer; background: transparent; border: none; outline: none; box-shadow: none; transition: 0.05s; }
+        .logo-area:active { transform: scale(0.97); }
         .logo-icon { background: var(--accent-blue); width: 38px; height: 38px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.2rem; color: white; }
         .logo-text { font-weight: 700; font-size: 1.3rem; background: linear-gradient(130deg, var(--accent-blue), #1a4f72); background-clip: text; -webkit-background-clip: text; color: transparent; }
         .nav-links { display: flex; gap: 1rem; align-items: center; }
-        .nav-btn { background: transparent; border: 1px solid var(--border-light); padding: 0.45rem 1.2rem; border-radius: 40px; font-weight: 500; font-size: 0.85rem; color: var(--text-secondary); cursor: pointer; background-color: var(--surface-white); }
+        .nav-btn { background: transparent; border: 1px solid var(--border-light); padding: 0.45rem 1.2rem; border-radius: 40px; font-weight: 500; font-size: 0.85rem; color: var(--text-secondary); cursor: pointer; background-color: var(--surface-white); transition: 0.08s; }
+        .nav-btn:active { transform: scale(0.96); }
         .hero-section { text-align: center; margin-bottom: 2rem; }
         .hero-section h1 { font-size: 3rem; background: linear-gradient(125deg, var(--accent-blue), #1a435c); background-clip: text; -webkit-background-clip: text; color: transparent; }
         .badge-group { display: flex; justify-content: center; gap: 0.8rem; margin-top: 1.2rem; flex-wrap: wrap; }
@@ -456,35 +277,75 @@
         .projects-section { scroll-margin-top: 90px; margin-bottom: 2rem; }
         .section-title { font-size: 1.6rem; font-weight: 600; margin-bottom: 1.5rem; color: var(--accent-blue); border-left: 5px solid var(--accent-blue); padding-left: 1rem; }
         .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.5rem; }
-        .pending-desc { background: var(--pending-bg); padding: 0.6rem 1rem; border-radius: 24px; text-align: center; font-size: 0.9rem; margin-top: 0.5rem; color: var(--text-secondary); font-style: italic; }
-        .about-section { margin: 2rem 0; }
-        .about-card { background: var(--surface-white); border-radius: 28px; padding: 1.5rem; border: 1px solid var(--border-light); }
-        .about-title { font-size: 1.4rem; font-weight: 700; color: var(--accent-blue); margin-bottom: 1rem; }
-        .about-content p { margin-bottom: 1rem; }
-        .placeholder-mark { background: rgba(217, 83, 79, 0.1); color: var(--warning-red); padding: 0.1rem 0.3rem; border-radius: 8px; display: inline-block; }
-        .developers-section { margin-bottom: 1.5rem; }
-        .dev-grid { display: flex; flex-wrap: wrap; gap: 1.5rem; }
-        .dev-card { background: var(--surface-white); border-radius: 24px; padding: 1.2rem; flex: 1; min-width: 240px; border: 1px solid var(--border-light); }
-        .dev-name { font-size: 1.25rem; font-weight: 700; color: var(--accent-blue); }
-        .dev-role { font-size: 0.7rem; color: var(--text-secondary); margin-bottom: 0.7rem; }
-        .dev-bio { font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.8rem; }
-        .dev-btn { background: var(--accent-blue); border: none; padding: 0.4rem 0.8rem; border-radius: 30px; font-size: 0.7rem; color: white; cursor: pointer; width: fit-content; }
-        .team-statement { margin-top: 1.2rem; font-size: 0.8rem; color: var(--text-secondary); }
-        .games-section { margin: 2rem 0; }
+        .games-section { margin: 2rem 0; scroll-margin-top: 90px; }
         .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.5rem; }
-        .game-card { background: var(--surface-white); border-radius: 28px; padding: 1.2rem; border: 1px solid var(--border-light); text-align: center; cursor: default; }
+        .game-card { background: var(--surface-white); border-radius: 28px; padding: 1.2rem; border: 1px solid var(--border-light); text-align: center; cursor: default; transition: 0.08s; }
+        .game-card:active { transform: scale(0.98); }
         .game-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
         .game-name { font-size: 1.2rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.3rem; }
         .game-desc { font-size: 0.7rem; color: var(--text-secondary); }
         footer { text-align: center; margin-top: 2rem; font-size: 0.7rem; color: var(--footer-color); border-top: 1px solid var(--border-light); padding-top: 1.5rem; }
         .join-link { display: inline-block; margin-top: 6px; font-size: 0.7rem; color: var(--text-secondary); text-decoration: underline; cursor: pointer; background: transparent; border: none; opacity: 0.7; }
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--overlay-bg); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 2000; visibility: hidden; opacity: 0; transition: 0.2s; }
-        .modal-overlay.active { visibility: visible; opacity: 1; }
-        .modal-card { background: var(--surface-white); border-radius: 32px; max-width: 400px; width: 85%; padding: 2rem; text-align: center; box-shadow: 0 25px 45px rgba(0,0,0,0.2); border: 1px solid var(--border-light); }
-        .modal-icon { font-size: 3rem; margin-bottom: 0.8rem; }
-        .modal-title { font-size: 1.5rem; font-weight: 700; color: var(--accent-blue); margin-bottom: 0.8rem; }
-        .modal-message { font-size: 1rem; color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.5; }
-        .modal-close { background: var(--accent-blue); border: none; padding: 0.5rem 1.5rem; border-radius: 40px; font-weight: 600; color: white; cursor: pointer; }
+        .join-link:active { opacity: 0.5; }
+
+        /* 彩蛋模态窗（完整恢复样式） */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--overlay-bg);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0.2s, opacity 0.2s;
+        }
+        .modal-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+        .modal-card {
+            background: var(--surface-white);
+            border-radius: 32px;
+            max-width: 400px;
+            width: 85%;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 25px 45px rgba(0,0,0,0.2);
+            border: 1px solid var(--border-light);
+        }
+        .modal-icon {
+            font-size: 3rem;
+            margin-bottom: 0.8rem;
+        }
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+            margin-bottom: 0.8rem;
+        }
+        .modal-message {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+        .modal-close {
+            background: var(--accent-blue);
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: white;
+            cursor: pointer;
+        }
+
         @media (max-width: 720px) { .container { padding: 1rem; } .projects-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
@@ -496,40 +357,36 @@
 
     <div class="main-content" id="mainContent">
         <div class="container">
-            <div class="nav-bar"><button class="logo-area" id="secretClickBtn"><div class="logo-icon">✕</div><div class="logo-text">Xero / 小破站</div></button><div class="nav-links"><button class="nav-btn" id="btnProjects">📁 项目介绍</button><button class="nav-btn" id="btnGames">🎮 小游戏</button><button class="nav-btn" id="btnAbout">👤 自我介绍</button><button class="nav-btn" id="btnDevelopers">👨‍💻 开发人员</button><button class="nav-btn" id="darkModeToggle">🌙 深色模式</button></div></div>
+            <div class="nav-bar">
+                <button class="logo-area" id="secretClickBtn"><div class="logo-icon">✕</div><div class="logo-text">Xero / 小破站</div></button>
+                <div class="nav-links">
+                    <button class="nav-btn" id="btnProjects">📁 项目介绍</button>
+                    <button class="nav-btn" id="btnGames">🎮 小游戏</button>
+                    <button class="nav-btn" id="btnChangelog">📋 更新日志</button>
+                    <button class="nav-btn" id="btnAbout">👤 自我介绍</button>
+                    <button class="nav-btn" id="btnDevelopers">👨‍💻 开发人员</button>
+                    <button class="nav-btn" id="darkModeToggle">🌙 深色模式</button>
+                </div>
+            </div>
             <div class="hero-section"><h1>一个小破站 · 游戏与分析</h1><div class="hero-desc">2B2T风格MC服务器 | 待开发项目敬请期待</div><div class="badge-group"><span class="badge">🔥 2B2T·无政府</span><span class="badge">🛠️ 项目筹备中</span><span class="badge">⚡ 基岩互通</span></div></div>
             
             <div id="authorStatusSection" class="author-status-section"><div class="section-title">📊 作者状态</div><div class="status-card"><div class="status-header"><div class="status-title"><span id="statusEmoji">✨</span> <span id="statusText">实时动态</span></div><div class="current-time" id="currentTimeDisplay">--:--:--</div></div><div class="status-grid"><div class="status-item"><div class="status-label">🍗 饥饿值 · 像素食量</div><div class="status-value"><span class="hunger-icons" id="hungerIcons"></span><span id="hungerPercent">0%</span></div></div><div class="status-item"><div class="status-label">⚡ 疲劳值 · 精力条</div><div class="status-value"><div class="fatigue-bar-container"><div class="fatigue-fill" id="fatigueFill"></div></div><span id="fatiguePercent">0%</span></div></div></div></div></div>
 
             <div id="projectsSection" class="projects-section"><div class="section-title">📌 项目介绍</div><div class="projects-grid">
-                <!-- MC 服务器卡片（已修复 UI 对齐问题） -->
-                <div class="project-card">
-                    <div class="project-icon">⛏️</div>
-                    <div class="project-name">🔥 2B2T风格 · 无政府生存服</div>
-                    <div class="project-desc">无规则·无政府·自由生存|纯原版混沌</div>
-                    <div class="mc-server-block">
-                        <div class="mc-info-line"><span class="mc-info-label">🎮 版本</span><span class="mc-info-value"><strong>Java 1.21.11</strong> + 基岩互通</span></div>
-                        <div class="mc-info-line"><span class="mc-info-label">⚙️ 支持</span><span class="mc-info-value">简幻欢 · 离线可进 · 无正版验证</span></div>
-                        <div class="mc-info-line"><span class="mc-info-label">🌐 类型</span><span class="mc-info-value">2B2T · 无政府 · 无管理干预</span></div>
-                        <div class="mc-tag-group"><span class="mc-tag">🏴‍☠️ 无政府</span><span class="mc-tag">🔓 离线模式</span><span class="mc-tag">📱 基岩互通</span><span class="mc-tag">💣 无规则</span><span class="mc-tag">🧨 自由生存</span></div>
-                        <div class="mc-address-row"><span class="mc-address" id="mcServerAddrDisplay">play.simpfun.cn：27513</span><button class="copy-mc-btn" id="copyMcServerBtn">📋 复制地址</button><span id="mcCopyFeedback" class="feedback-mc"></span></div>
-                    </div>
-                    <div class="project-meta"><span>🕒 有时并不开服哦</span><span>🌍 基岩/Java同服</span><span>⚡ 无管理・无日志</span></div>
-                </div>
-
+                <div class="project-card"><div class="project-icon">⛏️</div><div class="project-name">🔥 2B2T风格 · 无政府生存服</div><div class="project-desc">无规则·无政府·自由生存|纯原版混沌</div><div class="mc-server-block"><div class="mc-info-line"><span class="mc-info-label">🎮 版本</span><span class="mc-info-value"><strong>Java 1.21.11</strong> + 基岩互通</span></div><div class="mc-info-line"><span class="mc-info-label">⚙️ 支持</span><span class="mc-info-value">简幻欢 · 离线可进 · 无正版验证</span></div><div class="mc-info-line"><span class="mc-info-label">🌐 类型</span><span class="mc-info-value">2B2T · 无政府 · 无管理干预</span></div><div class="mc-tag-group"><span class="mc-tag">🏴‍☠️ 无政府</span><span class="mc-tag">🔓 离线模式</span><span class="mc-tag">📱 基岩互通</span><span class="mc-tag">💣 无规则</span><span class="mc-tag">🧨 自由生存</span></div><div class="mc-address-row"><span class="mc-address" id="mcServerAddrDisplay">play.simpfun.cn：27513</span><button class="copy-mc-btn" id="copyMcServerBtn">📋 复制地址</button><span id="mcCopyFeedback" class="feedback-mc"></span></div></div><div class="project-meta"><span>🕒 有时并不开服哦</span><span>🌍 基岩/Java同服</span><span>⚡ 无管理・无日志</span></div></div>
                 <div class="project-card pending-card"><div class="project-icon">🛠️</div><div class="project-name">新项目·筹备中</div><div class="pending-desc">✨ 敬请期待<br>更多精彩内容即将到来</div><div class="project-meta"><span>🚧 开发中</span><span>⏳ 即将揭晓</span></div></div>
                 <div class="project-card pending-card"><div class="project-icon">🌿</div><div class="project-name">全栈知识库</div><div class="pending-desc">✨ 敬请期待<br>沉淀技术，静心打磨</div><div class="project-meta"><span>📖 筹备中</span><span>⭐ 即将上线</span></div></div>
             </div></div>
             
-            <div id="gamesSection" class="games-section"><div class="section-title">🎮 小游戏</div><div class="games-grid"><div class="game-card"><div class="game-icon">🛠️</div><div class="game-name">待开发</div><div class="game-desc">敬请期待</div></div><div class="game-card"><div class="game-icon">✨</div><div class="game-name">待开发</div><div class="game-desc">更多精彩即将到来</div></div><div class="game-card"><div class="game-icon">🎲</div><div class="game-name">待开发</div><div class="game-desc">coming soon</div></div></div></div>
+            <div id="changelogSection" class="changelog-section"><div class="section-title">📋 更新日志</div><div class="changelog-card"><ul class="changelog-list"><li>🎵 2025.05.19 — 修复深色模式歌单文字颜色、增加按钮点击反馈、优化深色模式切换过渡</li><li>🎨 2025.05.18 — 新增作者状态、音乐播放器滑动收展、开机动画彩蛋</li><li>🚀 2025.05.17 — 小破站基础框架上线，MC服务器信息、待开发项目展示</li></ul></div></div>
 
             <div id="aboutSection" class="about-section"><div class="section-title">👋 关于我</div><div class="about-card"><div class="about-title">✨ 自我介绍</div><div class="about-content"><p>📍 <strong>称呼/ID：</strong> <span class="placeholder-mark">xero</span></p><p>🎯 <strong>当前角色/身份：</strong> <span class="placeholder-mark">初中生一枚，网站开发者，MC服务器搭建者</span></p><p>💻 <strong>技术栈/擅长领域：</strong> <span class="placeholder-mark">恶意软件🔍分析能力40% java模组能力10% 网页前端能力79% Python能力10%</span></p><p>🔥 <strong>关于小破站：</strong> <span class="placeholder-mark">致力于MC爱好者社区，后续会有更多有趣的项目</span></p><p>📢 <strong>想说的话：</strong> <span class="placeholder-mark">选择JavaScript，让你的创意在网页上闪耀</span></p><p></p></div></div></div>
+
             <div id="developersSection" class="developers-section"><div class="section-title">👥 开发人员</div><div class="dev-grid"><div class="dev-card"><div class="dev-name">DeepSeek R1</div><div class="dev-role">AI技术顾问</div><div class="dev-bio">为技术盲点提供底层支持，解答疑难杂症。</div><button class="dev-btn" id="deepseekBtn">🚀 直达DeepSeek官网</button></div><div class="dev-card"><div class="dev-name">Xero（站长）</div><div class="dev-role">全栈开发·服务器主理</div><div class="dev-bio">网页设计、MC服务器搭建，2B2T生态建设者。</div></div><div class="dev-card"><div class="dev-name">健胃消食片</div><div class="dev-role">服务器运维·安全顾问</div><div class="dev-bio">负责服务器日常维护、网站漏洞发掘与安全加固。</div></div><div class="dev-card"><div class="dev-name">铃铃</div><div class="dev-role">技术安全员 · 技术与情绪支持</div><div class="dev-bio">提供技术灵感、情绪价值和陪伴。</div></div><div class="dev-card"><div class="dev-name">虚位以待</div><div class="dev-role">开放席位</div><div class="dev-bio">欢迎联系站长，一同建设小破站。</div></div><div class="dev-card"><div class="dev-name">虚位以待</div><div class="dev-role">后端/安全方向</div><div class="dev-bio">贡献代码或运维经验。</div></div></div><div class="team-statement">📢 个人致力于纯粹的技术与游戏社区，无政府服务器无管理干预。</div></div>
             <footer>✕ 小破站 · 2B2T无政府MC | 基岩互通·离线可进 | 新项目筹备中，敬请期待<br><button class="join-link" id="joinButton">加入点我</button></footer>
         </div>
     </div>
 
-    <!-- 音乐播放器 -->
     <div class="music-player hidden" id="musicPlayer">
         <div class="player-toggle" id="playerToggle">🎵</div>
         <div class="player-inner">
@@ -551,43 +408,26 @@
         </div>
     </div>
 
-    <div id="easterEggModal" class="modal-overlay"><div class="modal-card"><div class="modal-icon">🎉</div><div class="modal-title">✨ 隐藏成就解锁 ✨</div><div class="modal-message">🕵️‍♂️ 你找到了真正的开发者！<br><strong>开发者（true）：国找</strong><br>感谢你的探索精神。</div><button class="modal-close" id="closeModalBtn">确定</button></div></div>
+    <!-- 彩蛋弹窗（样式和逻辑完全恢复） -->
+    <div id="easterEggModal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-icon">🎉</div>
+            <div class="modal-title">✨ 隐藏成就解锁 ✨</div>
+            <div class="modal-message">🕵️‍♂️ 你找到了真正的开发者！<br><strong>开发者（true）：国找</strong><br>感谢你的探索精神，欢迎来到小破站的后台彩蛋。</div>
+            <button class="modal-close" id="closeModalBtn">确定</button>
+        </div>
+    </div>
 
     <script>
         (function() {
-            // 开机动画
             const bootOverlay = document.getElementById('bootOverlay');
             const bootTerminal = document.getElementById('bootTerminal');
             const mainContent = document.getElementById('mainContent');
-            const bootLines = [
-                "> 初始化 Xero 安全核心...",
-                "> 加载边缘加密模块 [TLS 1.3] ✅",
-                "> 验证安全证书 ................ [OK]",
-                "> 🔒 建立安全信道 | 激活隐私保护",
-                "> 证书链校验 ................ 合法",
-                "> 边缘节点健康检查 ............ 认证通过",
-                "> 📜 实时日志聚合 · 审计轨迹 已加载",
-                "> 🛡️ 防护策略就绪，正在进入网站..."
-            ];
+            const bootLines = ["> 初始化 Xero 安全核心...","> 加载边缘加密模块 [TLS 1.3] ✅","> 验证安全证书 ................ [OK]","> 🔒 建立安全信道 | 激活隐私保护","> 证书链校验 ................ 合法","> 边缘节点健康检查 ............ 认证通过","> 📜 实时日志聚合 · 审计轨迹 已加载","> 🛡️ 防护策略就绪，正在进入网站..."];
             let idx = 0;
-            function addBootLine() {
-                if(idx < bootLines.length) {
-                    const lineDiv = document.createElement('div');
-                    lineDiv.className = 'boot-line';
-                    lineDiv.innerHTML = bootLines[idx];
-                    bootTerminal.appendChild(lineDiv);
-                    idx++;
-                    setTimeout(addBootLine, 600);
-                } else {
-                    setTimeout(() => {
-                        bootOverlay.classList.add('hidden');
-                        mainContent.classList.add('visible');
-                    }, 600);
-                }
-            }
+            function addBootLine() { if(idx < bootLines.length) { const div = document.createElement('div'); div.className = 'boot-line'; div.innerHTML = bootLines[idx]; bootTerminal.appendChild(div); idx++; setTimeout(addBootLine, 600); } else { setTimeout(() => { bootOverlay.classList.add('hidden'); mainContent.classList.add('visible'); }, 600); } }
             addBootLine();
 
-            // 音乐播放器逻辑
             let audio = new Audio(), currentPlaylist = [], currentTrackIndex = 0, isPlaying = false;
             const songSelect = document.getElementById('songSelect'), playPauseBtn = document.getElementById('playPauseBtn'), prevBtn = document.getElementById('prevBtn'), nextBtn = document.getElementById('nextBtn'), progressBar = document.getElementById('progressBar'), progressFilled = document.getElementById('progressFilled'), currentTimeSpan = document.getElementById('currentTime'), durationSpan = document.getElementById('duration'), volumeSlider = document.getElementById('volumeSlider');
             function buildPlaylist() { let tracks = []; for(let i=0;i<songSelect.options.length;i++) { let opt = songSelect.options[i]; if(opt.value && opt.value!=="") tracks.push({ src: opt.value, name: opt.text }); } return tracks; }
@@ -604,69 +444,15 @@
             setInterval(()=>{ if(currentPlaylist.length===0) currentPlaylist = buildPlaylist(); },500);
             const musicPlayer = document.getElementById('musicPlayer');
             const toggleBtn = document.getElementById('playerToggle');
-            toggleBtn.addEventListener('click', () => {
-                musicPlayer.classList.toggle('hidden');
-                toggleBtn.innerHTML = musicPlayer.classList.contains('hidden') ? '🎵' : '←';
-            });
+            toggleBtn.addEventListener('click', () => { musicPlayer.classList.toggle('hidden'); toggleBtn.innerHTML = musicPlayer.classList.contains('hidden') ? '🎵' : '←'; });
             document.getElementById('joinButton').addEventListener('click', () => { window.location.href = 'join.html'; });
 
-            // 作者状态（你已调好的作息）
-            function updateAuthorStatus() {
-                const now = new Date();
-                const hours = now.getHours();
-                const minutes = now.getMinutes();
-                let t = hours + minutes / 60;
-                document.getElementById("currentTimeDisplay").innerText = now.toLocaleTimeString('zh-CN');
-                
-                let statusEmoji = "", statusText = "";
-                if (hours >= 23 || hours < 9) {
-                    statusEmoji = "😴💤";
-                    statusText = "睡觉中 Zzz";
-                } else if (hours >= 12 && hours < 13) {
-                    statusEmoji = "🎣💤";
-                    statusText = "摸鱼中 🐟";
-                } else if (hours >= 18 && hours < 23) {
-                    statusEmoji = "🎣💤";
-                    statusText = "摸鱼中 🐟";
-                } else {
-                    statusEmoji = "⚡✨";
-                    statusText = "精神满满";
-                }
-                document.getElementById("statusEmoji").innerHTML = statusEmoji;
-                document.getElementById("statusText").innerHTML = statusText;
-                
-                let hunger = 65;
-                if (t >= 9 && t <= 9.6667) hunger = 30 + (t - 9) / 0.6667 * 70;
-                else if (t > 9.6667 && t <= 12) hunger = 100 - (t - 9.6667) / 2.3333 * 70;
-                else if (t > 12 && t <= 12.6667) hunger = 30 + (t - 12) / 0.6667 * 70;
-                else if (t > 12.6667 && t <= 19) hunger = 100 - (t - 12.6667) / 6.3333 * 70;
-                else if (t > 19 && t <= 19.6667) hunger = 30 + (t - 19) / 0.6667 * 70;
-                else if (t > 19.6667 || t <= 9) {
-                    let nightT = t > 19.6667 ? t - 19.6667 : t + 24 - 19.6667;
-                    hunger = 100 - nightT / 2.6667 * 70;
-                }
-                hunger = Math.min(100, Math.max(30, Math.floor(hunger)));
-                let fullCount = Math.floor(hunger / 10);
-                let icons = "";
-                for(let i=0;i<10;i++) icons += i < fullCount ? "🍖" : "🫙";
-                document.getElementById("hungerIcons").innerHTML = icons;
-                document.getElementById("hungerPercent").innerHTML = hunger + "%";
-                
-                let fatigue = 65;
-                if (t >= 9 && t < 12) fatigue = 90 - (t-9)*6;
-                else if (t >=12 && t<18) fatigue = 60 - (t-12)*4;
-                else if (t>=18 && t<23) fatigue = 30 + (t-18)*8;
-                else fatigue = 70 - ((t>=23?t-23:t+24-23))*5;
-                fatigue = Math.min(95, Math.max(25, Math.floor(fatigue)));
-                document.getElementById("fatigueFill").style.width = fatigue + "%";
-                document.getElementById("fatiguePercent").innerText = fatigue + "%";
-            }
-            updateAuthorStatus();
-            setInterval(updateAuthorStatus, 1000);
+            function updateAuthorStatus() { const now = new Date(); const hours = now.getHours(); const minutes = now.getMinutes(); let t = hours + minutes / 60; document.getElementById("currentTimeDisplay").innerText = now.toLocaleTimeString('zh-CN'); let statusEmoji = "", statusText = ""; if (hours >= 23 || hours < 9) { statusEmoji = "😴💤"; statusText = "睡觉中 Zzz"; } else if (hours >= 12 && hours < 13) { statusEmoji = "🎣💤"; statusText = "摸鱼中 🐟"; } else if (hours >= 18 && hours < 23) { statusEmoji = "🎣💤"; statusText = "摸鱼中 🐟"; } else { statusEmoji = "⚡✨"; statusText = "精神满满"; } document.getElementById("statusEmoji").innerHTML = statusEmoji; document.getElementById("statusText").innerHTML = statusText; let hunger = 65; if (t >= 9 && t <= 9.6667) hunger = 30 + (t - 9) / 0.6667 * 70; else if (t > 9.6667 && t <= 12) hunger = 100 - (t - 9.6667) / 2.3333 * 70; else if (t > 12 && t <= 12.6667) hunger = 30 + (t - 12) / 0.6667 * 70; else if (t > 12.6667 && t <= 19) hunger = 100 - (t - 12.6667) / 6.3333 * 70; else if (t > 19 && t <= 19.6667) hunger = 30 + (t - 19) / 0.6667 * 70; else if (t > 19.6667 || t <= 9) { let nightT = t > 19.6667 ? t - 19.6667 : t + 24 - 19.6667; hunger = 100 - nightT / 2.6667 * 70; } hunger = Math.min(100, Math.max(30, Math.floor(hunger))); let fullCount = Math.floor(hunger / 10); let icons = ""; for(let i=0;i<10;i++) icons += i < fullCount ? "🍖" : "🫙"; document.getElementById("hungerIcons").innerHTML = icons; document.getElementById("hungerPercent").innerHTML = hunger + "%"; let fatigue = 65; if (t >= 9 && t < 12) fatigue = 90 - (t-9)*6; else if (t >=12 && t<18) fatigue = 60 - (t-12)*4; else if (t>=18 && t<23) fatigue = 30 + (t-18)*8; else fatigue = 70 - ((t>=23?t-23:t+24-23))*5; fatigue = Math.min(95, Math.max(25, Math.floor(fatigue))); document.getElementById("fatigueFill").style.width = fatigue + "%"; document.getElementById("fatiguePercent").innerText = fatigue + "%"; }
+            updateAuthorStatus(); setInterval(updateAuthorStatus, 1000);
 
-            // 导航与其余交互
-            document.getElementById('btnGames')?.addEventListener('click', () => document.getElementById('gamesSection')?.scrollIntoView({ behavior: 'smooth' }));
             document.getElementById('btnProjects')?.addEventListener('click', () => document.getElementById('projectsSection')?.scrollIntoView({ behavior: 'smooth' }));
+            document.getElementById('btnGames')?.addEventListener('click', () => document.getElementById('gamesSection')?.scrollIntoView({ behavior: 'smooth' }));
+            document.getElementById('btnChangelog')?.addEventListener('click', () => document.getElementById('changelogSection')?.scrollIntoView({ behavior: 'smooth' }));
             document.getElementById('btnAbout')?.addEventListener('click', () => document.getElementById('aboutSection')?.scrollIntoView({ behavior: 'smooth' }));
             document.getElementById('btnDevelopers')?.addEventListener('click', () => document.getElementById('developersSection')?.scrollIntoView({ behavior: 'smooth' }));
             const dt = document.getElementById('darkModeToggle');
@@ -675,10 +461,24 @@
             const copyBtn = document.getElementById('copyMcServerBtn'), serverSpan = document.getElementById('mcServerAddrDisplay'), fb = document.getElementById('mcCopyFeedback');
             if(copyBtn) copyBtn.onclick = async () => { let addr = serverSpan.innerText.trim(); try { await navigator.clipboard.writeText(addr); fb.innerText='✅ 已复制'; setTimeout(()=>fb.innerText='',1500); } catch { let ta=document.createElement('textarea'); ta.value=addr; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); fb.innerText='📋 已复制'; setTimeout(()=>fb.innerText='',1500); } };
             document.getElementById('deepseekBtn')?.addEventListener('click',()=>window.open('https://www.deepseek.com/','_blank'));
-            const secret = document.getElementById('secretClickBtn'), modal = document.getElementById('easterEggModal'), closeModal = document.getElementById('closeModalBtn');
-            let clickCnt=0, timer=null;
-            secret?.addEventListener('click', () => { clickCnt++; if(timer) clearTimeout(timer); timer = setTimeout(() => { clickCnt=0; }, 1200); if(clickCnt === 5) { modal.classList.add('active'); clickCnt=0; if(timer) clearTimeout(timer); } });
-            closeModal?.addEventListener('click', () => modal.classList.remove('active'));
+            const secret = document.getElementById('secretClickBtn');
+            const modal = document.getElementById('easterEggModal');
+            const closeModal = document.getElementById('closeModalBtn');
+            let clickCnt = 0, timer = null;
+            if (secret) {
+                secret.addEventListener('click', () => {
+                    clickCnt++;
+                    if (timer) clearTimeout(timer);
+                    timer = setTimeout(() => { clickCnt = 0; }, 1200);
+                    if (clickCnt === 5) {
+                        modal.classList.add('active');
+                        clickCnt = 0;
+                        if (timer) clearTimeout(timer);
+                    }
+                });
+            }
+            if (closeModal) closeModal.addEventListener('click', () => modal.classList.remove('active'));
+            if (modal) modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('active'); });
         })();
     </script>
 </body>
