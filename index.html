@@ -56,92 +56,8 @@
             transition: background-color 0.25s ease, color 0.2s ease;
         }
 
-        /* 开机动画（完好保留） */
-        .boot-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #0a0f1a;
-            z-index: 10000;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.8s ease, visibility 0.8s;
-        }
-        .boot-overlay.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-        .lock-container {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        .lock-icon {
-            font-size: 80px;
-            filter: drop-shadow(0 0 8px rgba(255,50,50,0.8));
-            z-index: 2;
-        }
-        .pulse-ring {
-            position: absolute;
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            background: rgba(255, 50, 50, 0.35);
-            animation: pulse 1.8s infinite ease-out;
-            pointer-events: none;
-        }
-        .pulse-ring::before, .pulse-ring::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: rgba(255, 50, 50, 0.35);
-            animation: pulse 1.8s infinite ease-out;
-        }
-        .pulse-ring::after { animation-delay: 0.9s; }
-        @keyframes pulse {
-            0% { transform: scale(0.5); opacity: 0.7; }
-            100% { transform: scale(1.9); opacity: 0; }
-        }
-        .boot-terminal {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.85rem;
-            color: #0f0;
-            z-index: 10001;
-            max-width: 420px;
-            pointer-events: none;
-        }
-        .boot-line {
-            opacity: 0;
-            transform: translateY(5px);
-            animation: fadeUp 0.3s forwards;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            margin-bottom: 6px;
-        }
-        @keyframes fadeUp {
-            to { opacity: 1; transform: translateY(0); }
-        }
-
+        /* 主内容直接可见，无启动覆盖层 */
         .main-content {
-            opacity: 0;
-            transition: opacity 0.6s ease;
-            pointer-events: none;
-        }
-        .main-content.visible {
             opacity: 1;
             pointer-events: auto;
         }
@@ -288,7 +204,7 @@
         .join-link { display: inline-block; margin-top: 6px; font-size: 0.7rem; color: var(--text-secondary); text-decoration: underline; cursor: pointer; background: transparent; border: none; opacity: 0.7; }
         .join-link:active { opacity: 0.5; }
 
-        /* 彩蛋模态窗（完整恢复样式） */
+        /* 彩蛋模态窗 */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -350,12 +266,7 @@
     </style>
 </head>
 <body>
-    <div id="bootOverlay" class="boot-overlay">
-        <div class="boot-terminal" id="bootTerminal"></div>
-        <div class="lock-container"><div class="pulse-ring"></div><div class="lock-icon">🔒</div></div>
-    </div>
-
-    <div class="main-content" id="mainContent">
+    <div class="main-content">
         <div class="container">
             <div class="nav-bar">
                 <button class="logo-area" id="secretClickBtn"><div class="logo-icon">✕</div><div class="logo-text">Xero / 小破站</div></button>
@@ -408,7 +319,7 @@
         </div>
     </div>
 
-    <!-- 彩蛋弹窗（样式和逻辑完全恢复） -->
+    <!-- 彩蛋弹窗 -->
     <div id="easterEggModal" class="modal-overlay">
         <div class="modal-card">
             <div class="modal-icon">🎉</div>
@@ -420,14 +331,7 @@
 
     <script>
         (function() {
-            const bootOverlay = document.getElementById('bootOverlay');
-            const bootTerminal = document.getElementById('bootTerminal');
-            const mainContent = document.getElementById('mainContent');
-            const bootLines = ["> 初始化 Xero 安全核心...","> 加载边缘加密模块 [TLS 1.3] ✅","> 验证安全证书 ................ [OK]","> 🔒 建立安全信道 | 激活隐私保护","> 证书链校验 ................ 合法","> 边缘节点健康检查 ............ 认证通过","> 📜 实时日志聚合 · 审计轨迹 已加载","> 🛡️ 防护策略就绪，正在进入网站..."];
-            let idx = 0;
-            function addBootLine() { if(idx < bootLines.length) { const div = document.createElement('div'); div.className = 'boot-line'; div.innerHTML = bootLines[idx]; bootTerminal.appendChild(div); idx++; setTimeout(addBootLine, 600); } else { setTimeout(() => { bootOverlay.classList.add('hidden'); mainContent.classList.add('visible'); }, 600); } }
-            addBootLine();
-
+            // 音乐播放器逻辑
             let audio = new Audio(), currentPlaylist = [], currentTrackIndex = 0, isPlaying = false;
             const songSelect = document.getElementById('songSelect'), playPauseBtn = document.getElementById('playPauseBtn'), prevBtn = document.getElementById('prevBtn'), nextBtn = document.getElementById('nextBtn'), progressBar = document.getElementById('progressBar'), progressFilled = document.getElementById('progressFilled'), currentTimeSpan = document.getElementById('currentTime'), durationSpan = document.getElementById('duration'), volumeSlider = document.getElementById('volumeSlider');
             function buildPlaylist() { let tracks = []; for(let i=0;i<songSelect.options.length;i++) { let opt = songSelect.options[i]; if(opt.value && opt.value!=="") tracks.push({ src: opt.value, name: opt.text }); } return tracks; }
@@ -447,9 +351,58 @@
             toggleBtn.addEventListener('click', () => { musicPlayer.classList.toggle('hidden'); toggleBtn.innerHTML = musicPlayer.classList.contains('hidden') ? '🎵' : '←'; });
             document.getElementById('joinButton').addEventListener('click', () => { window.location.href = 'join.html'; });
 
-            function updateAuthorStatus() { const now = new Date(); const hours = now.getHours(); const minutes = now.getMinutes(); let t = hours + minutes / 60; document.getElementById("currentTimeDisplay").innerText = now.toLocaleTimeString('zh-CN'); let statusEmoji = "", statusText = ""; if (hours >= 23 || hours < 9) { statusEmoji = "😴💤"; statusText = "睡觉中 Zzz"; } else if (hours >= 12 && hours < 13) { statusEmoji = "🎣💤"; statusText = "摸鱼中 🐟"; } else if (hours >= 18 && hours < 23) { statusEmoji = "🎣💤"; statusText = "摸鱼中 🐟"; } else { statusEmoji = "⚡✨"; statusText = "精神满满"; } document.getElementById("statusEmoji").innerHTML = statusEmoji; document.getElementById("statusText").innerHTML = statusText; let hunger = 65; if (t >= 9 && t <= 9.6667) hunger = 30 + (t - 9) / 0.6667 * 70; else if (t > 9.6667 && t <= 12) hunger = 100 - (t - 9.6667) / 2.3333 * 70; else if (t > 12 && t <= 12.6667) hunger = 30 + (t - 12) / 0.6667 * 70; else if (t > 12.6667 && t <= 19) hunger = 100 - (t - 12.6667) / 6.3333 * 70; else if (t > 19 && t <= 19.6667) hunger = 30 + (t - 19) / 0.6667 * 70; else if (t > 19.6667 || t <= 9) { let nightT = t > 19.6667 ? t - 19.6667 : t + 24 - 19.6667; hunger = 100 - nightT / 2.6667 * 70; } hunger = Math.min(100, Math.max(30, Math.floor(hunger))); let fullCount = Math.floor(hunger / 10); let icons = ""; for(let i=0;i<10;i++) icons += i < fullCount ? "🍖" : "🫙"; document.getElementById("hungerIcons").innerHTML = icons; document.getElementById("hungerPercent").innerHTML = hunger + "%"; let fatigue = 65; if (t >= 9 && t < 12) fatigue = 90 - (t-9)*6; else if (t >=12 && t<18) fatigue = 60 - (t-12)*4; else if (t>=18 && t<23) fatigue = 30 + (t-18)*8; else fatigue = 70 - ((t>=23?t-23:t+24-23))*5; fatigue = Math.min(95, Math.max(25, Math.floor(fatigue))); document.getElementById("fatigueFill").style.width = fatigue + "%"; document.getElementById("fatiguePercent").innerText = fatigue + "%"; }
-            updateAuthorStatus(); setInterval(updateAuthorStatus, 1000);
+            // 作者状态
+            function updateAuthorStatus() {
+                const now = new Date();
+                const hours = now.getHours();
+                const minutes = now.getMinutes();
+                let t = hours + minutes / 60;
+                document.getElementById("currentTimeDisplay").innerText = now.toLocaleTimeString('zh-CN');
+                let statusEmoji = "", statusText = "";
+                if (hours >= 23 || hours < 9) {
+                    statusEmoji = "😴💤";
+                    statusText = "睡觉中 Zzz";
+                } else if (hours >= 12 && hours < 13) {
+                    statusEmoji = "🎣💤";
+                    statusText = "摸鱼中 🐟";
+                } else if (hours >= 18 && hours < 23) {
+                    statusEmoji = "🎣💤";
+                    statusText = "摸鱼中 🐟";
+                } else {
+                    statusEmoji = "⚡✨";
+                    statusText = "精神满满";
+                }
+                document.getElementById("statusEmoji").innerHTML = statusEmoji;
+                document.getElementById("statusText").innerHTML = statusText;
+                let hunger = 65;
+                if (t >= 9 && t <= 9.6667) hunger = 30 + (t - 9) / 0.6667 * 70;
+                else if (t > 9.6667 && t <= 12) hunger = 100 - (t - 9.6667) / 2.3333 * 70;
+                else if (t > 12 && t <= 12.6667) hunger = 30 + (t - 12) / 0.6667 * 70;
+                else if (t > 12.6667 && t <= 19) hunger = 100 - (t - 12.6667) / 6.3333 * 70;
+                else if (t > 19 && t <= 19.6667) hunger = 30 + (t - 19) / 0.6667 * 70;
+                else if (t > 19.6667 || t <= 9) {
+                    let nightT = t > 19.6667 ? t - 19.6667 : t + 24 - 19.6667;
+                    hunger = 100 - nightT / 2.6667 * 70;
+                }
+                hunger = Math.min(100, Math.max(30, Math.floor(hunger)));
+                let fullCount = Math.floor(hunger / 10);
+                let icons = "";
+                for(let i=0;i<10;i++) icons += i < fullCount ? "🍖" : "🫙";
+                document.getElementById("hungerIcons").innerHTML = icons;
+                document.getElementById("hungerPercent").innerHTML = hunger + "%";
+                let fatigue = 65;
+                if (t >= 9 && t < 12) fatigue = 90 - (t-9)*6;
+                else if (t >=12 && t<18) fatigue = 60 - (t-12)*4;
+                else if (t>=18 && t<23) fatigue = 30 + (t-18)*8;
+                else fatigue = 70 - ((t>=23?t-23:t+24-23))*5;
+                fatigue = Math.min(95, Math.max(25, Math.floor(fatigue)));
+                document.getElementById("fatigueFill").style.width = fatigue + "%";
+                document.getElementById("fatiguePercent").innerText = fatigue + "%";
+            }
+            updateAuthorStatus();
+            setInterval(updateAuthorStatus, 1000);
 
+            // 导航滚动
             document.getElementById('btnProjects')?.addEventListener('click', () => document.getElementById('projectsSection')?.scrollIntoView({ behavior: 'smooth' }));
             document.getElementById('btnGames')?.addEventListener('click', () => document.getElementById('gamesSection')?.scrollIntoView({ behavior: 'smooth' }));
             document.getElementById('btnChangelog')?.addEventListener('click', () => document.getElementById('changelogSection')?.scrollIntoView({ behavior: 'smooth' }));
@@ -461,6 +414,8 @@
             const copyBtn = document.getElementById('copyMcServerBtn'), serverSpan = document.getElementById('mcServerAddrDisplay'), fb = document.getElementById('mcCopyFeedback');
             if(copyBtn) copyBtn.onclick = async () => { let addr = serverSpan.innerText.trim(); try { await navigator.clipboard.writeText(addr); fb.innerText='✅ 已复制'; setTimeout(()=>fb.innerText='',1500); } catch { let ta=document.createElement('textarea'); ta.value=addr; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); fb.innerText='📋 已复制'; setTimeout(()=>fb.innerText='',1500); } };
             document.getElementById('deepseekBtn')?.addEventListener('click',()=>window.open('https://www.deepseek.com/','_blank'));
+            
+            // 彩蛋：连续点击左上角5次
             const secret = document.getElementById('secretClickBtn');
             const modal = document.getElementById('easterEggModal');
             const closeModal = document.getElementById('closeModalBtn');
