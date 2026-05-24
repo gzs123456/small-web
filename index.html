@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Xero小破站 | 2B2T·无政府MC & 待开发项目</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -30,6 +31,7 @@
             --pending-bg: #f9fafc;
             --warning-red: #d9534f;
             --overlay-bg: rgba(0,0,0,0.5);
+            --toast-bg: rgba(0,0,0,0.75);
         }
 
         body.dark-mode {
@@ -47,6 +49,7 @@
             --pending-bg: #1a1f2c;
             --warning-red: #c9302c;
             --overlay-bg: rgba(0,0,0,0.7);
+            --toast-bg: rgba(0,0,0,0.85);
         }
 
         body {
@@ -58,6 +61,28 @@
             overflow-x: hidden;
             transition: background-color 0.25s ease, color 0.2s ease;
         }
+
+        .global-toast {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--toast-bg);
+            backdrop-filter: blur(12px);
+            color: white;
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            z-index: 10002;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            pointer-events: none;
+            white-space: nowrap;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .global-toast.show { opacity: 1; }
 
         .main-content { opacity: 1; pointer-events: auto; }
 
@@ -245,6 +270,13 @@
         .modal-message { font-size: 1rem; color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.5; }
         .modal-close { background: var(--accent-blue); border: none; padding: 0.5rem 1.5rem; border-radius: 40px; font-weight: 600; color: white; cursor: pointer; }
         @media (max-width: 720px) { .container { padding: 1rem; } .projects-grid { grid-template-columns: 1fr; } .rec-card-mini { width: 220px; } .rec-emoji { width: 44px; height: 44px; font-size: 1.8rem; } .rec-modal-emoji { width: 90px; height: 90px; font-size: 3.6rem; } }
+
+        /* 强制看板娘及画布贴右 */
+        #live2d-widget,
+        #live2d-widget canvas {
+            right: 0 !important;
+            left: auto !important;
+        }
     </style>
 </head>
 <body>
@@ -296,8 +328,41 @@
 
 <div id="recModal" class="rec-modal"><div class="rec-modal-card"><button class="rec-modal-close" id="recModalCloseBtn">&times;</button><div id="recModalEmoji" class="rec-modal-emoji">🌐</div><div id="recModalName" class="rec-modal-name"></div><div id="recModalIntro" class="rec-modal-intro"></div><div class="rec-modal-buttons"><button id="recModalVisitBtn" class="rec-modal-btn">🌐 访问官网</button><button id="recModalInnerClose" class="rec-modal-btn rec-modal-btn-outline">关闭</button></div></div></div>
 
+<div id="globalToast" class="global-toast">已复制</div>
+
+<!-- 看板娘（原来的版本，强制右侧贴边） -->
+<script src="https://gcore.jsdelivr.net/gh/stevenjoezhang/live2d-widget@latest/autoload.js"></script>
+
 <script>
     (function() {
+        const toastEl = document.getElementById('globalToast');
+        function showToast(msg) { if(toastEl){ toastEl.innerText=msg; toastEl.classList.add('show'); setTimeout(()=>toastEl.classList.remove('show'),1500); } }
+
+        const originalCopyBtn = document.getElementById('copyMcServerBtn');
+        const serverSpan = document.getElementById('mcServerAddrDisplay');
+        if (originalCopyBtn && serverSpan) {
+            const newCopy = originalCopyBtn.cloneNode(true);
+            originalCopyBtn.parentNode.replaceChild(newCopy, originalCopyBtn);
+            newCopy.id = 'copyMcServerBtn';
+            newCopy.addEventListener('click', async (e) => {
+                e.preventDefault();
+                const addr = serverSpan.innerText.trim();
+                if(!addr) return;
+                try {
+                    await navigator.clipboard.writeText(addr);
+                    showToast('✅ 已复制服务器地址');
+                } catch {
+                    const ta = document.createElement('textarea');
+                    ta.value = addr;
+                    document.body.appendChild(ta);
+                    ta.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(ta);
+                    showToast('📋 已复制');
+                }
+            });
+        }
+
         const recommendList = [
             { name: "7亿二级域名注册", intro: "一个极简、快速、无广告的二级域名注册平台，助力于搭建网站", emoji: "🌍", url: "https://reg.7e.ink/" },
             { name: "腾讯云国际站", intro: "全球领先的云服务商，提供高性能计算、存储、网络和安全产品，助力业务出海与创新", emoji: "☁️", url: "https://www.tencentcloud.com/zh" },
@@ -395,8 +460,6 @@
         const dt = document.getElementById('darkModeToggle');
         if(localStorage.getItem('xeroDarkMode')==='enabled'){ document.body.classList.add('dark-mode'); dt.innerHTML='☀️ 浅色模式'; } else { dt.innerHTML='🌙 深色模式'; }
         dt.onclick = () => { let isDark = document.body.classList.toggle('dark-mode'); dt.innerHTML = isDark ? '☀️ 浅色模式' : '🌙 深色模式'; localStorage.setItem('xeroDarkMode', isDark ? 'enabled' : 'disabled'); };
-        const copyBtn = document.getElementById('copyMcServerBtn'), serverSpan = document.getElementById('mcServerAddrDisplay'), fb = document.getElementById('mcCopyFeedback');
-        if(copyBtn) copyBtn.onclick = async () => { let addr = serverSpan.innerText.trim(); try { await navigator.clipboard.writeText(addr); fb.innerText='✅ 已复制'; setTimeout(()=>fb.innerText='',1500); } catch { let ta=document.createElement('textarea'); ta.value=addr; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); fb.innerText='📋 已复制'; setTimeout(()=>fb.innerText='',1500); } };
         document.getElementById('deepseekBtn')?.addEventListener('click',()=>window.open('https://www.deepseek.com/','_blank'));
         const secret = document.getElementById('secretClickBtn'), modal = document.getElementById('easterEggModal'), closeModal = document.getElementById('closeModalBtn');
         let clickCnt=0, timer=null;
