@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Xero小破站 | 2B2T·无政府MC & 待开发项目</title>
+    <title>Xero小破站 | 2B2T·无政府MC & 推荐链接</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -12,14 +12,8 @@
             box-sizing: border-box;
         }
 
-        ::-webkit-scrollbar {
-            width: 0;
-            background: transparent;
-            display: none;
-        }
-        html {
-            scrollbar-width: none;
-        }
+        ::-webkit-scrollbar { width: 0; background: transparent; display: none; }
+        html { scrollbar-width: none; }
 
         :root {
             --bg-body: #f5f9ff;
@@ -65,10 +59,7 @@
             transition: background-color 0.25s ease, color 0.2s ease;
         }
 
-        .main-content {
-            opacity: 1;
-            pointer-events: auto;
-        }
+        .main-content { opacity: 1; pointer-events: auto; }
 
         .music-player {
             position: fixed;
@@ -176,169 +167,49 @@
         .dev-btn:active { transform: scale(0.96); }
         .team-statement { margin-top: 1.2rem; font-size: 0.8rem; color: var(--text-secondary); }
 
-        .recommend-marquee-section {
-            margin: 2rem 0 1rem;
-            scroll-margin-top: 90px;
-        }
-        .marquee-title {
-            font-size: 1.6rem;
-            font-weight: 600;
-            margin-bottom: 1.2rem;
-            color: var(--accent-blue);
-            border-left: 5px solid var(--accent-blue);
-            padding-left: 1rem;
-        }
-        .marquee-wrapper {
-            overflow: hidden;
-            width: 100%;
-            position: relative;
-            padding: 8px 0;
-        }
-        .marquee-track {
-            display: flex;
-            gap: 1.8rem;
-            animation: scrollMarquee 45s linear infinite;
-            width: fit-content;
-            will-change: transform;
-        }
-        .marquee-track:hover {
-            animation-play-state: paused;
-        }
+        .recommend-marquee-section { margin: 2rem 0 1rem; scroll-margin-top: 90px; }
+        .marquee-title { font-size: 1.6rem; font-weight: 600; margin-bottom: 1.2rem; color: var(--accent-blue); border-left: 5px solid var(--accent-blue); padding-left: 1rem; }
+        .marquee-wrapper { overflow: hidden; width: 100%; position: relative; padding: 8px 0; }
+        .marquee-track { display: flex; gap: 1.8rem; animation: scrollMarquee 45s linear infinite; width: fit-content; will-change: transform; }
+        .marquee-track:hover { animation-play-state: paused; }
         .rec-card-mini {
-            background: var(--surface-white);
-            border-radius: 24px;
-            padding: 0.5rem 1rem 0.5rem 0.5rem;
-            width: 260px;
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            cursor: pointer;
-            border: 1px solid var(--border-light);
-            transition: all 0.2s ease;
+            background: var(--surface-white); border-radius: 24px; padding: 0.5rem 1rem 0.5rem 0.5rem;
+            width: 260px; flex-shrink: 0; display: flex; align-items: center; gap: 1rem;
+            cursor: pointer; border: 1px solid var(--border-light); transition: all 0.2s ease;
             box-shadow: var(--card-shadow);
         }
-        .rec-card-mini:hover {
-            transform: scale(1.01);
-            border-color: var(--accent-blue);
-            box-shadow: 0 12px 20px rgba(0,0,0,0.08);
-            z-index: 10;
-        }
-        .rec-img-mini {
-            width: 52px;
-            height: 52px;
-            object-fit: cover;
-            border-radius: 18px;
-            background: var(--accent-soft);
-            flex-shrink: 0;
-        }
-        .rec-info {
-            flex: 1;
-            overflow: hidden;
-        }
-        .rec-name-mini {
-            font-weight: 700;
-            font-size: 0.9rem;
-            margin-bottom: 0.2rem;
-            color: var(--text-primary);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .rec-desc-mini {
-            font-size: 0.68rem;
-            color: var(--text-secondary);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        @keyframes scrollMarquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
+        .rec-card-mini:hover { transform: scale(1.01); border-color: var(--accent-blue); box-shadow: 0 12px 20px rgba(0,0,0,0.08); z-index: 10; }
+        .rec-emoji { font-size: 2.2rem; width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; background: var(--accent-soft); border-radius: 18px; flex-shrink: 0; }
+        .rec-info { flex: 1; overflow: hidden; }
+        .rec-name-mini { font-weight: 700; font-size: 0.9rem; margin-bottom: 0.2rem; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .rec-desc-mini { font-size: 0.68rem; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        @keyframes scrollMarquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
         .rec-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--overlay-bg);
-            backdrop-filter: blur(6px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 20001;
-            visibility: hidden;
-            opacity: 0;
-            transition: 0.2s;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--overlay-bg); backdrop-filter: blur(6px);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 20001; visibility: hidden; opacity: 0; transition: 0.2s;
         }
-        .rec-modal.active {
-            visibility: visible;
-            opacity: 1;
-        }
+        .rec-modal.active { visibility: visible; opacity: 1; }
         .rec-modal-card {
-            background: var(--surface-white);
-            border-radius: 36px;
-            max-width: 460px;
-            width: 90%;
-            padding: 1.6rem;
-            text-align: center;
-            position: relative;
-            box-shadow: 0 30px 50px rgba(0,0,0,0.3);
-            border: 1px solid var(--border-light);
+            background: var(--surface-white); border-radius: 36px; max-width: 460px; width: 90%;
+            padding: 1.6rem; text-align: center; position: relative;
+            box-shadow: 0 30px 50px rgba(0,0,0,0.3); border: 1px solid var(--border-light);
         }
-        .rec-modal-close {
-            position: absolute;
-            top: 14px;
-            right: 20px;
-            font-size: 1.6rem;
-            cursor: pointer;
-            color: var(--text-secondary);
-            background: none;
-            border: none;
-        }
+        .rec-modal-close { position: absolute; top: 14px; right: 20px; font-size: 1.6rem; cursor: pointer; color: var(--text-secondary); background: none; border: none; }
         .rec-modal-close:hover { color: var(--warning-red); }
-        .rec-modal-img {
-            width: 100%;
-            max-height: 180px;
-            object-fit: cover;
-            border-radius: 24px;
-            margin: 0.5rem 0 1rem;
+        .rec-modal-emoji {
+            font-size: 5rem; background: var(--accent-soft); width: 120px; height: 120px;
+            border-radius: 60px; display: flex; align-items: center; justify-content: center;
+            margin: 0.5rem auto 1rem; box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         }
-        .rec-modal-name {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--accent-blue);
-        }
-        .rec-modal-intro {
-            margin: 1rem 0;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-        .rec-modal-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin-top: 1rem;
-        }
-        .rec-modal-btn {
-            background: var(--accent-blue);
-            border: none;
-            padding: 0.5rem 1.5rem;
-            border-radius: 60px;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.1s;
-        }
+        .rec-modal-name { font-size: 1.5rem; font-weight: 700; color: var(--accent-blue); margin-top: 0.5rem; }
+        .rec-modal-intro { margin: 1rem 0; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5; }
+        .rec-modal-buttons { display: flex; gap: 1rem; justify-content: center; margin-top: 1rem; }
+        .rec-modal-btn { background: var(--accent-blue); border: none; padding: 0.5rem 1.5rem; border-radius: 60px; color: white; font-weight: 600; cursor: pointer; transition: 0.1s; }
         .rec-modal-btn:active { transform: scale(0.96); }
-        .rec-modal-btn-outline {
-            background: transparent;
-            border: 1px solid var(--border-light);
-            color: var(--text-secondary);
-        }
+        .rec-modal-btn-outline { background: transparent; border: 1px solid var(--border-light); color: var(--text-secondary); }
 
         .container { max-width: 1280px; margin: 0 auto; padding: 2rem 2rem 3rem; }
         .nav-bar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 2.5rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border-light); }
@@ -373,7 +244,7 @@
         .modal-title { font-size: 1.5rem; font-weight: 700; color: var(--accent-blue); margin-bottom: 0.8rem; }
         .modal-message { font-size: 1rem; color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.5; }
         .modal-close { background: var(--accent-blue); border: none; padding: 0.5rem 1.5rem; border-radius: 40px; font-weight: 600; color: white; cursor: pointer; }
-        @media (max-width: 720px) { .container { padding: 1rem; } .projects-grid { grid-template-columns: 1fr; } .rec-card-mini { width: 220px; } .rec-img-mini { width: 44px; height: 44px; } }
+        @media (max-width: 720px) { .container { padding: 1rem; } .projects-grid { grid-template-columns: 1fr; } .rec-card-mini { width: 220px; } .rec-emoji { width: 44px; height: 44px; font-size: 1.8rem; } .rec-modal-emoji { width: 90px; height: 90px; font-size: 3.6rem; } }
     </style>
 </head>
 <body>
@@ -409,7 +280,7 @@
         <div id="developersSection" class="developers-section"><div class="section-title">👥 开发人员</div><div class="dev-grid"><div class="dev-card"><div class="dev-name">DeepSeek R1</div><div class="dev-role">AI技术顾问</div><div class="dev-bio">为技术盲点提供底层支持，解答疑难杂症。</div><button class="dev-btn" id="deepseekBtn">🚀 直达DeepSeek官网</button></div><div class="dev-card"><div class="dev-name">Xero（站长）</div><div class="dev-role">全栈开发·服务器主理</div><div class="dev-bio">网页设计、MC服务器搭建，2B2T生态建设者。</div></div><div class="dev-card"><div class="dev-name">健胃消食片</div><div class="dev-role">服务器运维·安全顾问</div><div class="dev-bio">负责服务器日常维护、网站漏洞发掘与安全加固。</div></div><div class="dev-card"><div class="dev-name">铃铃</div><div class="dev-role">技术安全员 · 技术与情绪支持</div><div class="dev-bio">提供技术灵感、情绪价值和陪伴。</div></div><div class="dev-card"><div class="dev-name">虚位以待</div><div class="dev-role">开放席位</div><div class="dev-bio">欢迎联系站长，一同建设小破站。</div></div><div class="dev-card"><div class="dev-name">虚位以待</div><div class="dev-role">后端/安全方向</div><div class="dev-bio">贡献代码或运维经验。</div></div></div><div class="team-statement">📢 个人致力于纯粹的技术与游戏社区，无政府服务器无管理干预。</div></div>
 
         <div id="recommendSection" class="recommend-marquee-section">
-            <div class="marquee-title">🔗 推荐链接</div>
+            <div class="marquee-title">🔗 推荐链接 · 好友小站</div>
             <div class="marquee-wrapper">
                 <div class="marquee-track" id="marqueeTrack"></div>
             </div>
@@ -423,15 +294,15 @@
 
 <div id="easterEggModal" class="modal-overlay"><div class="modal-card"><div class="modal-icon">🎉</div><div class="modal-title">✨ 隐藏成就解锁 ✨</div><div class="modal-message">🕵️‍♂️ 你找到了真正的开发者！<br><strong>开发者（true）：国找</strong><br>感谢你的探索精神，欢迎来到小破站的后台彩蛋。</div><button class="modal-close" id="closeModalBtn">确定</button></div></div>
 
-<div id="recModal" class="rec-modal"><div class="rec-modal-card"><button class="rec-modal-close" id="recModalCloseBtn">&times;</button><img id="recModalImg" class="rec-modal-img" src="" alt="preview"><div id="recModalName" class="rec-modal-name"></div><div id="recModalIntro" class="rec-modal-intro"></div><div class="rec-modal-buttons"><button id="recModalVisitBtn" class="rec-modal-btn">🌐 访问官网</button><button id="recModalInnerClose" class="rec-modal-btn rec-modal-btn-outline">关闭</button></div></div></div>
+<div id="recModal" class="rec-modal"><div class="rec-modal-card"><button class="rec-modal-close" id="recModalCloseBtn">&times;</button><div id="recModalEmoji" class="rec-modal-emoji">🌐</div><div id="recModalName" class="rec-modal-name"></div><div id="recModalIntro" class="rec-modal-intro"></div><div class="rec-modal-buttons"><button id="recModalVisitBtn" class="rec-modal-btn">🌐 访问官网</button><button id="recModalInnerClose" class="rec-modal-btn rec-modal-btn-outline">关闭</button></div></div></div>
 
 <script>
     (function() {
         const recommendList = [
-            { name: "7亿二级域名注册", intro: "一个极简、快速、无广告的二级域名注册平台，助理于搭建网站", img: "images/recommend/reg.7e.ink.png", url: "https://reg.7e.ink/" },
-            { name: "腾讯云国际站", intro: "全球领先的云服务商，提供高性能计算、存储、网络和安全产品，助力业务出海与创新", img: "images/recommend/tencentcloud.png", url: "https://www.tencentcloud.com/zh" },
-            { name: "GitHub", intro: "全球最大的代码开源平台，托管代码、管理项目、探索开源世界，是极客的必备网站", img: "images/recommend/github.png", url: "https://github.com/" },
-            { name: "简幻欢 (SimpFun)", intro: "免费公益服务器，支持4核CPU 16GB+内存 16GB+硬盘空间适合萌新", img: "images/recommend/simpfunch.png", url: "https://simpfun.cn/" }
+            { name: "7亿二级域名注册", intro: "一个极简、快速、无广告的二级域名注册平台，助力于搭建网站", emoji: "🌍", url: "https://reg.7e.ink/" },
+            { name: "腾讯云国际站", intro: "全球领先的云服务商，提供高性能计算、存储、网络和安全产品，助力业务出海与创新", emoji: "☁️", url: "https://www.tencentcloud.com/zh" },
+            { name: "GitHub", intro: "全球最大的代码开源平台，托管代码、管理项目、探索开源世界，是极客的必备网站", emoji: "🐙", url: "https://github.com/" },
+            { name: "简幻欢 (SimpFun)", intro: "免费公益服务器，支持4核CPU 16GB+内存 16GB+硬盘空间，适合萌新", emoji: "⚡", url: "https://simpfun.cn/" }
         ];
         const marqueeData = [...recommendList, ...recommendList];
         const track = document.getElementById('marqueeTrack');
@@ -442,13 +313,13 @@
                 const card = document.createElement('div');
                 card.className = 'rec-card-mini';
                 card.setAttribute('data-index', idx % recommendList.length);
-                card.innerHTML = `<img class="rec-img-mini" src="${item.img}" alt="${item.name}" loading="lazy" onerror="this.src='https://picsum.photos/52/52?grayscale';"><div class="rec-info"><div class="rec-name-mini">${item.name}</div><div class="rec-desc-mini">${item.intro.substring(0, 32)}…</div></div>`;
+                card.innerHTML = `<div class="rec-emoji">${item.emoji}</div><div class="rec-info"><div class="rec-name-mini">${item.name}</div><div class="rec-desc-mini">${item.intro.substring(0, 32)}…</div></div>`;
                 card.addEventListener('click', (e) => { e.stopPropagation(); openRecModal(parseInt(card.getAttribute('data-index'))); });
                 track.appendChild(card);
             });
         }
         const recModal = document.getElementById('recModal');
-        const recModalImg = document.getElementById('recModalImg');
+        const recModalEmoji = document.getElementById('recModalEmoji');
         const recModalName = document.getElementById('recModalName');
         const recModalIntro = document.getElementById('recModalIntro');
         const recModalVisitBtn = document.getElementById('recModalVisitBtn');
@@ -456,7 +327,7 @@
         function openRecModal(index) {
             const data = recommendList[index];
             if (!data) return;
-            recModalImg.src = data.img;
+            recModalEmoji.innerText = data.emoji;
             recModalName.innerText = data.name;
             recModalIntro.innerText = data.intro;
             currentUrl = data.url;
