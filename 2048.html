@@ -54,10 +54,10 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
             padding: 20px;
-            overflow: hidden;
             touch-action: none;
-            transition: background 0.2s ease, color 0.2s ease;
+            transition: background 0.2s ease;
         }
         
         .header {
@@ -110,10 +110,6 @@
             transition: background 0.2s ease;
         }
         
-        .grid-container {
-            display: none;
-        }
-        
         .tile-container {
             position: absolute;
             top: 8px;
@@ -136,10 +132,6 @@
             transition: transform 0.12s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             z-index: 10;
             pointer-events: none;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
         }
         
         .tile.new {
@@ -151,101 +143,23 @@
         }
         
         @keyframes fadeIn {
-            0% {
-                opacity: 0;
-            }
-            100% {
-                opacity: 1;
-            }
+            0% { opacity: 0; }
+            100% { opacity: 1; }
         }
         
         /* 方块颜色 - 与原版完全一致 */
-        .tile-2 {
-            background: #d4d4d4;
-            color: #555;
-        }
-        
-        .tile-4 {
-            background: #c4c4c4;
-            color: #555;
-        }
-        
-        .tile-8 {
-            background: #a8a8a8;
-            color: #fff;
-        }
-        
-        .tile-16 {
-            background: #909090;
-            color: #fff;
-        }
-        
-        .tile-32 {
-            background: #787878;
-            color: #fff;
-        }
-        
-        .tile-64 {
-            background: #606060;
-            color: #fff;
-        }
-        
-        .tile-128 {
-            background: #505050;
-            color: #fff;
-            font-size: 24px;
-        }
-        
-        .tile-256 {
-            background: #404040;
-            color: #fff;
-            font-size: 24px;
-        }
-        
-        .tile-512 {
-            background: #303030;
-            color: #fff;
-            font-size: 24px;
-        }
-        
-        .tile-1024 {
-            background: #252525;
-            color: #fff;
-            font-size: 20px;
-        }
-        
-        .tile-2048 {
-            background: #1a1a1a;
-            color: #fff;
-            font-size: 20px;
-        }
-        
-        .tile-super {
-            background: #0a0a0a;
-            color: #fff;
-            font-size: 18px;
-        }
-        
-        .controls {
-            margin-top: 20px;
-            text-align: center;
-        }
-        
-        .btn {
-            background: var(--btn-bg);
-            color: #fff;
-            border: none;
-            padding: 10px 30px;
-            font-size: 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background 0.2s;
-        }
-        
-        .btn:hover {
-            background: var(--btn-hover);
-        }
+        .tile-2 { background: #d4d4d4; color: #555; }
+        .tile-4 { background: #c4c4c4; color: #555; }
+        .tile-8 { background: #a8a8a8; color: #fff; }
+        .tile-16 { background: #909090; color: #fff; }
+        .tile-32 { background: #787878; color: #fff; }
+        .tile-64 { background: #606060; color: #fff; }
+        .tile-128 { background: #505050; color: #fff; font-size: 24px; }
+        .tile-256 { background: #404040; color: #fff; font-size: 24px; }
+        .tile-512 { background: #303030; color: #fff; font-size: 24px; }
+        .tile-1024 { background: #252525; color: #fff; font-size: 20px; }
+        .tile-2048 { background: #1a1a1a; color: #fff; font-size: 20px; }
+        .tile-super { background: #0a0a0a; color: #fff; font-size: 18px; }
         
         .instructions {
             margin-top: 20px;
@@ -292,42 +206,37 @@
             margin-bottom: 20px;
         }
         
+        .game-over .btn {
+            background: var(--btn-bg);
+            color: #fff;
+            border: none;
+            padding: 10px 30px;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+        
+        .game-over .btn:hover {
+            background: var(--btn-hover);
+        }
+        
         @media (max-width: 400px) {
             .game-container {
                 width: 300px;
                 height: 300px;
                 padding: 6px;
             }
-            
-            .grid-container {
-                top: 6px;
-                left: 6px;
-                right: 6px;
-                bottom: 6px;
-            }
-            
             .tile {
                 width: 66px;
                 height: 66px;
                 font-size: 24px;
-                transition: transform 0.12s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             }
-            
-            .tile-128, .tile-256, .tile-512 {
-                font-size: 20px;
-            }
-            
-            .tile-1024, .tile-2048 {
-                font-size: 16px;
-            }
-            
-            .tile-super {
-                font-size: 14px;
-            }
-            
-            h1 {
-                font-size: 36px;
-            }
+            .tile-128, .tile-256, .tile-512 { font-size: 20px; }
+            .tile-1024, .tile-2048 { font-size: 16px; }
+            .tile-super { font-size: 14px; }
+            h1 { font-size: 36px; }
         }
     </style>
 </head>
@@ -343,33 +252,25 @@
     </div>
     
     <div class="game-container" id="gameContainer">
-        <div class="grid-container"></div>
         <div class="tile-container" id="tileContainer"></div>
         <div class="game-over" id="gameOver">
             <h2 id="gameOverTitle">游戏结束</h2>
             <p id="gameOverText">再试一次吧！</p>
-            <button class="btn" onclick="newGame()">再玩一次</button>
+            <button class="btn" id="restartBtn">再玩一次</button>
         </div>
     </div>
     
-    <div class="controls">
-        <button class="btn" onclick="newGame()">新游戏</button>
-    </div>
-    
     <div class="instructions">
-        <strong>玩法：</strong>滑动或拖拽来移动方块<br>
-        相同数字的方块相撞时会合并！
+        <span>⬅️ ➡️ ⬆️ ⬇️</span> 或滑动屏幕合并数字
     </div>
 
     <script>
         // 深色模式同步（跟随小破站主站）
         (function() {
-            // 读取主站存储的深色模式设置
             if (localStorage.getItem('xeroDarkMode') === 'enabled') {
                 document.body.classList.add('dark');
             }
             
-            // 监听 storage 事件（主站切换深色模式时同步）
             window.addEventListener('storage', function(e) {
                 if (e.key === 'xeroDarkMode') {
                     if (e.newValue === 'enabled') {
@@ -380,7 +281,6 @@
                 }
             });
             
-            // 监听主站发送的深色模式变化消息（iframe 内通信）
             window.addEventListener('message', function(e) {
                 if (e.data && e.data.type === 'darkModeChanged') {
                     if (e.data.isDark) {
@@ -400,18 +300,15 @@
         let board = [];
         let score = 0;
         let isAnimating = false;
-        
-        // 触摸/鼠标状态
         let startX, startY;
         let isDragging = false;
         
-        // 初始化
         function init() {
             newGame();
             setupInput();
+            document.getElementById('restartBtn').onclick = () => newGame();
         }
         
-        // 新游戏
         function newGame() {
             board = Array(gridSize).fill(null).map(() => Array(gridSize).fill(0));
             score = 0;
@@ -424,7 +321,6 @@
             renderBoard();
         }
         
-        // 添加随机方块
         function addRandomTile() {
             const emptyCells = [];
             for (let r = 0; r < gridSize; r++) {
@@ -443,7 +339,6 @@
             return null;
         }
         
-        // 渲染游戏板
         function renderBoard() {
             const container = document.getElementById('tileContainer');
             container.innerHTML = '';
@@ -457,51 +352,41 @@
             }
         }
         
-        // 创建方块元素
         function createTile(row, col, value, isNew = false, isMerged = false) {
             const tile = document.createElement('div');
             tile.className = `tile tile-${value <= 2048 ? value : 'super'}`;
             if (isNew) tile.classList.add('new');
             if (isMerged) tile.classList.add('merged');
             tile.textContent = value;
-            tile.setAttribute('data-pos', `${row},${col}`);
             tile.style.transform = `translate(${col * (cellSize + gap)}px, ${row * (cellSize + gap)}px)`;
             document.getElementById('tileContainer').appendChild(tile);
             return tile;
         }
         
-        // 更新分数
         function updateScore() {
             document.getElementById('score').textContent = score;
         }
         
-        // 设置输入控制
         function setupInput() {
             const container = document.getElementById('gameContainer');
             
-            // 触摸事件
             container.addEventListener('touchstart', handleTouchStart, {passive: false});
             container.addEventListener('touchmove', handleTouchMove, {passive: false});
             container.addEventListener('touchend', handleTouchEnd, {passive: false});
             
-            // 鼠标事件
             container.addEventListener('mousedown', handleMouseDown);
             container.addEventListener('mousemove', handleMouseMove);
             container.addEventListener('mouseup', handleMouseUp);
             container.addEventListener('mouseleave', handleMouseUp);
             
-            // 键盘事件
             document.addEventListener('keydown', handleKeyDown);
         }
         
-        // 滑动阈值和时间
         const SWIPE_THRESHOLD = 30;
         const SWIPE_TIME_LIMIT = 300;
         let touchStartTime = 0;
-        let lastTouchX = 0;
-        let lastTouchY = 0;
-        let velocityX = 0;
-        let velocityY = 0;
+        let lastTouchX = 0, lastTouchY = 0;
+        let velocityX = 0, velocityY = 0;
         
         function handleTouchStart(e) {
             if (isAnimating) return;
@@ -511,17 +396,14 @@
             lastTouchX = startX;
             lastTouchY = startY;
             touchStartTime = Date.now();
-            velocityX = 0;
-            velocityY = 0;
+            velocityX = velocityY = 0;
             isDragging = true;
         }
         
         function handleTouchMove(e) {
             if (!isDragging) return;
             e.preventDefault();
-            
             const touch = e.touches[0];
-            // 计算速度
             velocityX = touch.clientX - lastTouchX;
             velocityY = touch.clientY - lastTouchY;
             lastTouchX = touch.clientX;
@@ -537,21 +419,17 @@
             const dy = touch.clientY - startY;
             const dt = Date.now() - touchStartTime;
             
-            // 快速滑动检测（速度优先）
             const isQuickSwipe = dt < SWIPE_TIME_LIMIT;
             const velocityThreshold = 3;
-            
             let direction = null;
             
             if (isQuickSwipe && (Math.abs(velocityX) > velocityThreshold || Math.abs(velocityY) > velocityThreshold)) {
-                // 根据速度方向判断
                 if (Math.abs(velocityX) > Math.abs(velocityY)) {
                     direction = velocityX > 0 ? 'right' : 'left';
                 } else {
                     direction = velocityY > 0 ? 'down' : 'up';
                 }
             } else if (Math.abs(dx) > SWIPE_THRESHOLD || Math.abs(dy) > SWIPE_THRESHOLD) {
-                // 根据位移判断
                 if (Math.abs(dx) > Math.abs(dy)) {
                     direction = dx > 0 ? 'right' : 'left';
                 } else {
@@ -559,17 +437,12 @@
                 }
             }
             
-            if (direction) {
-                move(direction);
-            }
+            if (direction) move(direction);
         }
         
-        // 鼠标支持
         let mouseStartTime = 0;
-        let lastMouseX = 0;
-        let lastMouseY = 0;
-        let mouseVelocityX = 0;
-        let mouseVelocityY = 0;
+        let lastMouseX = 0, lastMouseY = 0;
+        let mouseVelocityX = 0, mouseVelocityY = 0;
         
         function handleMouseDown(e) {
             if (isAnimating) return;
@@ -579,15 +452,13 @@
             lastMouseX = startX;
             lastMouseY = startY;
             mouseStartTime = Date.now();
-            mouseVelocityX = 0;
-            mouseVelocityY = 0;
+            mouseVelocityX = mouseVelocityY = 0;
             isDragging = true;
         }
         
         function handleMouseMove(e) {
             if (!isDragging) return;
             e.preventDefault();
-            
             mouseVelocityX = e.clientX - lastMouseX;
             mouseVelocityY = e.clientY - lastMouseY;
             lastMouseX = e.clientX;
@@ -604,7 +475,6 @@
             
             const isQuickSwipe = dt < SWIPE_TIME_LIMIT;
             const velocityThreshold = 3;
-            
             let direction = null;
             
             if (isQuickSwipe && (Math.abs(mouseVelocityX) > velocityThreshold || Math.abs(mouseVelocityY) > velocityThreshold)) {
@@ -621,50 +491,23 @@
                 }
             }
             
-            if (direction) {
-                move(direction);
-            }
+            if (direction) move(direction);
         }
         
         function handleKeyDown(e) {
             if (isAnimating) return;
-            
             switch(e.key) {
-                case 'ArrowUp':
-                case 'w':
-                case 'W':
-                    e.preventDefault();
-                    move('up');
-                    break;
-                case 'ArrowDown':
-                case 's':
-                case 'S':
-                    e.preventDefault();
-                    move('down');
-                    break;
-                case 'ArrowLeft':
-                case 'a':
-                case 'A':
-                    e.preventDefault();
-                    move('left');
-                    break;
-                case 'ArrowRight':
-                case 'd':
-                case 'D':
-                    e.preventDefault();
-                    move('right');
-                    break;
+                case 'ArrowUp': case 'w': case 'W': e.preventDefault(); move('up'); break;
+                case 'ArrowDown': case 's': case 'S': e.preventDefault(); move('down'); break;
+                case 'ArrowLeft': case 'a': case 'A': e.preventDefault(); move('left'); break;
+                case 'ArrowRight': case 'd': case 'D': e.preventDefault(); move('right'); break;
             }
         }
         
-        // 移动逻辑
         function move(direction) {
             if (isAnimating) return;
             
-            // 保存旧board用于动画
             const oldBoard = board.map(row => [...row]);
-            
-            // 执行移动逻辑
             let moved = false;
             const mergedPositions = [];
             
@@ -703,23 +546,16 @@
             if (!moved) return;
             
             isAnimating = true;
-            
-            // 添加新方块
             const newTile = addRandomTile();
-            
-            // 执行动画
             animateBoard(oldBoard, board, mergedPositions, newTile);
             updateScore();
             
             setTimeout(() => {
                 isAnimating = false;
-                if (isGameOver()) {
-                    showGameOver();
-                }
+                if (isGameOver()) showGameOver();
             }, 150);
         }
         
-        // 滑动一行到左边
         function slideLeft(line) {
             let newLine = line.filter(x => x !== 0);
             let moved = false;
@@ -733,17 +569,13 @@
                     newLine.splice(i + 1, 1);
                 }
             }
-            
             while (newLine.length < gridSize) newLine.push(0);
-            
             for (let i = 0; i < gridSize; i++) {
                 if (line[i] !== newLine[i]) moved = true;
             }
-            
             return {line: newLine, moved, merged};
         }
         
-        // 滑动一行到右边
         function slideRight(line) {
             let newLine = line.filter(x => x !== 0);
             let moved = false;
@@ -758,30 +590,22 @@
                     i--;
                 }
             }
-            
             while (newLine.length < gridSize) newLine.unshift(0);
-            
             for (let i = 0; i < gridSize; i++) {
                 if (line[i] !== newLine[i]) moved = true;
             }
-            
             return {line: newLine, moved, merged};
         }
         
-        // 动画：直接渲染新状态（最简单可靠）
         function animateBoard(oldBoard, newBoard, mergedPositions, newTile) {
             const container = document.getElementById('tileContainer');
-            
-            // 清空容器
             container.innerHTML = '';
             
-            // 直接创建所有新方块
             for (let r = 0; r < gridSize; r++) {
                 for (let c = 0; c < gridSize; c++) {
                     if (newBoard[r][c] !== 0) {
                         const isMerged = mergedPositions.some(p => p.r === r && p.c === c);
                         const isNew = newTile && newTile.r === r && newTile.c === c;
-                        
                         const tile = createTileElement(r, c, newBoard[r][c], isNew, isMerged);
                         container.appendChild(tile);
                     }
@@ -789,28 +613,22 @@
             }
         }
         
-        // 创建方块元素（不添加到DOM）
         function createTileElement(row, col, value, isNew = false, isMerged = false) {
             const tile = document.createElement('div');
             tile.className = `tile tile-${value <= 2048 ? value : 'super'}`;
             if (isNew) tile.classList.add('new');
             if (isMerged) tile.classList.add('merged');
             tile.textContent = value;
-            tile.setAttribute('data-pos', `${row},${col}`);
             tile.style.transform = `translate(${col * (cellSize + gap)}px, ${row * (cellSize + gap)}px)`;
             return tile;
         }
         
-        // 检查游戏结束
         function isGameOver() {
-            // 检查是否有空位
             for (let r = 0; r < gridSize; r++) {
                 for (let c = 0; c < gridSize; c++) {
                     if (board[r][c] === 0) return false;
                 }
             }
-            
-            // 检查是否可以合并
             for (let r = 0; r < gridSize; r++) {
                 for (let c = 0; c < gridSize; c++) {
                     const val = board[r][c];
@@ -820,39 +638,26 @@
                     }
                 }
             }
-            
             return true;
         }
         
-        // 显示游戏结束
         function showGameOver() {
             const overlay = document.getElementById('gameOver');
             const title = document.getElementById('gameOverTitle');
             const text = document.getElementById('gameOverText');
             
-            // 检查是否达到2048
             let has2048 = false;
             for (let r = 0; r < gridSize; r++) {
                 for (let c = 0; c < gridSize; c++) {
-                    if (board[r][c] >= 2048) {
-                        has2048 = true;
-                        break;
-                    }
+                    if (board[r][c] >= 2048) has2048 = true;
                 }
             }
             
-            if (has2048) {
-                title.textContent = '你赢了！';
-                text.textContent = `最终得分: ${score}`;
-            } else {
-                title.textContent = '游戏结束';
-                text.textContent = `最终得分: ${score}`;
-            }
-            
+            title.textContent = has2048 ? '🎉 你赢了！' : '😔 游戏结束';
+            text.textContent = `最终得分: ${score}`;
             overlay.classList.add('show');
         }
         
-        // 启动游戏
         init();
     </script>
 </body>
