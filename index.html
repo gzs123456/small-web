@@ -86,6 +86,7 @@
 
         .main-content { opacity: 1; pointer-events: auto; }
 
+        /* 音乐播放器 */
         .music-player {
             position: fixed;
             left: 0;
@@ -124,12 +125,6 @@
         .player-toggle:active { transform: translateY(-50%) scale(0.94); }
         .player-inner { padding: 14px 16px; min-width: 240px; }
         .player-title { font-size: 0.75rem; font-weight: 600; color: var(--accent-blue); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
-        body.dark-mode .player-title { color: #eef2ff; }
-        body.dark-mode .player-select,
-        body.dark-mode .ctrl-btn,
-        body.dark-mode .progress-area,
-        body.dark-mode .volume-area { color: #eef2ff; }
-        body.dark-mode .player-select option { background: #1e2538; color: #eef2ff; }
         .player-select { width: 100%; padding: 6px 10px; background: var(--bg-body); border: 1px solid var(--border-light); border-radius: 40px; font-size: 0.75rem; margin-bottom: 12px; cursor: pointer; color: var(--text-primary); }
         .player-controls { display: flex; justify-content: space-between; gap: 8px; margin: 8px 0; }
         .ctrl-btn { background: var(--accent-soft); border: none; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 0.8rem; color: var(--accent-blue); transition: 0.1s transform; }
@@ -140,6 +135,74 @@
         .volume-area { display: flex; align-items: center; gap: 6px; margin-top: 8px; }
         .volume-slider { flex: 1; height: 3px; -webkit-appearance: none; background: var(--border-light); }
 
+        /* 弹窗样式 - 2048游戏 */
+        .game-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--overlay-bg);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 20001;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0.2s, opacity 0.2s;
+        }
+        .game-modal.active {
+            visibility: visible;
+            opacity: 1;
+        }
+        .game-modal-content {
+            background: var(--surface-white);
+            border-radius: 28px;
+            max-width: 550px;
+            width: 90%;
+            max-height: 90vh;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-light);
+        }
+        .game-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-light);
+        }
+        .game-modal-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+        }
+        .game-modal-close {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: 0.08s;
+        }
+        .game-modal-close:active {
+            transform: scale(0.9);
+        }
+        .game-modal-body {
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .game-modal-body iframe {
+            width: 100%;
+            height: 480px;
+            border: none;
+            border-radius: 20px;
+        }
+
+        /* 原有样式 */
         .author-status-section { margin: 2rem 0; scroll-margin-top: 90px; }
         .status-card { background: var(--surface-white); border-radius: 28px; padding: 1.4rem 1.6rem; border: 1px solid var(--border-light); box-shadow: var(--card-shadow); }
         .status-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.8rem; margin-bottom: 1.2rem; }
@@ -242,7 +305,7 @@
         .logo-area:active { transform: scale(0.97); }
         .logo-icon { background: var(--accent-blue); width: 38px; height: 38px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.2rem; color: white; }
         .logo-text { font-weight: 700; font-size: 1.3rem; background: linear-gradient(130deg, var(--accent-blue), #1a4f72); background-clip: text; -webkit-background-clip: text; color: transparent; }
-        .nav-links { display: flex; gap: 1rem; align-items: center; }
+        .nav-links { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
         .nav-btn { background: transparent; border: 1px solid var(--border-light); padding: 0.45rem 1.2rem; border-radius: 40px; font-weight: 500; font-size: 0.85rem; color: var(--text-secondary); cursor: pointer; background-color: var(--surface-white); transition: 0.08s; }
         .nav-btn:active { transform: scale(0.96); }
         .hero-section { text-align: center; margin-bottom: 2rem; }
@@ -254,7 +317,7 @@
         .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.5rem; }
         .games-section { margin: 2rem 0; scroll-margin-top: 90px; }
         .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.5rem; }
-        .game-card { background: var(--surface-white); border-radius: 28px; padding: 1.2rem; border: 1px solid var(--border-light); text-align: center; cursor: default; transition: 0.08s; }
+        .game-card { background: var(--surface-white); border-radius: 28px; padding: 1.2rem; border: 1px solid var(--border-light); text-align: center; cursor: pointer; transition: 0.08s; }
         .game-card:active { transform: scale(0.98); }
         .game-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
         .game-name { font-size: 1.2rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.3rem; }
@@ -269,9 +332,9 @@
         .modal-title { font-size: 1.5rem; font-weight: 700; color: var(--accent-blue); margin-bottom: 0.8rem; }
         .modal-message { font-size: 1rem; color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.5; }
         .modal-close { background: var(--accent-blue); border: none; padding: 0.5rem 1.5rem; border-radius: 40px; font-weight: 600; color: white; cursor: pointer; }
-        @media (max-width: 720px) { .container { padding: 1rem; } .projects-grid { grid-template-columns: 1fr; } .rec-card-mini { width: 220px; } .rec-emoji { width: 44px; height: 44px; font-size: 1.8rem; } .rec-modal-emoji { width: 90px; height: 90px; font-size: 3.6rem; } }
+        @media (max-width: 720px) { .container { padding: 1rem; } .projects-grid { grid-template-columns: 1fr; } .rec-card-mini { width: 220px; } .rec-emoji { width: 44px; height: 44px; font-size: 1.8rem; } .rec-modal-emoji { width: 90px; height: 90px; font-size: 3.6rem; } .game-modal-body iframe { height: 420px; } }
 
-        /* 强制看板娘及画布贴右 */
+        /* 看板娘贴右 */
         #live2d-widget,
         #live2d-widget canvas {
             right: 0 !important;
@@ -303,9 +366,25 @@
             <div class="project-card pending-card"><div class="project-icon">🌿</div><div class="project-name">全栈知识库</div><div class="pending-desc">✨ 敬请期待<br>沉淀技术，静心打磨</div><div class="project-meta"><span>📖 筹备中</span><span>⭐ 即将上线</span></div></div>
         </div></div>
         
-        <div id="changelogSection" class="changelog-section"><div class="section-title">📋 更新日志</div><div class="changelog-card"><ul class="changelog-list"><li>🎵 2025.05.19 — 修复深色模式歌单文字颜色、增加按钮点击反馈、优化深色模式切换过渡</li><li>🎨 2025.05.18 — 新增作者状态、音乐播放器滑动收展、开机动画彩蛋</li><li>🚀 2025.05.17 — 小破站基础框架上线，MC服务器信息、待开发项目展示</li></ul></div></div>
+        <div id="changelogSection" class="changelog-section"><div class="section-title">📋 更新日志</div><div class="changelog-card"><ul class="changelog-list"><li>🎮 2025.05.20 — 新增2048小游戏（点击小游戏卡片即可游玩）</li><li>🎵 2025.05.19 — 修复深色模式歌单文字颜色、增加按钮点击反馈、优化深色模式切换过渡</li><li>🎨 2025.05.18 — 新增作者状态、音乐播放器滑动收展、开机动画彩蛋</li><li>🚀 2025.05.17 — 小破站基础框架上线，MC服务器信息、待开发项目展示</li></ul></div></div>
 
-        <div id="gamesSection" class="games-section"><div class="section-title">🎮 小游戏</div><div class="games-grid"><div class="game-card"><div class="game-icon">🛠️</div><div class="game-name">待开发</div><div class="game-desc">敬请期待</div></div><div class="game-card"><div class="game-icon">✨</div><div class="game-name">待开发</div><div class="game-desc">更多精彩即将到来</div></div><div class="game-card"><div class="game-icon">🎲</div><div class="game-name">待开发</div><div class="game-desc">coming soon</div></div></div></div>
+        <div id="gamesSection" class="games-section"><div class="section-title">🎮 小游戏</div><div class="games-grid">
+            <div class="game-card" id="game2048Card">
+                <div class="game-icon">🎮</div>
+                <div class="game-name">2048</div>
+                <div class="game-desc">合并数字，挑战2048！</div>
+            </div>
+            <div class="game-card">
+                <div class="game-icon">🛠️</div>
+                <div class="game-name">待开发</div>
+                <div class="game-desc">敬请期待</div>
+            </div>
+            <div class="game-card">
+                <div class="game-icon">✨</div>
+                <div class="game-name">待开发</div>
+                <div class="game-desc">更多精彩即将到来</div>
+            </div>
+        </div></div>
 
         <div id="aboutSection" class="about-section"><div class="section-title">👋 关于我</div><div class="about-card"><div class="about-title">✨ 自我介绍</div><div class="about-content"><p>📍 <strong>称呼/ID：</strong> <span class="placeholder-mark">xero</span></p><p>🎯 <strong>当前角色/身份：</strong> <span class="placeholder-mark">初中生一枚，网站开发者，MC服务器搭建者</span></p><p>💻 <strong>技术栈/擅长领域：</strong> <span class="placeholder-mark">恶意软件🔍分析能力40% java模组能力10% 网页前端能力79% Python能力10%</span></p><p>🔥 <strong>关于小破站：</strong> <span class="placeholder-mark">致力于MC爱好者社区，后续会有更多有趣的项目</span></p><p>📢 <strong>想说的话：</strong> <span class="placeholder-mark">选择JavaScript，让你的创意在网页上闪耀</span></p><p></p></div></div></div>
 
@@ -324,13 +403,26 @@
 
 <div class="music-player hidden" id="musicPlayer"><div class="player-toggle" id="playerToggle">🎵</div><div class="player-inner"><div class="player-title">🎵 小破站歌单</div><select id="songSelect" class="player-select"><option value="">-- 选择歌曲 --</option><option value="music/1.mp3">稻香 - 周杰伦</option><option value="music/2.mp3">七里香 - 周杰伦</option><option value="music/3.mp3">戒烟 - 李荣浩</option><option value="music/4.mp3">告白气球 - 周杰伦</option><option value="music/5.mp3">晴天 - 周杰伦</option><option value="music/6.mp3">蒲公英的约定 - 周杰伦</option><option value="music/7.mp3">圣诞星 - 周杰伦</option><option value="music/8.mp3">花海 - 周杰伦</option></select><div class="player-controls"><button class="ctrl-btn" id="prevBtn">⏮️</button><button class="ctrl-btn" id="playPauseBtn">▶️</button><button class="ctrl-btn" id="nextBtn">⏭️</button></div><div class="progress-area"><span id="currentTime">0:00</span><div class="progress-bar" id="progressBar"><div class="progress-filled" id="progressFilled"></div></div><span id="duration">0:00</span></div><div class="volume-area"><span>🔊</span><input type="range" id="volumeSlider" class="volume-slider" min="0" max="1" step="0.01" value="0.7"></div></div></div>
 
+<!-- 2048 游戏弹窗 -->
+<div id="game2048Modal" class="game-modal">
+    <div class="game-modal-content">
+        <div class="game-modal-header">
+            <span class="game-modal-title">🎮 2048</span>
+            <button class="game-modal-close" id="close2048Modal">&times;</button>
+        </div>
+        <div class="game-modal-body">
+            <iframe src="2048.html" title="2048游戏" scrolling="no"></iframe>
+        </div>
+    </div>
+</div>
+
 <div id="easterEggModal" class="modal-overlay"><div class="modal-card"><div class="modal-icon">🎉</div><div class="modal-title">✨ 隐藏成就解锁 ✨</div><div class="modal-message">🕵️‍♂️ 你找到了真正的开发者！<br><strong>开发者（true）：国找</strong><br>感谢你的探索精神，欢迎来到小破站的后台彩蛋。</div><button class="modal-close" id="closeModalBtn">确定</button></div></div>
 
 <div id="recModal" class="rec-modal"><div class="rec-modal-card"><button class="rec-modal-close" id="recModalCloseBtn">&times;</button><div id="recModalEmoji" class="rec-modal-emoji">🌐</div><div id="recModalName" class="rec-modal-name"></div><div id="recModalIntro" class="rec-modal-intro"></div><div class="rec-modal-buttons"><button id="recModalVisitBtn" class="rec-modal-btn">🌐 访问官网</button><button id="recModalInnerClose" class="rec-modal-btn rec-modal-btn-outline">关闭</button></div></div></div>
 
 <div id="globalToast" class="global-toast">已复制</div>
 
-<!-- 看板娘（原来的版本，强制右侧贴边） -->
+<!-- 看板娘 -->
 <script src="https://gcore.jsdelivr.net/gh/stevenjoezhang/live2d-widget@latest/autoload.js"></script>
 
 <script>
@@ -358,7 +450,7 @@
                     ta.select();
                     document.execCommand('copy');
                     document.body.removeChild(ta);
-                    showToast('📋 已复制');
+                    showToast('📋 已复制（兼容模式）');
                 }
             });
         }
@@ -405,12 +497,33 @@
         recModal.onclick = (e) => { if (e.target === recModal) closeRecModal(); };
         buildMarquee();
 
+        // 导航按钮
         document.getElementById('btnProjects')?.addEventListener('click', () => document.getElementById('projectsSection')?.scrollIntoView({ behavior: 'smooth' }));
         document.getElementById('btnGames')?.addEventListener('click', () => document.getElementById('gamesSection')?.scrollIntoView({ behavior: 'smooth' }));
         document.getElementById('btnChangelog')?.addEventListener('click', () => document.getElementById('changelogSection')?.scrollIntoView({ behavior: 'smooth' }));
         document.getElementById('btnAbout')?.addEventListener('click', () => document.getElementById('aboutSection')?.scrollIntoView({ behavior: 'smooth' }));
         document.getElementById('btnDevelopers')?.addEventListener('click', () => document.getElementById('developersSection')?.scrollIntoView({ behavior: 'smooth' }));
 
+        // 2048 弹窗控制
+        const game2048Card = document.getElementById('game2048Card');
+        const game2048Modal = document.getElementById('game2048Modal');
+        const close2048Modal = document.getElementById('close2048Modal');
+        
+        game2048Card?.addEventListener('click', () => {
+            game2048Modal.classList.add('active');
+        });
+        
+        close2048Modal?.addEventListener('click', () => {
+            game2048Modal.classList.remove('active');
+        });
+        
+        game2048Modal?.addEventListener('click', (e) => {
+            if (e.target === game2048Modal) {
+                game2048Modal.classList.remove('active');
+            }
+        });
+
+        // 音乐播放器
         let audio = new Audio(), currentPlaylist = [], currentTrackIndex = 0, isPlaying = false;
         const songSelect = document.getElementById('songSelect'), playPauseBtn = document.getElementById('playPauseBtn'), prevBtn = document.getElementById('prevBtn'), nextBtn = document.getElementById('nextBtn'), progressBar = document.getElementById('progressBar'), progressFilled = document.getElementById('progressFilled'), currentTimeSpan = document.getElementById('currentTime'), durationSpan = document.getElementById('duration'), volumeSlider = document.getElementById('volumeSlider');
         function buildPlaylist() { let tracks = []; for(let i=0;i<songSelect.options.length;i++) { let opt = songSelect.options[i]; if(opt.value && opt.value!=="") tracks.push({ src: opt.value, name: opt.text }); } return tracks; }
@@ -430,6 +543,7 @@
         toggleBtn.addEventListener('click', () => { musicPlayer.classList.toggle('hidden'); toggleBtn.innerHTML = musicPlayer.classList.contains('hidden') ? '🎵' : '←'; });
         document.getElementById('joinButton').addEventListener('click', () => { window.location.href = 'join.html'; });
 
+        // 作者状态
         function updateAuthorStatus() {
             const now = new Date(); const hours = now.getHours(); const minutes = now.getMinutes(); let t = hours + minutes / 60;
             document.getElementById("currentTimeDisplay").innerText = now.toLocaleTimeString('zh-CN');
@@ -457,10 +571,13 @@
         }
         updateAuthorStatus(); setInterval(updateAuthorStatus, 1000);
         
+        // 深色模式
         const dt = document.getElementById('darkModeToggle');
         if(localStorage.getItem('xeroDarkMode')==='enabled'){ document.body.classList.add('dark-mode'); dt.innerHTML='☀️ 浅色模式'; } else { dt.innerHTML='🌙 深色模式'; }
         dt.onclick = () => { let isDark = document.body.classList.toggle('dark-mode'); dt.innerHTML = isDark ? '☀️ 浅色模式' : '🌙 深色模式'; localStorage.setItem('xeroDarkMode', isDark ? 'enabled' : 'disabled'); };
         document.getElementById('deepseekBtn')?.addEventListener('click',()=>window.open('https://www.deepseek.com/','_blank'));
+        
+        // 彩蛋
         const secret = document.getElementById('secretClickBtn'), modal = document.getElementById('easterEggModal'), closeModal = document.getElementById('closeModalBtn');
         let clickCnt=0, timer=null;
         secret?.addEventListener('click', () => { clickCnt++; if(timer) clearTimeout(timer); timer = setTimeout(() => { clickCnt=0; }, 1200); if(clickCnt === 5) { modal.classList.add('active'); clickCnt=0; if(timer) clearTimeout(timer); } });
