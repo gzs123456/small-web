@@ -6,7 +6,6 @@
     <title>加入我们 - 小破站</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <style>
-        /* 样式保持不变，省略重复... 和之前一样 */
         * {
             margin: 0;
             padding: 0;
@@ -23,6 +22,7 @@
             --accent-soft: #eef3fc;
             --card-shadow: 0 8px 20px rgba(0, 0, 0, 0.02), 0 2px 8px rgba(0, 0, 0, 0.02);
             --footer-color: #7d99b0;
+            --toast-bg: rgba(0,0,0,0.75);
         }
         body.dark-mode {
             --bg-body: #121826;
@@ -34,6 +34,7 @@
             --accent-soft: #232b3f;
             --card-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
             --footer-color: #6c7f9e;
+            --toast-bg: rgba(0,0,0,0.85);
         }
         body {
             background-color: var(--bg-body);
@@ -43,6 +44,30 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+        }
+        /* 全局气泡提示样式 */
+        .global-toast {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--toast-bg);
+            backdrop-filter: blur(12px);
+            color: white;
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            z-index: 10002;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            pointer-events: none;
+            white-space: nowrap;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .global-toast.show {
+            opacity: 1;
         }
         .nav-bar {
             display: flex;
@@ -170,6 +195,9 @@
     </style>
 </head>
 <body>
+    <!-- 全局气泡 -->
+    <div id="globalToast" class="global-toast">已复制</div>
+
     <div class="container">
         <div class="nav-bar">
             <div class="logo-area">
@@ -220,8 +248,22 @@
             </div>
         </div>
     </div>
+
     <script>
         (function() {
+            // 气泡提示函数
+            const toastEl = document.getElementById('globalToast');
+            function showToast(msg) {
+                if (toastEl) {
+                    toastEl.innerText = msg;
+                    toastEl.classList.add('show');
+                    setTimeout(() => {
+                        toastEl.classList.remove('show');
+                    }, 1500);
+                }
+            }
+
+            // 深色模式
             const darkToggle = document.getElementById('darkModeToggle');
             if (localStorage.getItem('xeroDarkMode') === 'enabled') {
                 document.body.classList.add('dark-mode');
@@ -235,42 +277,44 @@
                 localStorage.setItem('xeroDarkMode', isDark ? 'enabled' : 'disabled');
             };
 
-            // 返回主页 - 普通跳转，不重新触发协议
+            // 返回主页
             const backHomeBtn = document.getElementById('backHomeBtn');
             function goHome() {
                 window.location.href = 'index.html';
             }
             if (backHomeBtn) backHomeBtn.addEventListener('click', goHome);
 
-            // 复制功能
+            // 复制功能（带气泡提示）
             const qqValue = document.getElementById('qqValue')?.innerText;
             const copyQQ = document.getElementById('copyQQBtn');
             const emailValue = document.getElementById('emailValue')?.innerText;
             const copyEmail = document.getElementById('copyEmailBtn');
 
-            async function copyTextToClipboard(text, btnElement, successMsg = '复制') {
+            async function copyTextToClipboard(text, successMsg = '✅ 已复制') {
                 if (!text) return;
                 try {
                     await navigator.clipboard.writeText(text);
-                    const originalText = btnElement.innerText;
-                    btnElement.innerText = successMsg;
-                    setTimeout(() => { btnElement.innerText = originalText; }, 1500);
+                    showToast(successMsg);
                 } catch (err) {
+                    // 降级方案
                     const textarea = document.createElement('textarea');
                     textarea.value = text;
                     document.body.appendChild(textarea);
                     textarea.select();
                     document.execCommand('copy');
                     document.body.removeChild(textarea);
-                    const originalText = btnElement.innerText;
-                    btnElement.innerText = '📋 已复制';
-                    setTimeout(() => { btnElement.innerText = originalText; }, 1500);
+                    showToast('📋 已复制');
                 }
             }
 
-            if (copyQQ && qqValue) copyQQ.addEventListener('click', () => copyTextToClipboard(qqValue, copyQQ, '复制'));
-            if (copyEmail && emailValue) copyEmail.addEventListener('click', () => copyTextToClipboard(emailValue, copyEmail, '复制'));
+            if (copyQQ && qqValue) {
+                copyQQ.addEventListener('click', () => copyTextToClipboard(qqValue, '✅ QQ号已复制'));
+            }
+            if (copyEmail && emailValue) {
+                copyEmail.addEventListener('click', () => copyTextToClipboard(emailValue, '✅ 邮箱已复制'));
+            }
 
+            // GitHub 按钮
             const githubBtn = document.getElementById('githubBtn');
             if (githubBtn) {
                 githubBtn.addEventListener('click', () => {
