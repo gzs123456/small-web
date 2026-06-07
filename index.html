@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* 样式保持不变，省略重复... 和之前一样 */
         * {
             margin: 0;
             padding: 0;
@@ -137,7 +138,7 @@
         .volume-area { display: flex; align-items: center; gap: 6px; margin-top: 8px; }
         .volume-slider { flex: 1; height: 3px; -webkit-appearance: none; background: var(--border-light); }
 
-        /* 弹窗样式 - 2048游戏 (加大尺寸，点击背景关闭) */
+        /* 弹窗样式 - 2048游戏 */
         .game-modal {
             position: fixed;
             top: 0;
@@ -268,23 +269,104 @@
         .dev-btn:active { transform: scale(0.96); }
         .team-statement { margin-top: 1.2rem; font-size: 0.8rem; color: var(--text-secondary); }
 
-        .recommend-marquee-section { margin: 2rem 0 1rem; scroll-margin-top: 90px; }
-        .marquee-title { font-size: 1.6rem; font-weight: 600; margin-bottom: 1.2rem; color: var(--accent-blue); border-left: 5px solid var(--accent-blue); padding-left: 1rem; }
-        .marquee-wrapper { overflow: hidden; width: 100%; position: relative; padding: 8px 0; }
-        .marquee-track { display: flex; gap: 1.8rem; animation: scrollMarquee 45s linear infinite; width: fit-content; will-change: transform; }
-        .marquee-track:hover { animation-play-state: paused; }
+        /* 全屏宽度跑马灯 */
+        .recommend-marquee-section {
+            margin: 2rem 0 1rem;
+            scroll-margin-top: 90px;
+            position: relative;
+            left: 50%;
+            right: 50%;
+            margin-left: -50vw;
+            margin-right: -50vw;
+            width: 100vw;
+            background: var(--surface-white);
+            padding: 1rem 0;
+            border-top: 1px solid var(--border-light);
+            border-bottom: 1px solid var(--border-light);
+        }
+        .marquee-title {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+            color: var(--accent-blue);
+            border-left: 5px solid var(--accent-blue);
+            padding-left: 1rem;
+            max-width: 1280px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: calc(1rem + ((100vw - 1280px) / 2));
+        }
+        .marquee-wrapper {
+            overflow: hidden;
+            width: 100%;
+            position: relative;
+            padding: 8px 0;
+        }
+        .marquee-track {
+            display: flex;
+            gap: 1.8rem;
+            animation: scrollMarqueeFull 60s linear infinite;
+            width: fit-content;
+            will-change: transform;
+        }
+        .marquee-track:hover {
+            animation-play-state: paused;
+        }
+        @keyframes scrollMarqueeFull {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
         .rec-card-mini {
-            background: var(--surface-white); border-radius: 24px; padding: 0.5rem 1rem 0.5rem 0.5rem;
-            width: 260px; flex-shrink: 0; display: flex; align-items: center; gap: 1rem;
-            cursor: pointer; border: 1px solid var(--border-light); transition: all 0.2s ease;
+            background: var(--surface-white);
+            border-radius: 24px;
+            padding: 0.5rem 1rem 0.5rem 0.5rem;
+            width: 260px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+            border: 1px solid var(--border-light);
+            transition: all 0.2s ease;
             box-shadow: var(--card-shadow);
         }
-        .rec-card-mini:hover { transform: scale(1.01); border-color: var(--accent-blue); box-shadow: 0 12px 20px rgba(0,0,0,0.08); z-index: 10; }
-        .rec-emoji { font-size: 2.2rem; width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; background: var(--accent-soft); border-radius: 18px; flex-shrink: 0; }
-        .rec-info { flex: 1; overflow: hidden; }
-        .rec-name-mini { font-weight: 700; font-size: 0.9rem; margin-bottom: 0.2rem; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .rec-desc-mini { font-size: 0.68rem; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        @keyframes scrollMarquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .rec-card-mini:hover {
+            transform: scale(1.01);
+            border-color: var(--accent-blue);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.08);
+            z-index: 10;
+        }
+        .rec-emoji {
+            font-size: 2.2rem;
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--accent-soft);
+            border-radius: 18px;
+            flex-shrink: 0;
+        }
+        .rec-info {
+            flex: 1;
+            overflow: hidden;
+        }
+        .rec-name-mini {
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 0.2rem;
+            color: var(--text-primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .rec-desc-mini {
+            font-size: 0.68rem;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
 
         .rec-modal {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -353,6 +435,9 @@
             .rec-modal-emoji { width: 90px; height: 90px; font-size: 3.6rem; } 
             .game-modal-body iframe { height: 520px; }
             .game-modal-content { max-width: 95%; }
+            .marquee-title {
+                padding-left: 1rem;
+            }
         }
 
         /* 看板娘贴右 */
@@ -372,6 +457,7 @@
                 <button class="nav-btn" id="btnProjects">📁 项目介绍</button>
                 <button class="nav-btn" id="btnGames">🎮 小游戏</button>
                 <button class="nav-btn" id="btnSkills">📊 我的技能</button>
+                <button class="nav-btn" id="btnAuthorStatus">📊 作者状态</button>
                 <button class="nav-btn" id="btnChangelog">📋 更新日志</button>
                 <button class="nav-btn" id="btnAbout">👤 自我介绍</button>
                 <button class="nav-btn" id="btnDevelopers">👨‍💻 开发人员</button>
@@ -382,7 +468,7 @@
         
         <div id="authorStatusSection" class="author-status-section"><div class="section-title">📊 作者状态</div><div class="status-card"><div class="status-header"><div class="status-title"><span id="statusEmoji">✨</span> <span id="statusText">实时动态</span></div><div class="current-time" id="currentTimeDisplay">--:--:--</div></div><div class="status-grid"><div class="status-item"><div class="status-label">🍗 饥饿值 · 像素食量</div><div class="status-value"><span class="hunger-icons" id="hungerIcons"></span><span id="hungerPercent">0%</span></div></div><div class="status-item"><div class="status-label">⚡ 疲劳值 · 精力条</div><div class="status-value"><div class="fatigue-bar-container"><div class="fatigue-fill" id="fatigueFill"></div></div><span id="fatiguePercent">0%</span></div></div></div></div></div>
 
-        <!-- 新增技能展示区域 -->
+        <!-- 技能展示区域 -->
         <div id="skillsSection" class="skills-section"><div class="section-title">📊 我的技能</div><div class="skills-grid"><div class="skill-item"><div class="skill-circle-container"><svg width="100" height="100" viewBox="0 0 100 100"><circle class="skill-circle-bg" cx="50" cy="50" r="42"></circle><circle class="skill-circle-progress" id="circle-malware" cx="50" cy="50" r="42" transform="rotate(-90 50 50)" stroke-dasharray="263.89" stroke-dashoffset="263.89"></circle></svg><div class="skill-percent" id="percent-malware">0%</div></div><div class="skill-name">恶意软件分析</div><div class="skill-desc">病毒行为分析、逆向基础</div></div><div class="skill-item"><div class="skill-circle-container"><svg width="100" height="100" viewBox="0 0 100 100"><circle class="skill-circle-bg" cx="50" cy="50" r="42"></circle><circle class="skill-circle-progress" id="circle-java" cx="50" cy="50" r="42" transform="rotate(-90 50 50)" stroke-dasharray="263.89" stroke-dashoffset="263.89"></circle></svg><div class="skill-percent" id="percent-java">0%</div></div><div class="skill-name">Java模组开发</div><div class="skill-desc">Minecraft模组、基础框架</div></div><div class="skill-item"><div class="skill-circle-container"><svg width="100" height="100" viewBox="0 0 100 100"><circle class="skill-circle-bg" cx="50" cy="50" r="42"></circle><circle class="skill-circle-progress" id="circle-web" cx="50" cy="50" r="42" transform="rotate(-90 50 50)" stroke-dasharray="263.89" stroke-dashoffset="263.89"></circle></svg><div class="skill-percent" id="percent-web">0%</div></div><div class="skill-name">网页前端</div><div class="skill-desc">HTML/CSS/JS、现代框架</div></div><div class="skill-item"><div class="skill-circle-container"><svg width="100" height="100" viewBox="0 0 100 100"><circle class="skill-circle-bg" cx="50" cy="50" r="42"></circle><circle class="skill-circle-progress" id="circle-python" cx="50" cy="50" r="42" transform="rotate(-90 50 50)" stroke-dasharray="263.89" stroke-dashoffset="263.89"></circle></svg><div class="skill-percent" id="percent-python">0%</div></div><div class="skill-name">Python</div><div class="skill-desc">脚本编写、数据处理</div></div></div></div>
 
         <div id="projectsSection" class="projects-section"><div class="section-title">📌 项目介绍</div><div class="projects-grid">
@@ -481,7 +567,7 @@
             });
         }
 
-        // 推荐链接 (新增 TRAE)
+        // 推荐链接
         const recommendList = [
             { name: "TRAE", intro: "AI驱动的新一代智能IDE，可自定义智能体，深度融入开发工作流", emoji: "🤖", url: "https://www.trae.cn/" },
             { name: "7亿二级域名注册", intro: "一个极简、快速、无广告的二级域名注册平台，助力于搭建网站", emoji: "🌍", url: "https://reg.7e.ink/" },
@@ -489,7 +575,7 @@
             { name: "GitHub", intro: "全球最大的代码开源平台，托管代码、管理项目、探索开源世界", emoji: "🐙", url: "https://github.com/" },
             { name: "简幻欢 (SimpFun)", intro: "免费公益服务器，支持4核CPU 16GB+内存 16GB+硬盘空间", emoji: "⚡", url: "https://simpfun.cn/" }
         ];
-        const marqueeData = [...recommendList, ...recommendList];
+        const marqueeData = [...recommendList, ...recommendList, ...recommendList, ...recommendList];
         const track = document.getElementById('marqueeTrack');
         function buildMarquee() {
             if (!track) return;
@@ -529,11 +615,12 @@
         document.getElementById('btnProjects')?.addEventListener('click', () => document.getElementById('projectsSection')?.scrollIntoView({ behavior: 'smooth' }));
         document.getElementById('btnGames')?.addEventListener('click', () => document.getElementById('gamesSection')?.scrollIntoView({ behavior: 'smooth' }));
         document.getElementById('btnSkills')?.addEventListener('click', () => document.getElementById('skillsSection')?.scrollIntoView({ behavior: 'smooth' }));
+        document.getElementById('btnAuthorStatus')?.addEventListener('click', () => document.getElementById('authorStatusSection')?.scrollIntoView({ behavior: 'smooth' }));
         document.getElementById('btnChangelog')?.addEventListener('click', () => document.getElementById('changelogSection')?.scrollIntoView({ behavior: 'smooth' }));
         document.getElementById('btnAbout')?.addEventListener('click', () => document.getElementById('aboutSection')?.scrollIntoView({ behavior: 'smooth' }));
         document.getElementById('btnDevelopers')?.addEventListener('click', () => document.getElementById('developersSection')?.scrollIntoView({ behavior: 'smooth' }));
 
-        // 2048 弹窗控制 (点击背景关闭)
+        // 2048 弹窗控制
         const game2048Card = document.getElementById('game2048Card');
         const game2048Modal = document.getElementById('game2048Modal');
         const close2048Modal = document.getElementById('close2048Modal');
@@ -546,19 +633,18 @@
             game2048Modal.classList.remove('active');
         });
         
-        // 点击弹窗背景关闭
         game2048Modal?.addEventListener('click', (e) => {
             if (e.target === game2048Modal) {
                 game2048Modal.classList.remove('active');
             }
         });
 
-        // 技能圆环动画与数值设定
+        // 技能圆环动画
         function setSkillCircle(elementId, percent) {
             const circle = document.getElementById(elementId);
             if (!circle) return;
             const radius = 42;
-            const circumference = 2 * Math.PI * radius; // 263.89
+            const circumference = 2 * Math.PI * radius;
             const offset = circumference - (percent / 100) * circumference;
             circle.style.strokeDasharray = `${circumference}`;
             circle.style.strokeDashoffset = `${offset}`;
@@ -567,7 +653,6 @@
             if (percentSpan) percentSpan.innerText = `${percent}%`;
         }
 
-        // 设定各技能百分比 (恶意软件分析40, Java模组10, 网页前端79, Python10)
         setTimeout(() => {
             setSkillCircle('circle-malware', 40);
             setSkillCircle('circle-java', 10);
