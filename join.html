@@ -248,7 +248,7 @@
             const emailValue = document.getElementById('emailValue')?.innerText;
             const copyEmail = document.getElementById('copyEmailBtn');
 
-            async function copyTextToClipboard(text, btnElement, successMsg = '已复制') {
+            async function copyTextToClipboard(text, btnElement, successMsg = '复制') {
                 if (!text) return;
                 try {
                     await navigator.clipboard.writeText(text);
@@ -268,8 +268,8 @@
                 }
             }
 
-            if (copyQQ && qqValue) copyQQ.addEventListener('click', () => copyTextToClipboard(qqValue, copyQQ, '已复制'));
-            if (copyEmail && emailValue) copyEmail.addEventListener('click', () => copyTextToClipboard(emailValue, copyEmail, '已复制'));
+            if (copyQQ && qqValue) copyQQ.addEventListener('click', () => copyTextToClipboard(qqValue, copyQQ, '复制'));
+            if (copyEmail && emailValue) copyEmail.addEventListener('click', () => copyTextToClipboard(emailValue, copyEmail, '复制'));
 
             const githubBtn = document.getElementById('githubBtn');
             if (githubBtn) {
