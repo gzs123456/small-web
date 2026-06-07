@@ -181,7 +181,7 @@
             </div>
         </div>
         <div class="join-card">
-            <div class="join-icon">🤝✨</div>
+            <div class="join-icon">🤝</div>
             <div class="join-title">加入我们</div>
             <div class="join-desc">
                 如果你热爱 MC 技术、前端开发、网络安全，<br>
@@ -248,7 +248,7 @@
             const emailValue = document.getElementById('emailValue')?.innerText;
             const copyEmail = document.getElementById('copyEmailBtn');
 
-            async function copyTextToClipboard(text, btnElement, successMsg = '✅ 已复制') {
+            async function copyTextToClipboard(text, btnElement, successMsg = '已复制') {
                 if (!text) return;
                 try {
                     await navigator.clipboard.writeText(text);
@@ -268,8 +268,8 @@
                 }
             }
 
-            if (copyQQ && qqValue) copyQQ.addEventListener('click', () => copyTextToClipboard(qqValue, copyQQ, '✅ 复制'));
-            if (copyEmail && emailValue) copyEmail.addEventListener('click', () => copyTextToClipboard(emailValue, copyEmail, '✅ 复制'));
+            if (copyQQ && qqValue) copyQQ.addEventListener('click', () => copyTextToClipboard(qqValue, copyQQ, '已复制'));
+            if (copyEmail && emailValue) copyEmail.addEventListener('click', () => copyTextToClipboard(emailValue, copyEmail, '已复制'));
 
             const githubBtn = document.getElementById('githubBtn');
             if (githubBtn) {
