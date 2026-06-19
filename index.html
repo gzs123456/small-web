@@ -320,7 +320,7 @@
         .visitor-count {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.5rem;
             margin-top: 0.5rem;
             font-size: 1.2rem;
             font-weight: 600;
@@ -467,7 +467,7 @@
 
         <!-- 小设施栏目 -->
         <div id="facilitySection" class="facility-section">
-            <div class="section-title">🛠️ 小设施</div>
+            <div class="section-title">🛠️ 小工具</div>
             <div class="facility-grid">
                 <!-- 推荐链接卡片 -->
                 <div class="facility-card">
@@ -478,13 +478,13 @@
                         <button class="facility-btn" id="goLianjieBtn">📖 查看推荐</button>
                     </div>
                 </div>
-                <!-- 每日访问人数 -->
+                <!-- 访问人数（不蒜子） -->
                 <div class="facility-card">
                     <div class="facility-card-icon">👀</div>
-                    <div class="facility-card-name">访问人数</div>
-                    <div class="facility-card-desc">今天有多少小伙伴来看小破站了呢？</div>
+                    <div class="facility-card-name">总访问量</div>
+                    <div class="facility-card-desc">小破站累计访问次数</div>
                     <div class="visitor-count">
-                        <span id="visitorCount">加载中...</span> 人
+                        <span id="busuanzi_value_site_pv">--</span> 次
                     </div>
                 </div>
                 <!-- 反应力测试小游戏 -->
@@ -505,7 +505,7 @@
             <div class="project-card pending-card"><div class="project-icon">🌿</div><div class="project-name">全栈知识库</div><div class="pending-desc">✨ 敬请期待<br>沉淀技术，静心打磨</div><div class="project-meta"><span>📖 筹备中</span><span>⭐ 即将上线</span></div></div>
         </div></div>
         
-        <div id="changelogSection" class="changelog-section"><div class="section-title">📋 更新日志</div><div class="changelog-card"><ul class="changelog-list"><li>🛠️ 2025.06.19 — 新增「小设施」栏目，包含推荐链接、访问人数、反应力测试</li><li>✨ 2025.05.21 — 新增技能展示圆环、优化游戏弹窗、添加TRAE推荐链接</li><li>🎮 2025.05.20 — 新增2048小游戏（点击小游戏卡片即可游玩）</li><li>🎵 2025.05.19 — 修复深色模式歌单文字颜色、增加按钮点击反馈</li><li>🚀 2025.05.17 — 小破站基础框架上线</li></ul></div></div>
+        <div id="changelogSection" class="changelog-section"><div class="section-title">📋 更新日志</div><div class="changelog-card"><ul class="changelog-list"><li>🛠️ 2025.06.19 — 新增「小设施」栏目，接入不蒜子统计</li><li>✨ 2025.05.21 — 新增技能展示圆环、优化游戏弹窗、添加TRAE推荐链接</li><li>🎮 2025.05.20 — 新增2048小游戏（点击小游戏卡片即可游玩）</li><li>🎵 2025.05.19 — 修复深色模式歌单文字颜色、增加按钮点击反馈</li><li>🚀 2025.05.17 — 小破站基础框架上线</li></ul></div></div>
 
         <div id="gamesSection" class="games-section"><div class="section-title">🎮 小游戏</div><div class="games-grid">
             <div class="game-card" id="game2048Card">
@@ -567,6 +567,9 @@
 
 <!-- 看板娘 -->
 <script src="https://gcore.jsdelivr.net/gh/stevenjoezhang/live2d-widget@latest/autoload.js"></script>
+
+<!-- ====== 不蒜子统计脚本 ====== -->
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 <script>
     (function() {
@@ -653,22 +656,6 @@
                 gameReactionModal.classList.remove('active');
             }
         });
-
-        // =================== 真实访问统计 ===================
-        async function fetchVisitCount() {
-            const el = document.getElementById('visitorCount');
-            try {
-                const response = await fetch('/api/visit');
-                const data = await response.json();
-                if (el) el.textContent = data.visitCount || '--';
-            } catch (error) {
-                console.error('获取访问量失败:', error);
-                if (el) el.textContent = '--';
-            }
-        }
-
-        // 页面加载时获取访问人数
-        fetchVisitCount();
 
         // 技能圆环动画
         function setSkillCircle(elementId, percent) {
